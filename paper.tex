@@ -1,0 +1,82 @@
+\documentclass[hidelinks]{article}  % fleqn,12pt
+\usepackage[margin=1in]{geometry}  % 0.12in, 0.9in, 1in
+
+\usepackage{catchfilebetweentags}
+\usepackage[useregional]{datetime2}
+
+%% \usepackage{balance}  % even out final two-column page
+
+\RequirePackage{newunicodechar, amssymb, stmaryrd, unicode-math, setspace}
+
+\input{commands}
+\input{unicode}
+\input{macros}
+
+\usepackage{agda}% references
+
+%% Switching to \textsf for AgdaFunction messes up vertical alignment.
+%% \newcommand{\AgdaFontStyle}[1]{\textsf{#1}}
+
+%% \renewcommand{\AgdaFontStyle}[1]{\text{#1}}
+
+%% \renewcommand{\AgdaFunction}[1]
+%%     {\AgdaNoSpaceMath{\text{\textcolor{AgdaFunction}{\AgdaFormat{#1}{\AgdaLink{#1}}}}}}
+%% \renewcommand{\AgdaRecord}[1]
+%%     {\AgdaNoSpaceMath{\text{\textcolor{AgdaRecord}{\AgdaFormat{#1}{\AgdaLink{#1}}}}}}
+
+\author{Conal Elliott}
+
+\begin{document}
+
+%% \nc\tit{Working Title}
+\nc\tit{%Functional Pearl:
+Symbolic and Automatic Differentiation of Languages}
+
+\title{\tit}
+\date{Early draft of \DTMnow}
+
+\maketitle
+
+\begin{abstract}
+Formal languages are usually defined in terms of set theory.
+Choosing type theory instead gives us languages as type-level predicates over strings.
+Applying a language to a string yields a type whose elements are language membership proofs describing \emph{how} a string parses in the language.
+The usual building blocks of languages (including union, contatenation, and Kleene closure) have precise and compelling specifications uncomplicated by operational strategies and are easily generalized to a few general domain-transforming and codomain-transforming operations on predicates.
+
+A simple type isomorphism property captures the essential idea behind language ``differentiation'' and ``integration'' as used for recognizing languages and leads to a collection of lemmas about type-level languages (and indeed functions from lists to any type).
+These lemmas form the backbone of two dual implementations of language recognition---(inductive) regular expressions and (coinductive) tries---each containing the same code but in dual arrangements.
+The language lemmas form most of the implementation in both cases, while the representation and primitive operations trade places.
+The regular expression version corresponds to symbolic differentiation, while the trie version corresponds to automatic differentiation.
+
+The relatively easy-to-prove properties of type-level languages transfer almost effortlessly to the decidable implementations.
+In particular, despite the inductive and coinductive nature of regular expressions and tries respectively, we need neither inductive nor coinductive/bisumulation arguments to prove algebraic properties.
+\end{abstract}
+
+\renewcommand\AgdaTarget[1]{}
+
+\sectionl{Specifying Languages}
+
+Languages are usually formalized either set-theoretically as a set of strings \needcite{} or operationally as a parser \needcite{}.
+Alternatively, we can use type theory, so that a language is a type-level predicate on ``strings'' (lists of an arbitrary type \AB{A} of ``characters''):
+\Language{Lang}
+\figrefdef{Lang-ops}{Language operations}{\Language{Lang-ops}} gives definitions of the usual language operations, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ☆}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
+
+\note{Explain the types used here and their logical interpretation under the Curry-Howard isomorphism.}
+
+Note that for a language \AB{P} and string \AB{w}, {\AB{P} \AB{w}} is the type of \emph{proofs} that {\AB{w} ∈ \AB{P}}, in other words \emph{explanations} of membership, or \emph{parsing}.
+(If the type {\AB{P} \AB{w}} is uninhabited, then {\AB{w} ∉ \AB{P}}.)
+For instance, a proof of {\AB{w} ∈ \AB{P} \AF ∪ \AB{Q}} contains a proof of {\AB{w} ∈ \AB{P}} or of {\AB{w} \AF ∈ \AB{Q}}, \emph{and} the knowledge of which one was chosen.
+Likewise, a proof of {w ∈ \AB{P} \AF ⋆ \AB{Q}} (language concatenation) includes the choice of strings \AB{u} and \AB{v}, a proof that {\AB{u} \AF ⊙ \AB{v} \AD ≡ \AB{w}}, and proofs that {\AB{u} ∈ \AB{P}} and {\AB{v} ∈ \AB{P}}.
+
+The use of type-level predicates makes for simple, direct specification, including the use of existential quantification.
+As described in \secref{Language Algebra}, it's also fairly easy to prove algebraic properties of predicates\out{, including the semimodule and semiring laws for both predicate semirings}.
+These definitions do not, however, give us decidable parsing, because general type inhabitation amounts to theorem proving.
+
+\sectionl{Decomposing Languages}
+
+In order to convert languages into parsers, it will help to decompose languages---and indeed any function from lists---into a regular form.
+Since lists are defined by an algebraic data type, we can decompose languages according to constructor.
+
+\bibliography{bib}
+
+\end{document}

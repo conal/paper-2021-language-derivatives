@@ -1,0 +1,85 @@
+%% Style copied from https://github.com/omelkonian/presentations/tree/master/%5B2019.08.20%5D%20BitML%20(SRC%20Presentation%20%40%20ICFP))
+
+%% \documentclass[aspectratio=43]{beamer}
+\documentclass[aspectratio=169]{beamer}
+
+\usetheme[
+  block=fill,
+  background=light,
+  % titleformat=smallcaps,
+  progressbar=frametitle,
+  numbering=none,
+]{metropolis}
+\setbeamersize{text margin left=.5cm,text margin right=.5cm}
+
+\let\note\undefined
+
+\usepackage{catchfilebetweentags}
+\usepackage[useregional]{datetime2}
+
+\RequirePackage{newunicodechar, amssymb, stmaryrd, unicode-math, setspace, comment}
+
+%% \renewcommand\alert[1]{\textcolor{mLightBrown}{#1}}
+
+\input{commands}
+\input{unicode}
+\input{macros}
+
+\usepackage{agda}% references
+
+%% \renewcommand{\AgdaFontStyle}[1]{\text{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Fonts
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% \usepackage{relsize}
+\usepackage{libertine}  %% [tt=false]
+%% \usepackage[libertine]{newtxmath}
+
+%----------------------------------------------------------------------------
+
+\title{Symbolic and Automatic Differentiation of Languages}
+% \subtitle{...}
+\author{Conal Elliott}
+\date{Early draft of \DTMnow}
+%% \titlegraphic{
+%% \vspace*{7cm}
+%% \includegraphics[keepaspectratio=true,height=1.4cm]{uu}
+%% \hspace{1cm}
+%% \includegraphics[keepaspectratio=true,height=1.4cm]{iohk}
+
+
+\begin{document}
+
+\begin{center}
+\setbeamerfont{title}{size=\large}
+\setbeamerfont{subtitle}{size=\small}
+\maketitle
+\setbeamerfont{title}{size=\Large}
+\setbeamerfont{subtitle}{size=\large}
+\end{center}
+
+\begin{frame}{Languages via type theory}
+\setstretch{0.8}
+\vspace{1.5ex}
+A language is a predicate on ``strings'' yielding proofs/explanations/parsings:
+\Language{Lang}
+
+The usual language building blocks:
+
+\vspace{-3ex}
+\Language{Lang-ops}
+
+\emph{Puzzle:} how to decide (compute) inhabitation?
+\end{frame}
+
+
+%% \input{Languages}
+%% \input{Calculus}
+%% \input{Decidability}
+%% \input{Reflections}
+%% \input{Symbolic}
+%% \input{Automatic}
+%% \input{SizedAutomatic}
+
+\end{document}
