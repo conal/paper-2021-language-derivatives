@@ -26,10 +26,7 @@ private
 
 \end{code}
 
-\begin{frame}{Decomposing languages (list consumers)}
-\vspace{2ex}
-Consider each list constructor:
-\vspace{1.5ex}
+%<*νδ>
 \AgdaTarget{ν, δ}
 \begin{code}
 ν : (A ✶ → B) → B              -- "nullable"
@@ -38,15 +35,9 @@ Consider each list constructor:
 δ : (A ✶ → B) → A → (A ✶ → B)  -- "derivative"
 δ f a as = f (a ∷ as)
 \end{code}
-%% ν : Lang → Set            -- "nullable"
-%% δ : Lang → A → Lang       -- "derivative"
-%% δ : ∀ {B : A ✶ → Set₁} → ((w : A ✶) → B w) → (a : A) → (w : A ✶) → B (a ∷ w)
+%</νδ>
 
-\vspace{2ex}
-\AF{ν} and repeated \AF{δ} capture list consumers fully:
-
-\vspace{-2ex}
-\begin{minipage}[c]{2.8in}
+%<*ν∘foldlδ>
 \AgdaTarget{ν∘foldlδ}
 %% ν∘foldlδ : ∀ w → P w ≡ ν (foldl δ P w)
 \begin{code}
@@ -56,11 +47,9 @@ Consider each list constructor:
 ν∘foldlδ []        = refl
 ν∘foldlδ (a ∷ as)  = ν∘foldlδ as
 \end{code}
-\end{minipage}
-\hfill
-\begin{minipage}[c]{2.5in}
-%% \vspace{-4ex}
-\mathindent0ex
+%</ν∘foldlδ>
+
+%<*foldl>
 \begin{code}[hide]
 private
   module Stuff where
@@ -70,21 +59,13 @@ private
     foldl⇃ h x []        = x
     foldl⇃ h x (a ∷ as)  = foldl⇃ h (h x a) as
 \end{code}
-\end{minipage}
-\hfill\ 
-\end{frame}
+%</foldl>
 
-\begin{frame}{Language calculus}
-\vspace{-1ex}
-\vfill
-\mathindent0ex
-
+%<*νδ-lemmas>
 \hfill
 \setstretch{1.7}
 \begin{minipage}{2.25in}
 \AgdaTarget{ν∅, ν∪, ν𝟏, ν⋆, ν☆, δ∅, δ∪, δ𝟏, δ⋆, δ☆}
-\begin{code}[hide]
-\end{code}
 \begin{code}
 ν∅  : ν ∅ ≡ ⊥
 ν𝒰  : ν 𝒰 ≡ ⊤
@@ -99,8 +80,6 @@ private
 \end{minipage}
 \hfill
 \begin{minipage}{3in}
-\begin{code}[hide]
-\end{code}
 \begin{code}
 δ∅  : δ ∅ a ≡ ∅
 δ𝒰  : δ 𝒰 a ≡ 𝒰
@@ -113,9 +92,8 @@ private
 δ`  : δ (` c) a ⟷ (a ≡ c) · 𝟏
 \end{code}
 \end{minipage}
-\hfill\ 
-\vfill
-\end{frame}
+\hfill\;
+%</νδ-lemmas>
 
 \begin{code}[hide]
 

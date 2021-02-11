@@ -4,7 +4,8 @@ TALK=talk
 all: latex/$(PAPER).pdf latex/$(TALK).pdf
 
 MODULES:=\
-  Language
+  Language \
+  Calculus
 
 LAGDAS:=$(patsubst %,%.lagda,$(MODULES))
 
@@ -22,9 +23,13 @@ AGDA=agda
 
 # AGDA-EXTRAS=--only-scope-checking
 
-latex/%.tex: %.lagda
+PRECIOUS: $(LATEX_DEPENDENCIES) latex/$(PAPER).tex latex/$(TALK).tex
+
+latex/%.tex: src/%.lagda
 	@mkdir -p $(dir $@)
-	${AGDA} -i . --latex $(AGDA-EXTRAS) $< --latex-dir=latex > $(basename $@).log
+	${AGDA} -i src --latex $(AGDA-EXTRAS) $< --latex-dir=latex
+
+#  > $(basename $@).log
 
 latex/%: %
 	@mkdir -p $(dir $@)
@@ -32,12 +37,9 @@ latex/%: %
 
 latex/%.pdf: latex/%.tex $(LATEX_DEPENDENCIES)
 	cd latex && latexmk -xelatex -bibtex $*.tex
+	@touch $@
 
-# latex/$(PAPER).pdf: $(PAPER_DEPENDENCIES)
-# 	cd latex && latexmk -xelatex -bibtex ${PAPER}.tex
-
-# latex/Test.pdf: latex/Test.tex $(PAPER_DEPENDENCIES)
-# 	cd latex && latexmk -xelatex -bibtex Test.tex
+# The touch is in case latexmk decides not to update the pdf.
 
 SHOWPDF=skim
 
