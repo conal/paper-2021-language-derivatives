@@ -1,0 +1,122 @@
+\RequirePackage{xcolor}
+
+\newcommand\nc\newcommand
+\nc\rnc\renewcommand
+
+\nc\out[1]{}
+
+%% \nc\noteOut[2]{\note{#1}\out{#2}}
+
+%% To redefine for a non-draft
+\nc\indraft[1]{#1}
+
+\nc\note[1]{\indraft{\textcolor{red}{#1}}}
+
+\nc\notefoot[1]{\note{\footnote{\note{#1}}}}
+
+\nc\todo[1]{\note{To do: #1}}
+
+\nc\eqnlabel[1]{\label{equation:#1}}
+\nc\eqnref[1]{Equation~\ref{equation:#1}}
+\nc\eqnreftwo[2]{Equations~\ref{equation:#1} and \ref{equation:#2}}
+
+\nc\figlabel[1]{\label{fig:#1}}
+\nc\figref[1]{Figure~\ref{fig:#1}}
+\nc\figreftwo[2]{Figures~\ref{fig:#1} and \ref{fig:#2}}
+
+\nc\seclabel[1]{\label{sec:#1}}
+\nc\secref[1]{Section~\ref{sec:#1}}
+\nc\secreftwo[2]{Sections~\ref{sec:#1} and~\ref{sec:#2}}
+\nc\secrefs[2]{Sections \ref{sec:#1} through \ref{sec:#2}}
+
+\nc\appref[1]{Appendix~\ref{sec:#1}}
+
+%% The name \secdef is already taken
+\nc\sectiondef[1]{\section{#1}\seclabel{#1}}
+\nc\subsectiondef[1]{\subsection{#1}\seclabel{#1}}
+\nc\subsubsectiondef[1]{\subsubsection{#1}\seclabel{#1}}
+
+\nc\needcite{\note{[ref]}}
+
+\nc\sectionl[1]{\section{#1}\seclabel{#1}}
+\nc\subsectionl[1]{\subsection{#1}\seclabel{#1}}
+
+\nc\workingHere{
+\vspace{1ex}
+\begin{center}
+\setlength{\fboxsep}{3ex}
+\setlength{\fboxrule}{4pt}
+\huge\textcolor{red}{\framebox{Working here}}
+\end{center}
+\vspace{1ex}
+}
+
+%% For multiple footnotes at a point. Adapted to recognize \notefoot as well
+%% as \footnote. See https://tex.stackexchange.com/a/71347,
+\let\oldFootnote\footnote
+\nc\nextToken\relax
+\rnc\footnote[1]{%
+    \oldFootnote{#1}\futurelet\nextToken\isFootnote}
+\nc\footcomma[1]{\ifx#1\nextToken\textsuperscript{,}\fi}
+\nc\isFootnote{%
+    \footcomma\footnote
+    \footcomma\notefoot
+}
+
+% Arguments: env, label, caption, body
+\nc\figdefG[4]{\begin{#1}[tbp]
+\begin{center}
+#4
+\end{center}
+\caption{#3}
+\figlabel{#2}
+\end{#1}}
+
+% Arguments: label, caption, body
+\nc\figdef{\figdefG{figure}}
+\nc\figdefwide{\figdefG{figure*}}
+
+% Arguments: label, caption, body
+\nc\figrefdef[3]{\figref{#1}\figdef{#1}{#2}{#3}}
+
+\usepackage{hyperref}
+
+\definecolor{mylinkcolor}{rgb}{0,0.4,0}
+\hypersetup{
+  linkcolor  = mylinkcolor,
+  citecolor  = mylinkcolor,
+  urlcolor   = mylinkcolor,
+  colorlinks = false, % true
+}
+
+    % Hack to get the amsthm package working.
+    % https://tex.stackexchange.com/questions/130491/xelatex-error-paragraph-ended-before-tempa-was-complete
+    \let\AgdaOpenBracket\[\let\AgdaCloseBracket\]
+    \RequirePackage{fontspec}
+    \let\[\AgdaOpenBracket\let\]\AgdaCloseBracket
+
+    \setmainfont
+      [ Ligatures      = TeX
+      , BoldItalicFont = XITS-BoldItalic.otf
+      , BoldFont       = XITS-Bold.otf
+      , ItalicFont     = XITS-Italic.otf
+      ]
+      {XITS-Regular.otf}
+
+    %% %% \setmathfont{XITS-Math.otf}
+    \setmathfont{XITSMath-Regular.otf}
+    %% \setmonofont[Mapping=tex-text]{FreeMono.otf}
+
+    % Make mathcal and mathscr appear as different.
+    % https://tex.stackexchange.com/questions/120065/xetex-what-happened-to-mathcal-and-mathscr
+    \setmathfont[range={\mathcal,\mathbfcal},StylisticSet=1]{XITSMath-Regular.otf}
+    \setmathfont[range=\mathscr]{XITSMath-Regular.otf}
+
+
+\usepackage[round]{natbib} % [square]
+\bibliographystyle{plainnat}
+%% \bibliographystyle{ACM-Reference-Format}
+
+\nc\stdlibCitet[1]{\citet[\AM{#1}]{agda-stdlib}}
+\nc\stdlibCitep[1]{\citep[\AM{#1}]{agda-stdlib}}
+\nc\stdlibCite\stdlibCitep
