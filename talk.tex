@@ -59,38 +59,42 @@
 \setbeamerfont{subtitle}{size=\large}
 \end{center}
 
+\rnc\source{Language}
+
 \begin{frame}{Languages via type theory}
 \setstretch{0.8}
 \vspace{1.5ex}
 A language is a predicate on ``strings'' yielding proofs/explanations/parsings:
-\Language{Lang}
+\agda{Lang}
 
 The usual language building blocks:
+\vspace{-2ex}
 
-\vspace{-3ex}
-\Language{Lang-ops}
+\agda{Lang-ops}
 
 \emph{Puzzle:} how to decide (compute) inhabitation?
 \end{frame}
+
+\rnc\source{Calculus}
 
 \begin{frame}{Decomposing languages (list consumers)}
 \vspace{2ex}
 Consider each list constructor:
 \vspace{1.5ex}
-\Calculus{νδ}
+\agda{νδ}
 
 \vspace{2ex}
 \AF{ν} and repeated \AF{δ} capture list consumers fully:
 
 \vspace{-2ex}
 \begin{minipage}[c]{2.8in}
-\Calculus{ν∘foldlδ}
+\agda{ν∘foldlδ}
 \end{minipage}
 \hfill
 \begin{minipage}[c]{2.5in}
 %% \vspace{-4ex}
 \mathindent0ex
-\Calculus{foldl}
+\agda{foldl}
 \end{minipage}
 \hfill\ 
 \end{frame}
@@ -99,33 +103,48 @@ Consider each list constructor:
 \vspace{-1ex}
 \vfill
 \mathindent0ex
-\Calculus{νδ-lemmas}
+\agda{νδ-lemmas}
 \end{frame}
 
+\rnc\source{Decidability}
+
 \begin{frame}{Decidable types}
-\Decidability{Dec}
+\agda{Dec}
 \hfill\ 
 \vspace{-1.5ex}
 
 Compositionally,
 
-\Decidability{Decs}
+\agda{Decs}
 
 Isomorphisms:
 
-\Decidability{isomorphisms}
+\agda{isomorphisms}
 \end{frame}
 
 \begin{frame}{Compositionally decidable types}
 \vspace{3ex}
-\Decidability{compositional-dec}
+\agda{compositional-dec}
 %% Wait until I'm ready to talk about algebra
 %% Another closed semiring!
 \end{frame}
 
+\rnc\source{Reflections}
 
-%% \input{Decidability}
-%% \input{Reflections}
+\begin{frame}{Reflections}
+\vspace{1.5ex}
+\agda{summary}
+
+\AF{ν} and \AF{δ} are \emph{higher-order functions}.
+How to apply these rules?
+
+Same challenge in differential calculus.
+
+Solve via \emph{symbolic} or \emph{automatic} differentiation.
+%% We to \emph{reflect} functions back to recipes.
+\end{frame}
+
+
 %% \input{Symbolic}
 %% \input{Automatic}
 %% \input{SizedAutomatic}
