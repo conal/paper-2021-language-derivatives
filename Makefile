@@ -3,7 +3,7 @@ TALK=talk
 
 all: latex/$(TALK).pdf # latex/$(PAPER).pdf
 
-MODULES:= Language Calculus Decidability Reflections Symbolic
+MODULES:= Language Calculus Decidability Reflections Symbolic Automatic SizedAutomatic
 
 LAGDAS:=$(patsubst %,%.lagda,$(MODULES))
 

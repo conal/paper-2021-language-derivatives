@@ -163,8 +163,68 @@ Solve via \emph{symbolic} or \emph{automatic} differentiation.
 \hfill\;
 \end{frame}
 
+\rnc\source{Automatic}
 
-%% \source{Automatic}
-%% \source{SizedAutomatic}
+\begin{frame}{Tries \hfill \hyperlink{regex}{(coinductive)}}
+\mathindent0ex
+\vspace{-1.5ex}
+\setstretch{1.0}
+\agda{api}
+\vspace{2ex}
+\end{frame}
+
+%<*rules>
+\newcommand\rules[2]{
+\hspace{0ex}\\% Weirdness fix
+\hspace{0.00ex}
+\hfill
+\begin{minipage}{2.2in}
+#1
+\end{minipage}
+\hfill
+\begin{minipage}{3in}
+#2
+\end{minipage}
+\hfill\;
+\vspace{-4.57ex}
+}
+%</rules>
+
+%% \agda{rules}
+
+\begin{frame}{Automatic differentiation \hfill (row-major \hyperlink{symbolic-diff}{/} copatterns)}
+\hypertarget{automatic-diff}{}
+\mathindent0ex
+\vspace{-6.3ex}
+\setstretch{1.6}
+\agda{defs}
+\end{frame}
+
+\begin{frame}{Termination checking}
+Agda cannot prove termination for the {\AFi{δ} (\AB{p} \AF{⋆} \AB{q})} clause:
+\agda{termination}
+\vfill
+Andreas Abel solved this puzzle using sized types:
+\begin{center}
+\emph{\href{http://www.cse.chalmers.se/~abela/jlamp17.pdf}{Equational reasoning about formal languages in coalgebraic style}} (2016).
+\end{center}
+\end{frame}
+
+\rnc\source{SizedAutomatic}
+
+\begin{frame}{Sized tries \hfill (coinductive)}
+\mathindent0ex
+\vspace{-1.5ex}
+\setstretch{1.0}
+\agda{api}
+\vspace{2ex}
+\end{frame}
+
+\begin{frame}{Automatic differentiation (sized) \hfill (row-major \hyperlink{automatic-diff}{/} copatterns)}
+\mathindent0ex
+\vspace{-6.3ex}
+\setstretch{1.6}
+\agda{defs}
+\end{frame}
 
 \end{document}
