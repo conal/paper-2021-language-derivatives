@@ -1,11 +1,9 @@
 PAPER=paper
 TALK=talk
 
-all: latex/$(PAPER).pdf latex/$(TALK).pdf
+all: latex/$(TALK).pdf # latex/$(PAPER).pdf
 
-MODULES:=\
-  Language \
-  Calculus
+MODULES:= Language Calculus Decidability
 
 LAGDAS:=$(patsubst %,%.lagda,$(MODULES))
 
@@ -25,9 +23,9 @@ AGDA=agda
 
 PRECIOUS: $(LATEX_DEPENDENCIES) latex/$(PAPER).tex latex/$(TALK).tex
 
-latex/%.tex: src/%.lagda
+latex/%.tex: %.lagda
 	@mkdir -p $(dir $@)
-	${AGDA} -i src --latex $(AGDA-EXTRAS) $< --latex-dir=latex
+	${AGDA} -i . --latex $(AGDA-EXTRAS) $< --latex-dir=latex
 
 #  > $(basename $@).log
 
