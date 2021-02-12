@@ -33,21 +33,10 @@ private
 ν f = f []
 
 δ : (A ✶ → B) → A → (A ✶ → B)  -- "derivative"
-δ f a as = f (a ∷ as)
+δ f a = f ∘ (a ∷_)
 \end{code}
+%% δ f a as = f (a ∷ as)
 %</νδ>
-
-%<*ν∘foldlδ>
-\AgdaTarget{ν∘foldlδ}
-%% ν∘foldlδ : ∀ w → P w ≡ ν (foldl δ P w)
-\begin{code}
-ν∘foldlδ : ν ∘ foldl δ P ≗ P
-\end{code}
-\begin{code}[hide]
-ν∘foldlδ []        = refl
-ν∘foldlδ (a ∷ as)  = ν∘foldlδ as
-\end{code}
-%</ν∘foldlδ>
 
 %<*foldl>
 \begin{code}[hide]
@@ -61,7 +50,20 @@ private
 \end{code}
 %</foldl>
 
+%<*ν∘foldlδ>
+\AgdaTarget{ν∘foldlδ}
+%% ν∘foldlδ : ∀ w → P w ≡ ν (foldl δ P w)
+\begin{code}
+ν∘foldlδ : ν ∘ foldl δ P ≗ P
+ν∘foldlδ []        = refl
+ν∘foldlδ (a ∷ as)  = ν∘foldlδ as
+\end{code}
+%\end{code}
+%\begin{code}[hide]
+%</ν∘foldlδ>
+
 %<*νδ-lemmas>
+{\mathindent0ex
 \hfill
 \setstretch{1.7}
 \begin{minipage}{2.25in}
@@ -93,6 +95,7 @@ private
 \end{code}
 \end{minipage}
 \hfill\;
+}
 %</νδ-lemmas>
 
 \begin{code}[hide]

@@ -30,14 +30,16 @@ Pred A = A → Set
 private
   variable
     A B : Set
+\end{code}
 
 -- Function-lifted _↔_
-\end{code}
-%<*isoFun>
+%<*ext-iso>
 \AgdaTarget{\_⟷\_, ⟷}
-\begin{code}
+\begin{code}[hide]
 infix 3 _⟷_
 _⟷_ : Rel (Pred A) ℓ
+\end{code}
+\begin{code}
 P ⟷ Q = ∀ {w} → P w ↔ Q w
 \end{code}
-%</isoFun>
+%</ext-iso>

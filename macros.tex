@@ -121,5 +121,16 @@
 \nc\stdlibCitep[1]{\citep[\AM{#1}]{agda-stdlib}}
 \nc\stdlibCite\stdlibCitep
 
+%% https://tex.stackexchange.com/questions/94699/absolutely-definitely-preventing-page-break
+
+\renewenvironment{samepage}
+  {\par\nobreak\vfil\penalty0\vfilneg
+   \vtop\bgroup}
+  {\par\xdef\tpd{\the\prevdepth}\egroup
+   \prevdepth=\tpd}
+
 \nc\source{None}
+
 \nc\agda[1]{\ExecuteMetaData[\source.tex]{#1}}
+
+%% \nc\agda[1]{\begin{samepage}\ExecuteMetaData[\source.tex]{#1}\end{samepage}}

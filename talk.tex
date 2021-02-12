@@ -65,6 +65,7 @@
 \setstretch{0.8}
 \vspace{1.5ex}
 A language is a predicate on ``strings'' yielding proofs/explanations/parsings:
+\vspace{1ex}
 \agda{Lang}
 
 The usual language building blocks:
@@ -72,6 +73,7 @@ The usual language building blocks:
 
 \agda{Lang-ops}
 
+\vspace{-1ex}
 \emph{Puzzle:} how to decide (compute) inhabitation?
 \end{frame}
 
@@ -86,31 +88,36 @@ Consider each list constructor:
 \vspace{2ex}
 \AF{ν} and repeated \AF{δ} capture list consumers fully:
 
-\vspace{-2ex}
+\vspace{-1ex}
 \begin{minipage}[c]{2.8in}
 \agda{ν∘foldlδ}
 \end{minipage}
 \hfill
 \begin{minipage}[c]{2.5in}
-%% \vspace{-4ex}
 \mathindent0ex
 \agda{foldl}
 \end{minipage}
-\hfill\ 
+\hfill\;
 \end{frame}
 
 \begin{frame}{Language calculus}
 \vspace{-1ex}
 \vfill
-\mathindent0ex
 \agda{νδ-lemmas}
 \end{frame}
 
 \rnc\source{Decidability}
 
 \begin{frame}{Decidable types}
+\begin{minipage}{2in}
 \agda{Dec}
-\hfill\ 
+\end{minipage}
+\hfill
+\begin{minipage}{2in}
+\vspace{6.3ex}
+(\agda{¬})
+\end{minipage}
+\hfill\;
 \vspace{-1.5ex}
 
 Compositionally,

@@ -1,5 +1,5 @@
-\documentclass[hidelinks]{article}  % fleqn,12pt
-\usepackage[margin=1in]{geometry}  % 0.12in, 0.9in, 1in
+\documentclass[hidelinks,12pt]{article}  % fleqn,12pt
+\usepackage[margin=0.1in]{geometry}  % 0.12in, 0.9in, 1in
 
 \usepackage{catchfilebetweentags}
 \usepackage[useregional]{datetime2}
@@ -52,14 +52,16 @@ The relatively easy-to-prove properties of type-level languages transfer almost 
 In particular, despite the inductive and coinductive nature of regular expressions and tries respectively, we need neither inductive nor coinductive/bisumulation arguments to prove algebraic properties.
 \end{abstract}
 
-\renewcommand\AgdaTarget[1]{}
+\rnc\AgdaTarget[1]{}
 
 \sectionl{Specifying Languages}
 
+\rnc\source{Language}
+
 Languages are usually formalized either set-theoretically as a set of strings \needcite{} or operationally as a parser \needcite{}.
 Alternatively, we can use type theory, so that a language is a type-level predicate on ``strings'' (lists of an arbitrary type \AB{A} of ``characters''):
-\Language{Lang}
-\figrefdef{Lang-ops}{Language operations}{\Language{Lang-ops}} gives definitions of the usual language operations, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ☆}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
+\agda{Lang}
+\figrefdef{Lang-ops}{Language operations}{\agda{Lang-ops}} gives definitions of the usual language operations, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ☆}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
 
 \note{Explain the types used here and their logical interpretation under the Curry-Howard isomorphism.}
 
@@ -74,8 +76,60 @@ These definitions do not, however, give us decidable parsing, because general ty
 
 \sectionl{Decomposing Languages}
 
+\rnc\source{Calculus}
+
 In order to convert languages into parsers, it will help to decompose languages---and indeed any function from lists---into a regular form.
-Since lists are defined by an algebraic data type, we can decompose languages according to constructor.
+Since lists are defined by an algebraic data type, we can decompose languages according to constructor, as follows:
+\agda{νδ}
+Each use of \AF{δ} takes us one step closer to reducing general language membership to nullability.
+In other words,\footnote{Repeated application is expressed as a left fold\out{ \stdlibCitep{Data.List}}:
+\agda{foldl}
+}%
+\agda{ν∘foldlδ}
+
+This simple observation is the semantic heart of the syntactic technique of \emph{derivatives of regular expressions} as used for efficient recognition of regular languages \citep{Brzozowski64}, later extended to parsing general context-free languages \citep{Might2010YaccID}.
+Lemma \AF{ν∘foldlδ} liberates this technique from the assumption that languages are represented \emph{symbolically}, by some form of grammar (e.g., regular or context-free), inviting other representations as we will see in \secref{Automatic}.
+
+Lemma \AF{ν∘foldlδ} relates to some other powerful perspectives and principles as well:
+\begin{itemize}
+
+\item 
+\emph{Automata theory}: {\AF{ν} \AF ∘ \AF{foldl} \AF{δ} \AB{P}} is the execution of a state machine.
+Each state is a language, with \AB{P} being the initial state; \AF{δ} is the state transition function; and \AB{ν} is the set of accepting states \needcite{}.
+Lemma \AF{ν∘foldlδ} captures the correctness of this state machine as a recognizer for the language \AB{P}.
+
+\item
+\emph{Incremental computation}: {\AF{ν} \AF ∘ \AF{foldl} \AF{δ} \AB{P}} computes \AB{P} by transforming successive incremental modifications to the empty string (each in the form of {\AB{a} \AIC ∷\_} for a list element \AB{a}) into incremental modifications to the membership question for the related language {\AF{δ} \AB{P} \AB{a}} \needcite{}.
+Lemma \AF{ν∘foldlδ} again captures the correctness of this incremental implementation of \AB{P}.
+
+\item 
+\emph{Calculus}: \AB{δ} is differentiation; {\AF{ν} \AF ∘ \AF{foldl} \AF{δ} \AB{P}} is integration; and lemma \AF{ν∘foldlδ} is the second fundamental theorem of calculus, which says that a function can be recovered by integrating its derivative \needcite{}.
+
+\end{itemize}
+
+Given the definitions of \AF{ν} and \AF{δ} above and of the language operations in \secref{Specifying Languages}, one can prove properties about how they relate, as shown in
+\figrefdef{nu-delta-lemmas}{Properties of \AF{ν} and \AF{δ} for language operations}{\agda{νδ-lemmas}}.
+The correct-by-construction parsing algorithms in \secreftwo{Symbolic Differentiation}{Automatic Differentiation} are corollaries of these properties.
+
+There are three relations involved in \figref{nu-delta-lemmas}: propositional equality (``≡''), type isomorphism (``↔'') and extensional isomorphism (``⟷'').
+Type isomorphism relates types whose inhabitants/proofs are in one-to-one correspondence.
+\emph{Extensional} (or ``pointwise'') isomorphism relates predicates isomorphic on every argument:
+\agda{ext-iso}
+
+As with all lemmas in this paper shown with signatures only, full proofs are in the paper's source code and are formally verified by the Agda compiler.
+The equalities in \figref{nu-delta-lemmas} are all proved automatically by normalization (i.e., their proofs are simply \AIC{refl}), while the other relations require a bit more work.
+
+\sectionl{Decidability}
+
+\rnc\source{Decidability}
+
+For an effective implementation, we will have to bridge the gap between a type (of membership proofs) and its decidable inhabitation.
+Fortunately, there is a convenient and compositional way to do so.
+For any type \AB{X}, the type {\AF{Dec} \AB{X}} contains proof of \AB{X} or a proof of {\AF ¬ \AB{X}} (defined as usual to mean {\AB{X} \AS → \AD{⊥}}):\footnote{This simple \AF{Dec} definition been superceded by a more efficient but more complex version \stdlibCitep{Relation.Nullary}.}
+
+\agda{Dec}
+For compositionality, we will also want higher-order counterparts lifting decidability of types to decidability of constructions on those types:
+\agda{Decs}
 
 \bibliography{bib}
 

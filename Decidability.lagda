@@ -8,37 +8,34 @@ open import Relation.Nullary using (¬_)
 open import Data.List using ([])
 
 open import Misc using (_✶)
-open import Inverses using (_⟷_; module ↔Eq)
+open import Inverses
 
 private
   variable
-    A B : Set
-    P Q : A → Set
+    X Y : Set
+    P Q : X → Set
 \end{code}
 
 %<*Dec>
-\begin{minipage}{2in}
 \AgdaTarget{Dec; yes; no}
 \begin{code}
-data Dec (A : Set) : Set where
-  yes  :     A → Dec A
-  no   : ¬   A → Dec A
+data Dec (X : Set) : Set where
+  yes  :     X → Dec X
+  no   : ¬   X → Dec X
 \end{code}%
-\end{minipage}
-\hfill
-\begin{minipage}{2in}
+%</Dec>
+
+%<*¬>
 \begin{code}[hide]
 private
   open import Data.Empty
   module Stuff where
     ¬⇃_ : Set → Set
 \end{code}
-\vspace{6.3ex}
-(\begin{code}[inline]
-    ¬⇃ A = A → ⊥
-\end{code})
-\end{minipage}
-%</Dec>
+\begin{code}[inline]
+    ¬⇃ X = X → ⊥
+\end{code}
+%</¬>
 
 %<*Decs>
 \begin{code}[hide]
@@ -46,14 +43,14 @@ open import Algebra.Core
 
 Dec¹ : Op₁ Set → Set₁
 Dec² : Op₂ Set → Set₁
-Decidable : (A → Set) → Set
-Decidable₂ : (A → B → Set) → Set
+Decidable : (X → Set) → Set
+Decidable₂ : (X → Y → Set) → Set
 \end{code}
 \AgdaTarget{Dec¹, Dec², Decidable, Decidable₂}
 \begin{code}
-Dec¹ ∙_ = ∀ {A} → Dec A → Dec (∙ A)
+Dec¹ ∙_ = ∀ {X} → Dec X → Dec (∙ X)
 
-Dec² _∙_ = ∀ {A B} → Dec A → Dec B → Dec (A ∙ B)
+Dec² _∙_ = ∀ {X Y} → Dec X → Dec Y → Dec (X ∙ Y)
 
 Decidable P = ∀ w → Dec (P w)
 \end{code}
@@ -67,15 +64,15 @@ Decidable₂ _∼_ = ∀ a b → Dec (a ∼ b)
 open import Function.Equality using (Π) ; open Π
 open import Function.Equivalence using (Equivalence; equivalence; _⇔_)
 
-map′ : (A → B) → (B → A) → Dec A → Dec B
-map′ A→B B→A (yes a) = yes (A→B a)
-map′ A→B B→A (no ¬a) = no (¬a ∘ B→A)
+map′ : (X → Y) → (Y → X) → Dec X → Dec Y
+map′ X→Y Y→X (yes a) = yes (X→Y a)
+map′ X→Y Y→X (no ¬a) = no (¬a ∘ Y→X)
 
-map‽⇔ : A ⇔ B → Dec A → Dec B
-map‽⇔ A⇔B = map′ (to ⟨$⟩_) (from ⟨$⟩_) where open Equivalence A⇔B
+map‽⇔ : X ⇔ Y → Dec X → Dec Y
+map‽⇔ X⇔Y = map′ (to ⟨$⟩_) (from ⟨$⟩_) where open Equivalence X⇔Y
 
-↔→⇔ : (A ↔ B) → (A ⇔ B)
-↔→⇔ A↔B = equivalence f f⁻¹ where open Inverse A↔B
+↔→⇔ : (X ↔ Y) → (X ⇔ Y)
+↔→⇔ X↔Y = equivalence f f⁻¹ where open Inverse X↔Y
 \end{code}
 \AgdaTarget{\_▹\_, \_◃\_}
 \begin{code}[hide]
@@ -84,14 +81,14 @@ infixr 9 _◃_
 infixr 9 _▸_
 infixr 9 _◂_
 
-_▹_ : A ↔ B → Dec A → Dec B
+_▹_ : X ↔ Y → Dec X → Dec Y
 f ▹ a? = map‽⇔ (↔→⇔ f) a?
 
-_▸_ : P ⟷ Q → Decidable P → Decidable Q
+_▸_ : (P ⟷ Q) → Decidable P → Decidable Q
 (f ▸ p?) w = f ▹ p? w
 \end{code}
 \begin{code}
-_◃_ : B ↔ A → Dec A → Dec B
+_◃_ : Y ↔ X → Dec X → Dec Y
 _◂_ : Q ⟷ P → Decidable P → Decidable Q
 \end{code}
 \begin{code}[hide]
@@ -102,6 +99,7 @@ g ◃ a? = ↔Eq.sym g ▹ a?
 %</isomorphisms>
 
 %<*compositional-dec>
+{\mathindent0ex
 \begin{code}[hide]
 open import Data.Empty
 open import Data.Unit
@@ -112,7 +110,8 @@ open import Function using (id; _∘_)
 infixr 1 _⊎‽_
 infixr 2 _×‽_
 \end{code}
-\begin{minipage}{2.75in}
+\hfill\;
+\begin{minipage}{33ex}
 \begin{code}
 ⊥‽  : Dec ⊥
 ⊥‽  = no (λ ())
@@ -125,7 +124,7 @@ _      ⊎‽ yes b  = yes (inj₂ b)
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}{2.75in}
+\begin{minipage}{33ex}
 \begin{code}
 ⊤‽  : Dec ⊤
 ⊤‽  = yes tt
@@ -141,7 +140,7 @@ _      ×‽ no ¬b  = no (¬b ∘ proj₂)
 %% -- yes a  ×‽ no ¬b  = no (¬b ∘ proj₂)
 %% -- no ¬a  ×‽ _      = no (¬a ∘ proj₁)
 \end{minipage}
-\hfill~
+\hfill\;
 \begin{code}[hide]
 ¬‽_   : Dec¹ ¬_
 ¬‽ yes a  = no  λ ¬a  → ¬a a
@@ -149,8 +148,9 @@ _      ×‽ no ¬b  = no (¬b ∘ proj₂)
 \end{code}
 \begin{center}
 \begin{code}
-_✶‽ : Dec A → Dec (A ✶)
+_✶‽ : Dec¹ _✶
 _ ✶‽ = yes []
 \end{code}
 \end{center}
+}
 %</compositional-dec>

@@ -1,7 +1,7 @@
 PAPER=paper
 TALK=talk
 
-all: latex/$(TALK).pdf # latex/$(PAPER).pdf
+all: latex/$(PAPER).pdf latex/$(TALK).pdf
 
 MODULES:= Language Calculus Decidability Reflections Symbolic Automatic SizedAutomatic
 
@@ -52,8 +52,8 @@ clean:
 tags: $(LAGDAS)
 	etags $^
 
-web: web-token
+# web: web-token
 
-web-token: latex/$(PAPER).pdf
-	scp $< conal@conal.net:/home/conal/domains/conal/htdocs/papers/new-language-derivatives/$(PAPER)
-	touch web-token
+# web-token: latex/$(PAPER).pdf
+# 	scp $< conal@conal.net:/home/conal/domains/conal/htdocs/papers/new-language-derivatives/$(PAPER)
+# 	touch web-token

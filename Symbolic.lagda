@@ -3,7 +3,7 @@
 open import Relation.Binary.PropositionalEquality using (_≡_) ; open _≡_
 open import Decidability hiding (_◂_)
 
-module Symbolic {A : Set} (_≟_ : Decidable₂ {A = A} _≡_) where
+module Symbolic {A : Set} (_≟_ : Decidable₂ {X = A} _≡_) where
 
 open import Data.List using ([]; _∷_)
 
