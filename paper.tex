@@ -24,6 +24,8 @@
 %% \renewcommand{\AgdaRecord}[1]
 %%     {\AgdaNoSpaceMath{\text{\textcolor{AgdaRecord}{\AgdaFormat{#1}{\AgdaLink{#1}}}}}}
 
+%% \rnc\AgdaTarget[1]{}
+
 \author{Conal Elliott}
 
 \begin{document}
@@ -52,10 +54,7 @@ The relatively easy-to-prove properties of type-level languages transfer almost 
 In particular, despite the inductive and coinductive nature of regular expressions and tries respectively, we need neither inductive nor coinductive/bisumulation arguments to prove algebraic properties.
 \end{abstract}
 
-\rnc\AgdaTarget[1]{}
-
 \sectionl{Specifying Languages}
-
 \rnc\source{Language}
 
 Languages are usually formalized either set-theoretically as a set of strings \needcite{} or operationally as a parser \needcite{}.
@@ -71,11 +70,11 @@ For instance, a proof of {\AB{w} ∈ \AB{P} \AF ∪ \AB{Q}} contains a proof of 
 Likewise, a proof of {w ∈ \AB{P} \AF ⋆ \AB{Q}} (language concatenation) includes the choice of strings \AB{u} and \AB{v}, a proof that {\AB{u} \AF ⊙ \AB{v} \AD ≡ \AB{w}}, and proofs that {\AB{u} ∈ \AB{P}} and {\AB{v} ∈ \AB{P}}.
 
 The use of type-level predicates makes for simple, direct specification, including the use of existential quantification.
-As described in \secref{Language Algebra}, it's also fairly easy to prove algebraic properties of predicates\out{, including the semimodule and semiring laws for both predicate semirings}.
+As described in \secref{Proving Properties}, it's also fairly easy to prove algebraic properties of predicates\out{, including the semimodule and semiring laws for both predicate semirings}.
 These definitions do not, however, give us decidable parsing, because general type inhabitation amounts to theorem proving.
 
-\sectionl{Decomposing Languages}
 
+\sectionl{Decomposing Languages}
 \rnc\source{Calculus}
 
 In order to convert languages into parsers, it will help to decompose languages---and indeed any function from lists---into a regular form.
@@ -119,25 +118,56 @@ Type isomorphism relates types whose inhabitants/proofs are in one-to-one corres
 As with all lemmas in this paper shown with signatures only, full proofs are in the paper's source code and are formally verified by the Agda compiler.
 The equalities in \figref{nu-delta-lemmas} are all proved automatically by normalization (i.e., their proofs are simply \AIC{refl}), while the other relations require a bit more work.
 
-\sectionl{Decidability}
 
+\sectionl{Decidability}
 \rnc\source{Decidability}
 
 For an effective implementation, we will have to bridge the gap between a type (of membership proofs) and its decidable inhabitation.
 Fortunately, there is a convenient and compositional way to do so.
 For any type \AB{A}, the type {\AF{Dec} \AB{A}} contains proof of \AB{A} or a proof of {\AF ¬ \AB{A}} (defined as usual to mean {\AB{A} \AS → \AD{⊥}}):\footnote{This simple \AF{Dec} definition been superceded by a more efficient but more complex version \stdlibCitep{Relation.Nullary}.}
 \agda{Dec}
-For compositionality, we will also want higher-order counterparts lifting decidability of types to decidability of constructions on those types:
-\agda{Decs}
-A \emph{predicate} \AB{P} is decidable when (the type) {\AB{P} \AB{x}} is decidable for all \AB{x} \stdlibCitep{Relation.Unary}:
-\agda{Decidable}
+For compositionality, we will use higher-order counterparts lifting decidability of types to decidability of constructions on those types, as shown in \figrefdef{compositional-dec}{Compositional decidability}{\agda{compositional-dec}}.
 
+A \emph{language} (or any predicate) \AB{P} is decidable when (the type) {\AB{P} \AB{x}} is decidable for all \AB{x} \stdlibCitep{Relation.Unary}:
+\agda{Decidable}
 Now we can formulate the problem of decidable language recognition: given a language \AB{P}, construct a term of type {\AF{Decidable} \AB{P}}.
 Since this transformation cannot be fully automated, we will instead look for decidable building blocks that mirror the predicate vocabulary defined in \secref{Specifying Languages}.
 
-Type isomorphisms (such as those in \figref{nu-delta-lemmas}) play an important role in decidability, namely that isomorphic types or predicates are equivalently decidable:\footnote{In fact, logical equivalence suffices for the results in this paper, but isomorphism enables variations such as generating all parses/proofs rather than just one.}
+Type isomorphisms (such as those in \figref{nu-delta-lemmas}) play an important role in decidability, namely that isomorphic types or predicates are equivalently decidable:
 \agda{isomorphisms}
+One direction of the isomorphism proves \AB{B} from \AB{A}, while the other proves {\AF ¬ B} from {\AF ¬ A}.
+In fact, logical \emph{equivalence} suffices for the results in this paper, but the stronger condition of isomorphism enables variations such as generating all parses/proofs rather than just one.
 
+\sectionl{Reflections}
+
+The lemmas in \figref{nu-delta-lemmas} tell us how to decompose languages defined in terms of the vocabulary from \figref{Lang-ops}, and the definitions in \figref{compositional-dec} tell us how compute inhabitation of the resulting types, resulting in decidable parsing.
+These lemmas and definitions cannot be applied \emph{automatically} in their present form, however, because languages are functions, as are \AF{ν} and \AF{δ}, and so are not subject to pattern-matching.
+An automatic solution would need some form of \emph{reflection} of language operations or \AF{ν} and \AF{δ} as inspectable data.
+
+This situation is exactly as in differential calculus, since differentiation in that setting is also defined on functions rather than on symbolic representations.
+Fortunately, there are two standard solutions for \emph{computable} differentiation, going by the names of ``symbolic'' and ``automatic'' differentiation.
+In the former, functions are represented symbolically in some suitable vocabulary, and pattern-matching is used to apply rules of differentiation to those representations.
+The latter solution involves re-interpreting the construction vocabulary for functions to construct not just the usual functions, but also their derivatives \needcite{}.
+The latter is often much more efficient than the former, since it easily avoids a good deal of redundant computation due to significant amounts of duplicated work between function ``primals'' and their derivatives.
+
+\secreftwo{Symbolic Differentiation}{Automatic Differentiation} apply the symbolic and automatic strategies respectively to languages.
+In both cases, the algorithms are proved correct with minimal effort as corollaries of the lemmas in \figref{nu-delta-lemmas}.
+
+\sectionl{Symbolic Differentiation}
+\rnc\source{Symbolic}
+
+In the ``symbolic'' style, we reflect the language-building vocabulary of \figref{Lang-ops} into an inductive data type, while re-defining \AF{ν} and \AF{δ} as functions on that data type.
+For convenience, use the same names as in \secref{Specifying Languages} for these new counterparts, while referring to the original versions via the prefix ``{◬.}'' (module-specific names).
+The result is shown in \figrefdef{symbolic-api}{Regular expressions}{\agda{api}} along with a semantic function {\AF{⟦\_⟧}} that converts a symbolic language representation to decidable form.
+
+Decidable recognition (via {\AF{⟦\_⟧}}) relies only on \AF{ν} and \AF{δ}, which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}.
+These definitions are meant to be read in ``column-major'' order, i.e., the left column is one definition (of \AF{ν}), and the right column is another (of \AF{δ}).
+The \AF{Lang} representation is inductive, and definitions are by pattern matching.
+Correctness is guaranteed by the types of \AF{ν} and \AF{δ}, so the correctness proof here is accomplished by type-checking.
+
+\sectionl{Automatic Differentiation}
+
+\sectionl{Proving Properties}
 
 \bibliography{bib}
 

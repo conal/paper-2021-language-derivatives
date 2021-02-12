@@ -3,7 +3,7 @@
 open import Decidability hiding (_◂_)
 open import Relation.Binary.PropositionalEquality using (_≡_) ; open _≡_
 
-module Automatic {A : Set} (_≟_ : Decidable₂ {X = A} _≡_) where
+module Automatic {A : Set} (_≟_ : Decidable₂ {A = A} _≡_) where
 
 open import Data.List using ([]; _∷_)
 
@@ -23,7 +23,7 @@ private
 
 %<*api>
 \hfill
-\begin{minipage}[b]{3.5in}
+\begin{minipage}[b]{60in}
 \begin{code}[hide]
 infixr  6 _∪_
 infixl  7 _∩_
@@ -44,7 +44,7 @@ open Lang
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}[b]{2.2in}
+\begin{minipage}[b]{40in}
 \begin{code}
 ⟦_⟧ : Lang P → Decidable P
 ⟦ p ⟧     []    = ν p

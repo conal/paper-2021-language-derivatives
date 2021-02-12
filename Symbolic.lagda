@@ -3,7 +3,7 @@
 open import Relation.Binary.PropositionalEquality using (_≡_) ; open _≡_
 open import Decidability hiding (_◂_)
 
-module Symbolic {A : Set} (_≟_ : Decidable₂ {X = A} _≡_) where
+module Symbolic {A : Set} (_≟_ : Decidable₂ {A = A} _≡_) where
 
 open import Data.List using ([]; _∷_)
 
@@ -22,6 +22,7 @@ private
 \end{code}
 
 %<*api>
+{\mathindent0ex
 \begin{center}
 \begin{code}[hide]
 infixr  6 _∪_
@@ -46,27 +47,29 @@ data Lang : ◬.Lang → Set₁ where
 \end{code}
 %%   -- pureⱽ  : A ✴ → Lang 
 \end{center}
-\vspace{-5.5ex}
+\vspace{-5ex}
 \hfill
-\begin{minipage}[t]{2.5in}
+\begin{minipage}[t]{33ex}
 \begin{code}
 
-ν   : Lang P → Dec (◬.ν P)
-δ    : Lang P → (a : A) → Lang (◬.δ P a)
+ν  : Lang P → Dec (◬.ν P)
+δ  : Lang P → (a : A) → Lang (◬.δ P a)
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}[t]{2.5in}
+\begin{minipage}[t]{25ex}
 \begin{code}
 ⟦_⟧ : Lang P → Decidable P
 ⟦ p ⟧     []    = ν p
 ⟦ p ⟧ (a  ∷ w)  = ⟦ δ p a ⟧ w
 \end{code}
-\hfill\;
 \end{minipage}
+\hfill\;
+}
 %</api>
 
 %<*defs>
+{\mathindent0ex
 \begin{code}[hide]
 private
   variable
@@ -77,7 +80,7 @@ private
 \setstretch{1.6}
 \hfill
 %\hspace{-1.2ex}%% To align with Automatic. Why different?
-\begin{minipage}{2.2in}
+\begin{minipage}{30ex}
 \begin{code}
 ν ∅ = ⊥‽
 ν 𝒰 = ⊤‽
@@ -92,7 +95,7 @@ private
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}{3in}
+\begin{minipage}{38ex}
 \begin{code}
 δ ∅ a = ∅
 δ 𝒰 a = 𝒰
@@ -106,4 +109,6 @@ private
 δ (f ◂ p) a = f ◂ δ p a
 \end{code}
 \end{minipage}
+\hfill\;
+}
 %</defs>
