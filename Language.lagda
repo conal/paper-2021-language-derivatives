@@ -53,7 +53,7 @@ Lang = A ✶ → Set
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}[t]{55ex}
+\begin{minipage}[t]{48ex}
 \begin{code}
 (P ∪ Q) w = P w ⊎ Q w
 
@@ -66,6 +66,6 @@ data _☆ (P : Lang) : Lang where
   suc☆   : ∀ {w} → (P ⋆ P ☆) w → (P ☆) w
 \end{code}
 \end{minipage}
-\hfill
+\hfill\;
 }
 %</Lang-ops>

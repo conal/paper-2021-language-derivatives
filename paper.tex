@@ -125,11 +125,19 @@ The equalities in \figref{nu-delta-lemmas} are all proved automatically by norma
 
 For an effective implementation, we will have to bridge the gap between a type (of membership proofs) and its decidable inhabitation.
 Fortunately, there is a convenient and compositional way to do so.
-For any type \AB{X}, the type {\AF{Dec} \AB{X}} contains proof of \AB{X} or a proof of {\AF ¬ \AB{X}} (defined as usual to mean {\AB{X} \AS → \AD{⊥}}):\footnote{This simple \AF{Dec} definition been superceded by a more efficient but more complex version \stdlibCitep{Relation.Nullary}.}
-
+For any type \AB{A}, the type {\AF{Dec} \AB{A}} contains proof of \AB{A} or a proof of {\AF ¬ \AB{A}} (defined as usual to mean {\AB{A} \AS → \AD{⊥}}):\footnote{This simple \AF{Dec} definition been superceded by a more efficient but more complex version \stdlibCitep{Relation.Nullary}.}
 \agda{Dec}
 For compositionality, we will also want higher-order counterparts lifting decidability of types to decidability of constructions on those types:
 \agda{Decs}
+A \emph{predicate} \AB{P} is decidable when (the type) {\AB{P} \AB{x}} is decidable for all \AB{x} \stdlibCitep{Relation.Unary}:
+\agda{Decidable}
+
+Now we can formulate the problem of decidable language recognition: given a language \AB{P}, construct a term of type {\AF{Decidable} \AB{P}}.
+Since this transformation cannot be fully automated, we will instead look for decidable building blocks that mirror the predicate vocabulary defined in \secref{Specifying Languages}.
+
+Type isomorphisms (such as those in \figref{nu-delta-lemmas}) play an important role in decidability, namely that isomorphic types or predicates are equivalently decidable:\footnote{In fact, logical equivalence suffices for the results in this paper, but isomorphism enables variations such as generating all parses/proofs rather than just one.}
+\agda{isomorphisms}
+
 
 \bibliography{bib}
 
