@@ -1,5 +1,5 @@
 \documentclass[hidelinks,12pt]{article}  % fleqn,12pt
-\usepackage[margin=1in]{geometry}  % 0.12in, 0.9in, 1in
+\usepackage[margin=0.2in]{geometry}  % 0.12in, 0.9in, 1in
 
 \usepackage{catchfilebetweentags}
 \usepackage[useregional]{datetime2}
@@ -12,6 +12,7 @@
 \input{unicode}
 \input{macros}
 
+\usepackage{libertine}  %% [tt=false]
 \usepackage{agda}% references
 
 %% Switching to \textsf for AgdaFunction messes up vertical alignment.
@@ -45,7 +46,7 @@ Choosing type theory instead gives us languages as type-level predicates over st
 Applying a language to a string yields a type whose elements are language membership proofs describing \emph{how} a string parses in the language.
 The usual building blocks of languages (including union, contatenation, and Kleene closure) have precise and compelling specifications uncomplicated by operational strategies and are easily generalized to a few general domain-transforming and codomain-transforming operations on predicates.
 
-A simple type isomorphism property captures the essential idea behind language ``differentiation'' and ``integration'' as used for recognizing languages and leads to a collection of lemmas about type-level languages (and indeed functions from lists to any type).
+A simple characterization of languages (and indeed functions from lists to any type) captures the essential idea behind language ``differentiation'' and ``integration'' as used for recognizing languages and leads to a collection of lemmas about type-level languages.
 These lemmas form the backbone of two dual implementations of language recognition---(inductive) regular expressions and (coinductive) tries---each containing the same code but in dual arrangements.
 The language lemmas form most of the implementation in both cases, while the representation and primitive operations trade places.
 The regular expression version corresponds to symbolic differentiation, while the trie version corresponds to automatic differentiation.
@@ -81,13 +82,13 @@ In order to convert languages into parsers, it will help to decompose languages-
 Since lists are defined by an algebraic data type, we can decompose languages according to constructor, as follows:
 \agda{νδ}
 Each use of \AF{δ} takes us one step closer to reducing general language membership to nullability.
-In other words,\footnote{Repeated application is expressed as a left fold\out{ \stdlibCitep{Data.List}}:
+In other words,\footnote{Repeated application is expressed as a standard left fold\out{ \stdlibCitep{Data.List}}:
 \agda{foldl}
 }%
 \agda{ν∘foldlδ}
 
 This simple observation is the semantic heart of the syntactic technique of \emph{derivatives of regular expressions} as used for efficient recognition of regular languages \citep{Brzozowski64}, later extended to parsing general context-free languages \citep{Might2010YaccID}.
-Lemma \AF{ν∘foldlδ} liberates this technique from the assumption that languages are represented \emph{symbolically}, by some form of grammar (e.g., regular or context-free), inviting other representations as we will see in \secref{Automatic}.
+Lemma \AF{ν∘foldlδ} liberates this technique from the assumption that languages are represented \emph{symbolically}, by some form of grammar (e.g., regular or context-free), inviting other representations as we will see in \secref{Automatic Differentiation}.
 
 Lemma \AF{ν∘foldlδ} relates to some other powerful perspectives and principles as well:
 \begin{itemize}
@@ -110,10 +111,10 @@ Given the definitions of \AF{ν} and \AF{δ} above and of the language operation
 \figrefdef{nu-delta-lemmas}{Properties of \AF{ν} and \AF{δ} for language operations}{\agda{νδ-lemmas}}.
 The correct-by-construction parsing algorithms in \secreftwo{Symbolic Differentiation}{Automatic Differentiation} are corollaries of these properties.
 
-There are three relations involved in \figref{nu-delta-lemmas}: propositional equality (``≡''), type isomorphism (``↔'') and extensional isomorphism (``⟷'').
-Type isomorphism relates types whose inhabitants/proofs are in one-to-one correspondence.
+There are three relations involved in \figref{nu-delta-lemmas}: propositional equality (``≡''), (type) isomorphism (``↔'') and extensional isomorphism (``⟷'').
+Isomorphism relates types (propositions) whose inhabitants (proofs) are in one-to-one correspondence.
 \emph{Extensional} (or ``pointwise'') isomorphism relates predicates isomorphic on every argument:
-\agda{ext-iso}
+\ExecuteMetaData[Inverses.tex]{ext-iso}
 
 As with all lemmas in this paper shown with signatures only, full proofs are in the paper's source code and are formally verified by the Agda compiler.
 The equalities in \figref{nu-delta-lemmas} are all proved automatically by normalization (i.e., their proofs are simply \AIC{refl}), while the other relations require a bit more work.
@@ -126,11 +127,11 @@ For an effective implementation, we will have to bridge the gap between a type (
 Fortunately, there is a convenient and compositional way to do so.
 For any type \AB{A}, the type {\AF{Dec} \AB{A}} contains proof of \AB{A} or a proof of {\AF ¬ \AB{A}} (defined as usual to mean {\AB{A} \AS → \AD{⊥}}):\footnote{This simple \AF{Dec} definition been superceded by a more efficient but more complex version \stdlibCitep{Relation.Nullary}.}
 \agda{Dec}
-For compositionality, we will use higher-order counterparts lifting decidability of types to decidability of constructions on those types, as shown in \figrefdef{compositional-dec}{Compositional decidability}{\agda{compositional-dec}}.
+For compositionality, we will use a few operations that lift decidability of types to decidability of constructions on those types, as shown in \figrefdef{compositional-dec}{Compositional decidability}{\agda{compositional-dec}}.\notefoot{Explanatory footnote goes here.}
 
-A \emph{language} (or any predicate) \AB{P} is decidable when (the type) {\AB{P} \AB{x}} is decidable for all \AB{x} \stdlibCitep{Relation.Unary}:
+A \emph{language} (or any predicate) \AB{P} is ``decidable'' when (the type) {\AB{P} \AB{x}} is decidable for all \AB{x}\out{ \stdlibCitep{Relation.Unary}}:
 \agda{Decidable}
-Now we can formulate the problem of decidable language recognition: given a language \AB{P}, construct a term of type {\AF{Decidable} \AB{P}}.
+With these definitions, we can formulate the problem of decidable language recognition: given a language \AB{P}, construct a term of type {\AF{Decidable} \AB{P}}.
 Since this transformation cannot be fully automated, we will instead look for decidable building blocks that mirror the predicate vocabulary defined in \secref{Specifying Languages}.
 
 Type isomorphisms (such as those in \figref{nu-delta-lemmas}) play an important role in decidability, namely that isomorphic types or predicates are equivalently decidable:
@@ -140,14 +141,14 @@ In fact, logical \emph{equivalence} suffices for the results in this paper, but 
 
 \sectionl{Reflections}
 
-The lemmas in \figref{nu-delta-lemmas} tell us how to decompose languages defined in terms of the vocabulary from \figref{Lang-ops}, and the definitions in \figref{compositional-dec} tell us how compute inhabitation of the resulting types, resulting in decidable parsing.
+The lemmas in \figref{nu-delta-lemmas} tell us how to decompose languages defined in terms of the vocabulary from \figref{Lang-ops}, while the definitions in \figref{compositional-dec} tell us how compute inhabitation of the resulting types, resulting in decidable parsing.
 These lemmas and definitions cannot be applied \emph{automatically} in their present form, however, because languages are functions, as are \AF{ν} and \AF{δ}, and so are not subject to pattern-matching.
 An automatic solution would need some form of \emph{reflection} of language operations or \AF{ν} and \AF{δ} as inspectable data.
 
 This situation is exactly as in differential calculus, since differentiation in that setting is also defined on functions rather than on symbolic representations.
-Fortunately, there are two standard solutions for \emph{computable} differentiation, going by the names of ``symbolic'' and ``automatic'' differentiation.
+Fortunately, there are two standard solutions for \emph{computable} differentiation, going by the names of ``symbolic'' and ``automatic'' differentiation.\out{\footnote{There is also an incorrect (approximate) variation often referred to as ``numeric'' differentiation.}}
 In the former, functions are represented symbolically in some suitable vocabulary, and pattern-matching is used to apply rules of differentiation to those representations.
-The latter solution involves re-interpreting the construction vocabulary for functions to construct not just the usual functions, but also their derivatives \needcite{}.
+The latter solution involves re-interpreting the vocabulary of functions to construct not just the usual functions, but also their derivatives \needcite{}.
 The latter is often much more efficient than the former, since it easily avoids a good deal of redundant computation due to significant amounts of duplicated work between function ``primals'' and their derivatives.
 
 \secreftwo{Symbolic Differentiation}{Automatic Differentiation} apply the symbolic and automatic strategies respectively to languages.
@@ -156,14 +157,13 @@ In both cases, the algorithms are proved correct with minimal effort as corollar
 \sectionl{Symbolic Differentiation}
 \rnc\source{Symbolic}
 
-In the ``symbolic differentiation'' style, we reflect the language-building vocabulary of \figref{Lang-ops} into an inductive data type (of modestly extended regular expressions), while re-defining \AF{ν} and \AF{δ} as functions on that data type.
+The ``symbolic differentiation'' style reflects language-building vocabulary (\figref{Lang-ops}) into an inductive data type (of modestly extended regular expressions), while re-defining \AF{ν} and \AF{δ} as functions that pattern-match on that data type.
 For convenience, use the same names as in \secref{Specifying Languages} for these new counterparts, while referring to the original versions via the prefix ``{◬.}'' (module-specific names).
 The result is shown in \figrefdef{symbolic-api}{Regular expressions (inductive)}{\agda{api}} along with a semantic function {\AF{⟦\_⟧}} that converts a symbolic language representation to decidable form.
 
-Decidable recognition (via {\AF{⟦\_⟧}}) relies only on \AF{ν} and \AF{δ}, which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}.
+Decidable recognition (via {\AF{⟦\_⟧}}) relies only on \AF{ν} and \AF{δ}, which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}, as systematically derived from the lemmas of \figref{nu-delta-lemmas}.\notefoot{Describe this derivation.}
 These definitions are meant to be read in ``column-major'' order, i.e., each column is one function definition.
-The \AF{Lang} representation is inductive, and definitions are by pattern matching.
-Correctness is guaranteed by the types of \AF{ν} and \AF{δ}, so the correctness proof here is accomplished by type-checking.
+Correctness is guaranteed by the types of \AF{ν} and \AF{δ} and so is proved automatically by type-checking \figref{symbolic-defs}.
 
 \sectionl{Automatic Differentiation}
 \rnc\source{Automatic}
@@ -177,16 +177,16 @@ Again, we will use the same names as in \secref{Specifying Languages}, referring
 The result is shown in \figrefdef{automatic-api}{Tries (coinductive)}{\agda{api}}.
 
 Decidable recognition again relies only on \AF{ν} and \AF{δ}, which are defined in \figrefdef{automatic-defs}{Automatic differentiation (row-major/copatterns)}{\agda{defs}}.
-These definitions are meant to be read in ``row-major'' order, i.e., each row is one function definition.
+These definitions are meant to be read in ``row-major'' order, i.e., each row is one definition.
 The \AF{Lang} representation is coinductive, and definitions are by \emph{copattern} matching \citep{AbelPientka2016}.
 Note that the definitions are syntactically identical to those in \figref{symbolic-defs} but are organized dually.
 (The compiler-generated syntax coloring differs to reflect the changed interpretation of the definitions.)
 
 The correctness proof is \emph{almost} accomplished by type-checking, but there is a technical problem.
-The \AF{δ} clause for {\AB{p} \AF ⋆ \AB{q}} does not satisfy Agda's termination checker, which cannot see that the {\AF{δ} \AB{p} \AB{a}} argument in the recursive use of \AF{\_⋆\_} is in some sense smaller than \AB{p}.
+The \AF{δ} clause for {\AB{p} \AF ⋆ \AB{q}} does not satisfy Agda's termination checker, which cannot see that the argument {\AF{δ} \AB{p} \AB{a}} in the recursive use of \AF{\_⋆\_} is in some sense smaller than \AB{p}.
 Fortunately, this issue was already solved by Andreas \citet{Abel2016}, also in the setting of trie-based language recognition, by using sized types \citep{Abel2008, AbelPientka2016}.
 \rnc\source{SizedAutomatic}
-This solution needs only give \AF{Lang} (now tries) an index {\AB{i} \AK : \APT{Size}} corresponding to the maximum depth to which a trie can be searched, or equivalently the longest string that can be matched\out{ (via {\AF{⟦\_⟧}})}.
+This solution needs only to give \AF{Lang} (now tries) an index {\AB{i} \AK : \APT{Size}} corresponding to the maximum depth to which a trie can be searched, or equivalently the longest string that can be matched\out{ (via {\AF{⟦\_⟧}})}.
 In practice, we will work with arbitrarily deep tries, i.e., ones having index \APo{∞}, as in the type of {\AF{⟦\_⟧}}.
 The modified representation is shown in \figrefdef{sized automatic-api}{Sized tries (coinductive)}{\agda{api}}.
 

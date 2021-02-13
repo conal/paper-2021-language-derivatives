@@ -10,6 +10,9 @@
 %% To redefine for a non-draft
 \nc\indraft[1]{#1}
 
+%% I think \note gets defined by beamer.
+\let\note\undefined
+
 \nc\note[1]{\indraft{\textcolor{red}{#1}}}
 
 \nc\notefoot[1]{\note{\footnote{\note{#1}}}}
@@ -90,28 +93,25 @@
   colorlinks = false, % true
 }
 
-    % Hack to get the amsthm package working.
-    % https://tex.stackexchange.com/questions/130491/xelatex-error-paragraph-ended-before-tempa-was-complete
-    \let\AgdaOpenBracket\[\let\AgdaCloseBracket\]
-    \RequirePackage{fontspec}
-    \let\[\AgdaOpenBracket\let\]\AgdaCloseBracket
-
-    \setmainfont
-      [ Ligatures      = TeX
-      , BoldItalicFont = XITS-BoldItalic.otf
-      , BoldFont       = XITS-Bold.otf
-      , ItalicFont     = XITS-Italic.otf
-      ]
-      {XITS-Regular.otf}
-
+    %% % Hack to get the amsthm package working.
+    %% % https://tex.stackexchange.com/questions/130491/xelatex-error-paragraph-ended-before-tempa-was-complete
+    %% \let\AgdaOpenBracket\[\let\AgdaCloseBracket\]
+    %% \RequirePackage{fontspec}
+    %% \let\[\AgdaOpenBracket\let\]\AgdaCloseBracket
+    %% \setmainfont
+    %%   [ Ligatures      = TeX
+    %%   , BoldItalicFont = XITS-BoldItalic.otf
+    %%   , BoldFont       = XITS-Bold.otf
+    %%   , ItalicFont     = XITS-Italic.otf
+    %%   ]
+    %%   {XITS-Regular.otf}
     %% %% \setmathfont{XITS-Math.otf}
     \setmathfont{XITSMath-Regular.otf}
     %% \setmonofont[Mapping=tex-text]{FreeMono.otf}
-
     % Make mathcal and mathscr appear as different.
     % https://tex.stackexchange.com/questions/120065/xetex-what-happened-to-mathcal-and-mathscr
-    \setmathfont[range={\mathcal,\mathbfcal},StylisticSet=1]{XITSMath-Regular.otf}
-    \setmathfont[range=\mathscr]{XITSMath-Regular.otf}
+    %% \setmathfont[range={\mathcal,\mathbfcal},StylisticSet=1]{XITSMath-Regular.otf}
+    %% \setmathfont[range=\mathscr]{XITSMath-Regular.otf}
 
 
 \usepackage[round]{natbib} % [square]

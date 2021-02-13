@@ -4,15 +4,13 @@
 \documentclass[aspectratio=169]{beamer}
 
 \usetheme[
-  block=fill,
-  background=light,
+  % block=fill,
+  % background=light,
   % titleformat=smallcaps,
-  progressbar=frametitle,
-  numbering=none,
+  % progressbar=frametitle,
+  % numbering=none,
 ]{metropolis}
 \setbeamersize{text margin left=.5cm,text margin right=.5cm}
-
-\let\note\undefined
 
 \usepackage{catchfilebetweentags}
 \usepackage[useregional]{datetime2}
@@ -25,16 +23,10 @@
 \input{unicode}
 \input{macros}
 
+\usepackage{libertine}  %% [tt=false]
 \usepackage{agda}% references
 
 %% \renewcommand{\AgdaFontStyle}[1]{\text{#1}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Fonts
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% \usepackage{relsize}
-\usepackage{libertine}  %% [tt=false]
-%% \usepackage[libertine]{newtxmath}
 
 %----------------------------------------------------------------------------
 

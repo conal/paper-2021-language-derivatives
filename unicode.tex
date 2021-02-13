@@ -168,7 +168,7 @@
 
 %% \newunicodechar{ℓ}{\ensuremath{\mathcal{l}}}
 
-\newcommand\Star[1]{\ensuremath{\mathop{\hspace{-0.0pt}\raisebox{4pt}{\tiny #1}}}}
+\newcommand\Star[1]{\ensuremath{\mathop{\hspace{-0.0em}\raisebox{0.6ex}{\tiny #1}}}}
 
 \newunicodechar{✯}{\Star \FiveStarOutlineHeavy}
 \newunicodechar{☆}{\Star \FiveStarOutlineHeavy}
@@ -177,13 +177,14 @@
 \newunicodechar{✦}{\Star \FourStarOpen}
 \newunicodechar{✸}{\Star \EightStarBold}
 
-\newunicodechar{∷}{\ensuremath{\mathbin{\hspace{-1pt}:\hspace{-2.5pt}:\!}}}
+\newunicodechar{∷}{\ensuremath{\mathbin{\hspace{-0.2em}:\hspace{-0.27em}:\!}}}
 
 %% \newunicodechar{⋆}{\smallOp{0.75pt}{}}
 %% \newunicodechar{⋆}{\raisebox{-2pt}{\Star \Asterisk}}
 \newunicodechar{⋆}{\ensuremath{\ast}}
+%% \newunicodechar{⋆}{\ensuremath{*}}% "*" seems fine in Libertine.
 
-\newunicodechar{✲}{\raisebox{-2.5pt}{\hspace{-1pt}*}}
+%% \newunicodechar{✲}{\raisebox{-2.5pt}{\hspace{-1pt}*}}
 
 \newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
 \newunicodechar{↔}{\ensuremath{\leftrightarrow}}
@@ -202,8 +203,8 @@
 \newunicodechar{⁰}{\ensuremath{^0}}
 \newunicodechar{¹}{\ensuremath{^1}}
 \newunicodechar{²}{\ensuremath{^2}}
-\newunicodechar{ʸ}{\ensuremath{^y}}
-\newunicodechar{ⁿ}{\ensuremath{^{\hspace{0.3pt}n}}}
+%% \newunicodechar{ʸ}{\ensuremath{^y}}
+%% \newunicodechar{ⁿ}{\ensuremath{^{\hspace{0.3pt}n}}}
 \newunicodechar{ᴸ}{\ensuremath{^L}}
 
 \newunicodechar{ᴹ}{\ensuremath{^{\!M\!}}}
@@ -220,10 +221,10 @@
 \newunicodechar{⌋}{\ensuremath{\rfloor}}
 \newunicodechar{≗}{\ensuremath{\circeq}}
 
-\newunicodechar{◃}{\raisebox{1.5pt}{\tiny \ensuremath{\triangleleft}}}
-\newunicodechar{▹}{\raisebox{1.5pt}{\tiny \ensuremath{\triangleright}}}
-\newunicodechar{◂}{\raisebox{1.5pt}{\tiny \ensuremath{\blacktriangleleft}}}
-\newunicodechar{▸}{\raisebox{1.5pt}{\tiny \ensuremath{\blacktriangleright}}}
+\newunicodechar{◃}{\raisebox{0.2ex}{\tiny \ensuremath{\triangleleft}}}
+\newunicodechar{▹}{\raisebox{0.2ex}{\tiny \ensuremath{\triangleright}}}
+\newunicodechar{◂}{\raisebox{0.2ex}{\tiny \ensuremath{\blacktriangleleft}}}
+\newunicodechar{▸}{\raisebox{0.2ex}{\tiny \ensuremath{\blacktriangleright}}}
 
 \newunicodechar{·}{\ensuremath{\cdot}}
 
@@ -231,8 +232,9 @@
 \newunicodechar{⇂}{}
 \newunicodechar{⇃}{}
 
-%% Unobtrusive module name. Decorate the following dot.
-\newunicodechar{◬}{\raisebox{1.15pt}{\ensuremath{_{\diamond}\hspace{-3.85pt}}}}
+%% Unobtrusive module name. Decorate the following dot. Note vertical in ex
+%% and horizontal in em to adjust with font size.
+\newunicodechar{◬}{\raisebox{0.23ex}{\ensuremath{_{\diamond}\hspace{-0.352em}}}}
 
 %% Another good trick: cause the next symbol to be hat'd, math style, e.g., ʻν ʻδ.
 %% A variation on this trick can replace a module dot, etc.
