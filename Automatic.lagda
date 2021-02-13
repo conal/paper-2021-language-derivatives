@@ -22,8 +22,9 @@ private
 \end{code}
 
 %<*api>
+{\mathindent0ex
 \hfill
-\begin{minipage}[b]{60in}
+\begin{minipage}[b]{37ex}
 \begin{code}[hide]
 infixr  6 _∪_
 infixl  7 _∩_
@@ -44,7 +45,7 @@ open Lang
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}[b]{40in}
+\begin{minipage}[b]{25ex}
 \begin{code}
 ⟦_⟧ : Lang P → Decidable P
 ⟦ p ⟧     []    = ν p
@@ -66,11 +67,30 @@ _☆   : Lang  P → Lang (P ◬.☆)
 `    : (a : A) → Lang (◬.` a)
 _◂_  : (Q ⟷ P) → Lang P → Lang Q
 \end{code}
-%% -- pureⱽ  : A ✴ → Lang 
 \end{center}
+}
 %</api>
 
+%<*rules>
+\newcommand\rules[2]{
+\vspace{-4.57ex}
+\hspace{0ex}\\% Weirdness fix
+\hspace{0.00ex}
+\hfill
+\begin{minipage}{30ex}
+#1
+\end{minipage}
+\hfill
+\begin{minipage}{38ex}
+#2
+\end{minipage}
+\hfill\;
+}
+%</rules>
+
 %<*defs>
+{\mathindent0ex
+\setstretch{1.6}
 \rules{\begin{code}
 ν ∅ = ⊥‽
 \end{code}
@@ -143,6 +163,7 @@ _◂_  : (Q ⟷ P) → Lang P → Lang Q
 }{\begin{code}
 δ (f ◂ p) a = f ◂ δ p a
 \end{code}}
+}
 %</defs>
 
 %<*termination>

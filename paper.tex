@@ -1,5 +1,5 @@
 \documentclass[hidelinks,12pt]{article}  % fleqn,12pt
-\usepackage[margin=0.1in]{geometry}  % 0.12in, 0.9in, 1in
+\usepackage[margin=1in]{geometry}  % 0.12in, 0.9in, 1in
 
 \usepackage{catchfilebetweentags}
 \usepackage[useregional]{datetime2}
@@ -156,16 +156,41 @@ In both cases, the algorithms are proved correct with minimal effort as corollar
 \sectionl{Symbolic Differentiation}
 \rnc\source{Symbolic}
 
-In the ``symbolic'' style, we reflect the language-building vocabulary of \figref{Lang-ops} into an inductive data type, while re-defining \AF{ν} and \AF{δ} as functions on that data type.
+In the ``symbolic differentiation'' style, we reflect the language-building vocabulary of \figref{Lang-ops} into an inductive data type (of modestly extended regular expressions), while re-defining \AF{ν} and \AF{δ} as functions on that data type.
 For convenience, use the same names as in \secref{Specifying Languages} for these new counterparts, while referring to the original versions via the prefix ``{◬.}'' (module-specific names).
-The result is shown in \figrefdef{symbolic-api}{Regular expressions}{\agda{api}} along with a semantic function {\AF{⟦\_⟧}} that converts a symbolic language representation to decidable form.
+The result is shown in \figrefdef{symbolic-api}{Regular expressions (inductive)}{\agda{api}} along with a semantic function {\AF{⟦\_⟧}} that converts a symbolic language representation to decidable form.
 
 Decidable recognition (via {\AF{⟦\_⟧}}) relies only on \AF{ν} and \AF{δ}, which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}.
-These definitions are meant to be read in ``column-major'' order, i.e., the left column is one definition (of \AF{ν}), and the right column is another (of \AF{δ}).
+These definitions are meant to be read in ``column-major'' order, i.e., each column is one function definition.
 The \AF{Lang} representation is inductive, and definitions are by pattern matching.
 Correctness is guaranteed by the types of \AF{ν} and \AF{δ}, so the correctness proof here is accomplished by type-checking.
 
 \sectionl{Automatic Differentiation}
+\rnc\source{Automatic}
+
+\agda{rules}
+
+\secref{Symbolic Differentiation} embodies one choice of reflecting functions into a data representation.
+Now consider the dual strategy of ``automatic differentiation''.
+This time, we reflect \AF{ν} and \AF{δ} into a \emph{coinductive} data type (of tries \needcite{}), while redefining the language-building vocabulary as functions on that data type.
+Again, we will use the same names as in \secref{Specifying Languages}, referring to the original versions via the prefix ``{◬.}''.
+The result is shown in \figrefdef{automatic-api}{Tries (coinductive)}{\agda{api}}.
+
+Decidable recognition again relies only on \AF{ν} and \AF{δ}, which are defined in \figrefdef{automatic-defs}{Automatic differentiation (row-major/copatterns)}{\agda{defs}}.
+These definitions are meant to be read in ``row-major'' order, i.e., each row is one function definition.
+The \AF{Lang} representation is coinductive, and definitions are by \emph{copattern} matching \citep{AbelPientka2016}.
+Note that the definitions are syntactically identical to those in \figref{symbolic-defs} but are organized dually.
+(The compiler-generated syntax coloring differs to reflect the changed interpretation of the definitions.)
+
+The correctness proof is \emph{almost} accomplished by type-checking, but there is a technical problem.
+The \AF{δ} clause for {\AB{p} \AF ⋆ \AB{q}} does not satisfy Agda's termination checker, which cannot see that the {\AF{δ} \AB{p} \AB{a}} argument in the recursive use of \AF{\_⋆\_} is in some sense smaller than \AB{p}.
+Fortunately, this issue was already solved by Andreas \citet{Abel2016}, also in the setting of trie-based language recognition, by using sized types \citep{Abel2008, AbelPientka2016}.
+\rnc\source{SizedAutomatic}
+This solution needs only give \AF{Lang} (now tries) an index {\AB{i} \AK : \APT{Size}} corresponding to the maximum depth to which a trie can be searched, or equivalently the longest string that can be matched\out{ (via {\AF{⟦\_⟧}})}.
+In practice, we will work with arbitrarily deep tries, i.e., ones having index \APo{∞}, as in the type of {\AF{⟦\_⟧}}.
+The modified representation is shown in \figrefdef{sized automatic-api}{Sized tries (coinductive)}{\agda{api}}.
+
+Decidable recognition is defined exactly as with unsized tries (\figref{automatic-defs}), but this time the compiler successfully proves \emph{total} correctness (including termination).
 
 \sectionl{Proving Properties}
 
