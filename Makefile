@@ -1,9 +1,9 @@
 PAPER=paper
 TALK=talk
 
-all: latex/$(PAPER).pdf latex/$(TALK).pdf
+all: latex/$(TALK).pdf latex/$(PAPER).pdf
 
-MODULES:= Language Calculus Decidability Reflections Symbolic Automatic SizedAutomatic
+MODULES:= Language Inverses Calculus Decidability Reflections Symbolic Automatic SizedAutomatic
 
 LAGDAS:=$(patsubst %,%.lagda,$(MODULES))
 
