@@ -1,4 +1,6 @@
 \begin{code}
+{-# OPTIONS --safe #-}
+
 module Misc where
 
 \end{code}

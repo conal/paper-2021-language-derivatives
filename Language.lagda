@@ -1,4 +1,6 @@
 \begin{code}
+{-# OPTIONS --safe #-}
+
 module Language (A : Set) where
 
 open import Level

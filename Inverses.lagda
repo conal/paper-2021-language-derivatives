@@ -1,9 +1,12 @@
 \begin{code}
+{-# OPTIONS --safe #-}
+
 module Inverses where
 
 open import Level
 
-ℓ = 0ℓ
+private
+  ℓ = 0ℓ
 
 open import Data.Unit using () renaming (tt to tt₀)
 open import Algebra.Core
@@ -43,3 +46,14 @@ _⟷_ : Rel (Pred A) ℓ
 P ⟷ Q = ∀ {w} → P w ↔ Q w
 \end{code}
 %</ext-iso>
+
+\begin{code}
+
+⟷-isEquivalence : IsEquivalence (_⟷_ {A = A})
+⟷-isEquivalence = record
+  { refl  = ↔Eq.refl
+  ; sym   = λ f⟷g → ↔Eq.sym f⟷g
+  ; trans = λ f⟷g g⟷k → ↔Eq.trans f⟷g g⟷k
+  }
+
+\end{code}
