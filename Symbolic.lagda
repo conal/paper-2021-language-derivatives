@@ -3,11 +3,13 @@
 open import Relation.Binary.PropositionalEquality using (_≡_) ; open _≡_
 open import Decidability hiding (_◂_)
 
-module Symbolic {A : Set} (_≟_ : Decidable₂ {A = A} _≡_) where
+module Symbolic {ℓ} {A : Set ℓ} (_≟_ : Decidable₂ {A = A} _≡_) where
 
+open import Level
 open import Data.List using ([]; _∷_)
 
-open import Inverses
+open import Misc {ℓ}
+open import Inverses {ℓ}
 
 module ◬ where
   open import Language A public
@@ -18,7 +20,7 @@ open ◬ using (ν⋆; δ⋆; ν☆; δ☆; ν𝟏; δ𝟏; ν`; δ`)
 private
   variable
     P Q : ◬.Lang
-    s : Set
+    s : Set ℓ
 \end{code}
 
 %<*api>
@@ -33,7 +35,7 @@ infix   9 _◂_
 infixl 10 _☆
 \end{code}
 \begin{code}
-data Lang : ◬.Lang → Set₁ where
+data Lang : ◬.Lang → Set⇃₁ where
   ∅    : Lang  ◬.∅
   𝒰    : Lang  ◬.𝒰
   _∪_  : Lang  P  → Lang Q  → Lang (P  ◬.∪  Q)

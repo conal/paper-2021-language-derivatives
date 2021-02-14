@@ -1,5 +1,5 @@
 \begin{code}[hide]
-module Reflections (A : Set) where
+module Reflections {ℓ} (A : Set ℓ) where
 \end{code}
 
 \begin{comment}
@@ -22,11 +22,11 @@ open import Relation.Binary.PropositionalEquality using (_≗_)
 open import Data.Product using (_×_)
 open import Data.List using (foldl)
 
-open import Misc
+open import Misc {ℓ}
 open import Language A
 open import Calculus A
-open import Decidability
-open import Inverses
+open import Decidability {ℓ}
+open import Inverses {ℓ}
 
 private
   variable

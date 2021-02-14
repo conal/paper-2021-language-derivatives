@@ -1,9 +1,18 @@
 PAPER=paper
 TALK=talk
 
-all: latex/$(TALK).pdf latex/$(PAPER).pdf
+all: latex/$(PAPER).pdf # latex/$(TALK).pdf
 
-MODULES:= Language Inverses Calculus Decidability Reflections Symbolic Automatic SizedAutomatic
+MODULES:= \
+  Language \
+  Inverses \
+  Calculus \
+  Decidability \
+  Reflections \
+  Symbolic \
+  Automatic \
+  SizedAutomatic \
+  Closed/Structures
 
 LAGDAS:=$(patsubst %,%.lagda,$(MODULES))
 
@@ -16,6 +25,9 @@ LATEX_DEPENDENCIES:= \
   latex/unicode.tex \
   latex/commands.tex \
   $(AGDA_DEPENDENCIES)
+
+test :
+	echo $(LATEX_DEPENDENCIES)
 
 AGDA=agda
 

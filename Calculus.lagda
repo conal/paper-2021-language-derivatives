@@ -1,24 +1,26 @@
 \begin{code}[hide]
-module Calculus (A : Set) where
-
+{-# OPTIONS --safe --without-K #-}
 open import Level
-open import Data.Empty
-open import Data.Unit
+
+module Calculus {ℓ} (A : Set ℓ) where
+
+-- open import Data.Empty
+-- open import Data.Unit
 open import Data.Sum
 open import Data.Product
 open import Data.List
 open import Function using (id; _∘_; _↔_; mk↔′)
 open import Relation.Binary.PropositionalEquality
 
-open import Misc
-open import Inverses
+open import Misc {ℓ}
+open import Inverses {ℓ}
 
 open import Language A
 
 private
   variable
     a c : A
-    s : Set
+    s : Set ℓ
     b x : Level
     B : Set b
     X : Set x

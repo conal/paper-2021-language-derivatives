@@ -1,26 +1,26 @@
 \begin{code}
-{-# OPTIONS --safe #-}
+{-# OPTIONS --safe --without-K #-}
 
-module Language (A : Set) where
+module Language {ℓ} (A : Set ℓ) where
 
 open import Level
 
 open import Algebra.Core
-open import Data.Empty
-open import Data.Unit
+-- open import Data.Empty
+-- open import Data.Unit
 open import Data.Sum
 open import Data.Product
 open import Data.List
 open import Relation.Binary.PropositionalEquality hiding ([_])
 
-open import Misc
+open import Misc {ℓ}
 
-Lang : Set₁
+Lang : Set (suc ℓ)
 ∅ : Lang
 𝒰 : Lang
 _∪_ : Op₂ Lang
 _∩_ : Op₂ Lang
-_·_ : Set → Op₁ Lang
+_·_ : Set ℓ → Op₁ Lang
 𝟏 : Lang
 _⋆_ : Op₂ Lang
 ` : A → Lang
@@ -34,7 +34,7 @@ infixl 10 _☆
 
 %<*Lang>
 \begin{code}
-Lang = A ✶ → Set
+Lang = A ✶ → Set⇃
 \end{code}
 %</Lang>
 

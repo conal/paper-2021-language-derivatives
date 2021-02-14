@@ -1,25 +1,28 @@
 %% \section{Decidability}
 
 \begin{code}[hide]
-module Decidability where
+{-# OPTIONS --safe --without-K #-}
+
+open import Level
+
+module Decidability {ℓ : Level} where
 
 open import Function using (_∘_; _↔_; Inverse)
-open import Relation.Nullary using (¬_)
 open import Data.List using ([])
 
-open import Misc using (_✶)
-open import Inverses
+open import Misc {ℓ}
+open import Inverses {ℓ}
 
 private
   variable
-    A B : Set
-    P Q : A → Set
+    A B : Set ℓ
+    P Q : A → Set ℓ
 \end{code}
 
 %<*Dec>
 \AgdaTarget{Dec; yes; no}
 \begin{code}
-data Dec (A : Set) : Set where
+data Dec (A : Set⇃) : Set⇃ where
   yes  :     A → Dec A
   no   : ¬   A → Dec A
 \end{code}%
@@ -28,9 +31,8 @@ data Dec (A : Set) : Set where
 %<*¬>
 \begin{code}[hide]
 private
-  open import Data.Empty
   module Stuff where
-    ¬⇃_ : Set → Set
+    ¬⇃_ : Set ℓ → Set ℓ
 \end{code}
 \begin{code}[inline]
     ¬⇃ A = A → ⊥
@@ -40,7 +42,7 @@ private
 %<*Decidable>
 \AgdaTarget{Decidable}
 \begin{code}[hide]
-Decidable : (A → Set) → Set
+Decidable : (A → Set ℓ) → Set ℓ
 \end{code}
 \begin{code}
 Decidable P = ∀ x → Dec (P x)
@@ -49,7 +51,7 @@ Decidable P = ∀ x → Dec (P x)
 
 \AgdaTarget{Decidable₂}
 \begin{code}
-Decidable₂ : (A → B → Set) → Set
+Decidable₂ : (A → B → Set ℓ) → Set ℓ
 Decidable₂ _∼_ = ∀ a b → Dec (a ∼ b)
 \end{code}
 
@@ -96,8 +98,6 @@ g ◃ a? = ↔Eq.sym g ▹ a?
 %<*compositional-dec>
 {\mathindent0ex
 \begin{code}[hide]
-open import Data.Empty
-open import Data.Unit
 open import Data.Sum
 open import Data.Product
 open import Function using (id; _∘_)
@@ -130,10 +130,6 @@ yes a  ×‽ yes b  = yes (a , b)
 no ¬a  ×‽ yes b  = no (¬a ∘ proj₁)
 _      ×‽ no ¬b  = no (¬b ∘ proj₂)
 \end{code}
-%% -- no ¬a  ⊎‽ yes b  = yes (inj₂ b)
-%% -- yes a  ⊎‽ _      = yes (inj₁ a)
-%% -- yes a  ×‽ no ¬b  = no (¬b ∘ proj₂)
-%% -- no ¬a  ×‽ _      = no (¬a ∘ proj₁)
 \end{minipage}
 \hfill\;
 \begin{code}[hide]

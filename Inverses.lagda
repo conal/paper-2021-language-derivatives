@@ -1,12 +1,9 @@
 \begin{code}
-{-# OPTIONS --safe #-}
-
-module Inverses where
+{-# OPTIONS --safe --without-K #-}
 
 open import Level
 
-private
-  ℓ = 0ℓ
+module Inverses {ℓ : Level} where
 
 open import Data.Unit using () renaming (tt to tt₀)
 open import Algebra.Core
@@ -27,12 +24,12 @@ module ↔Eq = IsEquivalence {ℓ = ℓ} ↔-isEquivalence
 import Relation.Binary.Reasoning.Setoid as SetoidR
 module ↔R = SetoidR {s₂ = ℓ} (record {isEquivalence = ↔-isEquivalence})
 
-Pred : Set → Set₁
-Pred A = A → Set
+Pred : Set ℓ → Set _
+Pred A = A → Set ℓ
 
 private
   variable
-    A B : Set
+    A B : Set ℓ
 \end{code}
 
 -- Function-lifted _↔_
