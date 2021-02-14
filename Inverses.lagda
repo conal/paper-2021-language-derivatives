@@ -24,12 +24,14 @@ module ↔Eq = IsEquivalence {ℓ = ℓ} ↔-isEquivalence
 import Relation.Binary.Reasoning.Setoid as SetoidR
 module ↔R = SetoidR {s₂ = ℓ} (record {isEquivalence = ↔-isEquivalence})
 
-Pred : Set ℓ → Set _
-Pred A = A → Set ℓ
+private
+  Pred : Set ℓ → Set _
+  Pred A = A → Set ℓ
 
 private
   variable
-    A B : Set ℓ
+    A B C D : Set ℓ
+    P Q R S : A → Set ℓ
 \end{code}
 
 -- Function-lifted _↔_
@@ -53,4 +55,29 @@ P ⟷ Q = ∀ {w} → P w ↔ Q w
   ; trans = λ f⟷g g⟷k → ↔Eq.trans f⟷g g⟷k
   }
 
+module ⟷Eq {A : Set ℓ} = IsEquivalence (⟷-isEquivalence {A = A})
+import Relation.Binary.Reasoning.Setoid as SetoidR
+module ⟷R {A : Set ℓ} = SetoidR (record {isEquivalence = ⟷-isEquivalence {A = A}})
+\end{code}
+
+\section{Existential quantification}
+
+\begin{code}
+∃-cong : (∀ {w} → P w ↔ Q w) → (∃ P ↔ ∃ Q)
+∃-cong P↔Q = mk↔′ (map₂ J.f) (map₂ J.f⁻¹)
+  (λ (a , d) → Inverse.f Σ-≡,≡↔≡ (refl , J.inverseˡ d) )
+  (λ (a , c) → Inverse.f Σ-≡,≡↔≡ (refl , J.inverseʳ c) )
+ where
+   module J {t} = Inverse (P↔Q {t} )
+\end{code}
+
+
+\subsection{Products and sums}
+
+\begin{code}
+×-congʳ : A ↔ B → (A × C) ↔ (B × C)
+×-congʳ A↔B = ×-cong A↔B ↔Eq.refl
+
+×-congˡ : C ↔ D → (A × C) ↔ (A × D)
+×-congˡ C↔D = ×-cong ↔Eq.refl C↔D
 \end{code}
