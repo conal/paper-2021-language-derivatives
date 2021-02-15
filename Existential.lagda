@@ -51,6 +51,8 @@ module Inj {A : Set c} {f : A → Set ℓ} where
   prop₃ : ∀ {B : A → A → A → Set b} → (∀ x y z → B x y z)
         → (∀ (p q r : ∃ f) → B (proj₁ p) (proj₁ q) (proj₁ r))
   prop₃ P (x , _) (y , _) (z , _) = P x y z
+
+  -- -- The propᵢ definitions can be mostly inferred, e.g.,
   -- prop₃ P _ _ _ = P _ _ _
 
 open Dop
