@@ -1,7 +1,7 @@
 %% \section{Decidability}
 
 \begin{code}[hide]
-{-# OPTIONS --safe --without-K #-}
+{-# OPTIONS --safe #-}
 
 open import Level
 
@@ -66,9 +66,6 @@ map′ A→B B→A (no ¬a) = no (¬a ∘ B→A)
 
 map‽⇔ : A ⇔ B → Dec A → Dec B
 map‽⇔ A⇔B = map′ (to ⟨$⟩_) (from ⟨$⟩_) where open Equivalence A⇔B
-
-↔→⇔ : (A ↔ B) → (A ⇔ B)
-↔→⇔ A↔B = equivalence f f⁻¹ where open Inverse A↔B
 \end{code}
 \AgdaTarget{\_▹\_, \_◃\_}
 \begin{code}[hide]

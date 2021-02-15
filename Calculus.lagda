@@ -1,5 +1,5 @@
 \begin{code}[hide]
-{-# OPTIONS --safe --without-K #-}
+{-# OPTIONS --safe #-}
 open import Level
 
 module Calculus {ℓ} (A : Set ℓ) where

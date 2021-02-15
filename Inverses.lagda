@@ -481,7 +481,7 @@ module _ {X : Set ℓ} where
   module _ where
     open import Closed.Instances using (module Types)
     open Types {ℓ}
-    iso = ✶-starˡ {x = X}
+    iso = ✶-starˡ X
     open Inverse iso
     open ↔R
 

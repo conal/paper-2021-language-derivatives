@@ -1,7 +1,7 @@
 PAPER=paper
 TALK=talk
 
-all: latex/$(TALK).pdf # latex/$(PAPER).pdf
+all: latex/$(TALK).pdf latex/$(PAPER).pdf
 
 MODULES:= \
   Language \
@@ -12,8 +12,7 @@ MODULES:= \
   Symbolic \
   Automatic \
   SizedAutomatic \
-  Predicate \
-  Closed/Structures
+  Predicate
 
 LAGDAS:=$(patsubst %,%.lagda,$(MODULES))
 

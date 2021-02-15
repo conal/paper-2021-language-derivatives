@@ -1,5 +1,5 @@
 \begin{code}
-{-# OPTIONS --safe #-}
+{-# OPTIONS --safe --without-K #-}
 
 open import Level
 
