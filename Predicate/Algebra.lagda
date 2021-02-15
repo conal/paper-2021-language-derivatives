@@ -114,7 +114,7 @@ For every {\AB{P} \AS : \AF{Pred} \AB{A}}, \AB{P} is a vector in the semimodule 
 The dimension of the semimodule is the cardinality of the domain type \AB{A} (typically infinite), with ``basis vectors'' having the form {\AF{pureⱽ} \AB{a}} for {\AB{a} \AS : \AB{A}}.
 A general vector (predicate) is a linear combination (often infinite) of these basis vectors, with addition being union and scaling conjoining membership proofs.
 
-\begin{code}[hide]
+\begin{code}
 ⋆-∪-isClosedSemiring : IsClosedSemiring _⟷_ _∪_ _⋆_ ∅ 𝟏  _☆
 ⋆-∪-isClosedSemiring = record { isSemiring = ⋆-∪-isSemiring ; starˡ = ☆-starˡ }
 
