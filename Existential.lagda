@@ -19,14 +19,14 @@ private variable b c ℓ : Level
 -- Lift operations to dependent products
 module Dop {A : Set c} (f : A → Set ℓ) where
 
-  dop₀ : A → Set ℓ
-  dop₀ ∙ = f ∙
+  D₀ : A → Set ℓ
+  D₀ ∙ = f ∙
 
-  dop₁ : Op₁ A → Set (c ⊔ ℓ)
-  dop₁ ∙_ = ∀ {x} → f x → f (∙ x)
+  D₁ : Op₁ A → Set (c ⊔ ℓ)
+  D₁ ∙_ = ∀ {x} → f x → f (∙ x)
 
-  dop₂ : Op₂ A → Set (c ⊔ ℓ)
-  dop₂ _∙_ = ∀ {x y} → f x → f y → f (x ∙ y)
+  D₂ : Op₂ A → Set (c ⊔ ℓ)
+  D₂ _∙_ = ∀ {x y} → f x → f y → f (x ∙ y)
 
 module Inj {A : Set c} {f : A → Set ℓ} where
 
@@ -35,10 +35,10 @@ module Inj {A : Set c} {f : A → Set ℓ} where
   -- Mostly work with 2nd projections, ignoring and inferring 1st projections.
   pattern inj b = (_ , b)
 
-  inj₁ : ∀ {∙_ : Op₁ A} (∙′_ : dop₁ ∙_) → Op₁ (∃ f)
+  inj₁ : ∀ {∙_ : Op₁ A} (∙′_ : D₁ ∙_) → Op₁ (∃ f)
   inj₁ ∙′_ (inj x) = inj (∙′ x)
 
-  inj₂ : ∀ {_∙_ : Op₂ A} (_∙′_ : dop₂ _∙_) → Op₂ (∃ f)
+  inj₂ : ∀ {_∙_ : Op₂ A} (_∙′_ : D₂ _∙_) → Op₂ (∃ f)
   inj₂ _∙′_ (inj x) (inj y) = inj (x ∙′ y)
 
   prop₁ : ∀ {B : A → Set b} → (∀ x → B x) → (∀ (p : ∃ f) → B (proj₁ p))
@@ -59,7 +59,7 @@ open Inj
 
 module _ (m : Magma c ℓ) (f : Magma.Carrier m → Set b) where
   open Magma m ; open Dop f
-  mkMagma : dop₂ _∙_ → Magma (c ⊔ b) ℓ
+  mkMagma : D₂ _∙_ → Magma (c ⊔ b) ℓ
   mkMagma _∙′_ = record
     { Carrier = ∃ f
     ; _≈_ = _≈_ on proj₁
@@ -72,7 +72,7 @@ module _ (m : Magma c ℓ) (f : Magma.Carrier m → Set b) where
 
 module _ (g : Semigroup c ℓ) (f : Semigroup.Carrier g → Set b) where
   open Semigroup g hiding (isMagma) ; open Dop f
-  mkSemigroup : dop₂ _∙_ → Semigroup (c ⊔ b) ℓ
+  mkSemigroup : D₂ _∙_ → Semigroup (c ⊔ b) ℓ
   mkSemigroup _∙′_ = record
     { isSemigroup = record
        { isMagma = isMagma
@@ -82,7 +82,7 @@ module _ (g : Semigroup c ℓ) (f : Semigroup.Carrier g → Set b) where
 
 module _ (g : Monoid c ℓ) (f : Monoid.Carrier g → Set b) where
   open Monoid g hiding (isSemigroup) ; open Dop f
-  mkMonoid : dop₂ _∙_ → dop₀ ε → Monoid (c ⊔ b) ℓ
+  mkMonoid : D₂ _∙_ → D₀ ε → Monoid (c ⊔ b) ℓ
   mkMonoid _∙′_ ε′ = record
       { ε = inj ε′
       ; isMonoid = record { isSemigroup = isSemigroup
@@ -91,14 +91,14 @@ module _ (g : Monoid c ℓ) (f : Monoid.Carrier g → Set b) where
 
 module _ (g : CommutativeMonoid c ℓ) (f : CommutativeMonoid.Carrier g → Set b) where
   open CommutativeMonoid g hiding (isMonoid) ; open Dop f
-  mkCommutativeMonoid : dop₂ _∙_ → dop₀ ε → CommutativeMonoid (c ⊔ b) ℓ
+  mkCommutativeMonoid : D₂ _∙_ → D₀ ε → CommutativeMonoid (c ⊔ b) ℓ
   mkCommutativeMonoid _∙′_ ε′ = record
     { isCommutativeMonoid = record { isMonoid = isMonoid ; comm = prop₂ comm }
     } where open Monoid (mkMonoid monoid f _∙′_ ε′)
 
 module _ (g : Group c ℓ) (f : Group.Carrier g → Set b) where
   open Group g hiding (isMonoid) ; open Dop f
-  mkGroup : dop₂ _∙_ → dop₀ ε → dop₁ _⁻¹ → Group (c ⊔ b) ℓ
+  mkGroup : D₂ _∙_ → D₀ ε → D₁ _⁻¹ → Group (c ⊔ b) ℓ
   mkGroup _∙′_ ε′ _⁻¹′ = record
      { _⁻¹ = inj₁ _⁻¹′
      ; isGroup = record { isMonoid = isMonoid
@@ -108,7 +108,7 @@ module _ (g : Group c ℓ) (f : Group.Carrier g → Set b) where
 
 module _ (g : AbelianGroup c ℓ) (f : AbelianGroup.Carrier g → Set b) where
   open AbelianGroup g hiding (isGroup) ; open Dop f
-  mkAbelianGroup : dop₂ _∙_ → dop₀ ε → dop₁ _⁻¹
+  mkAbelianGroup : D₂ _∙_ → D₀ ε → D₁ _⁻¹
                  → AbelianGroup (c ⊔ b) ℓ
   mkAbelianGroup _∙′_ ε′ _⁻¹′ = record
     { isAbelianGroup = record { isGroup = isGroup ; comm = prop₂ comm }
@@ -116,7 +116,7 @@ module _ (g : AbelianGroup c ℓ) (f : AbelianGroup.Carrier g → Set b) where
 
 module _ (l : Lattice c ℓ) (f : Lattice.Carrier l → Set b) where
   open Lattice l hiding () ; open Dop f
-  mkLattice : dop₂ _∨_ → dop₂ _∧_ → Lattice (c ⊔ b) ℓ
+  mkLattice : D₂ _∨_ → D₂ _∧_ → Lattice (c ⊔ b) ℓ
   mkLattice _∨′_ _∧′_ = record
     { Carrier = ∃ f
     ; _≈_ = _≈_ on proj₁
@@ -136,7 +136,7 @@ module _ (l : Lattice c ℓ) (f : Lattice.Carrier l → Set b) where
 
 module _ (g : DistributiveLattice c ℓ) (f : DistributiveLattice.Carrier g → Set b) where
   open DistributiveLattice g hiding (isLattice) ; open Dop f
-  mkDistributiveLattice : dop₂ _∨_ → dop₂ _∧_ → DistributiveLattice (c ⊔ b) ℓ
+  mkDistributiveLattice : D₂ _∨_ → D₂ _∧_ → DistributiveLattice (c ⊔ b) ℓ
   mkDistributiveLattice _∨′_ _∧′_ = record
     { isDistributiveLattice = record
         { isLattice = isLattice
@@ -146,7 +146,7 @@ module _ (g : DistributiveLattice c ℓ) (f : DistributiveLattice.Carrier g → 
 
 module _ (r : NearSemiring c ℓ) (f : NearSemiring.Carrier r → Set b) where
   open NearSemiring r hiding (+-isMonoid; *-isSemigroup) ; open Dop f
-  mkNearSemiring : dop₂ _+_ → dop₂ _*_ → dop₀ 0# → NearSemiring (c ⊔ b) ℓ
+  mkNearSemiring : D₂ _+_ → D₂ _*_ → D₀ 0# → NearSemiring (c ⊔ b) ℓ
   mkNearSemiring _+′_ _*′_ 0#′ = record
     { isNearSemiring = record
         { +-isMonoid = +-isMonoid
@@ -161,7 +161,7 @@ module _ (r : NearSemiring c ℓ) (f : NearSemiring.Carrier r → Set b) where
 
 module _ (r : SemiringWithoutOne c ℓ) (f : SemiringWithoutOne.Carrier r → Set b) where
   open SemiringWithoutOne r hiding (+-isCommutativeMonoid; *-isSemigroup) ; open Dop f
-  mkSemiringWithoutOne : dop₂ _+_ → dop₂ _*_ → dop₀ 0# → SemiringWithoutOne (c ⊔ b) ℓ
+  mkSemiringWithoutOne : D₂ _+_ → D₂ _*_ → D₀ 0# → SemiringWithoutOne (c ⊔ b) ℓ
   mkSemiringWithoutOne _+′_ _*′_ 0#′ = record
     { isSemiringWithoutOne = record
         { +-isCommutativeMonoid = +-isCommutativeMonoid
@@ -179,7 +179,7 @@ module _ (r : CommutativeSemiringWithoutOne c ℓ)
          (f : CommutativeSemiringWithoutOne.Carrier r → Set b) where
   open CommutativeSemiringWithoutOne r hiding (isSemiringWithoutOne)
   open Dop f
-  mkCommutativeSemiringWithoutOne : dop₂ _+_ → dop₂ _*_ → dop₀ 0#
+  mkCommutativeSemiringWithoutOne : D₂ _+_ → D₂ _*_ → D₀ 0#
                                   → CommutativeSemiringWithoutOne (c ⊔ b) ℓ
   mkCommutativeSemiringWithoutOne _+′_ _*′_ 0#′ = record
     { isCommutativeSemiringWithoutOne = record
@@ -194,7 +194,7 @@ module _ (r : SemiringWithoutAnnihilatingZero c ℓ)
   open SemiringWithoutAnnihilatingZero r hiding (+-isCommutativeMonoid; *-isMonoid)
   open Dop f
   mkSemiringWithoutAnnihilatingZero
-    : dop₂ _+_ → dop₂ _*_ → dop₀ 0# → dop₀ 1#
+    : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
     → SemiringWithoutAnnihilatingZero (c ⊔ b) ℓ
   mkSemiringWithoutAnnihilatingZero _+′_ _*′_ 0#′ 1#′ = record
     { isSemiringWithoutAnnihilatingZero = record
@@ -210,7 +210,7 @@ module _ (r : SemiringWithoutAnnihilatingZero c ℓ)
 
 module _ (r : Semiring c ℓ) (f : Semiring.Carrier r → Set b) where
   open Semiring r hiding (isSemiringWithoutAnnihilatingZero) ; open Dop f
-  mkSemiring : dop₂ _+_ → dop₂ _*_ → dop₀ 0# → dop₀ 1#
+  mkSemiring : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
              → Semiring (c ⊔ b) ℓ
   mkSemiring _+′_ _*′_ 0#′ 1#′ = record
     { isSemiring = record
@@ -224,7 +224,7 @@ module _ (r : Semiring c ℓ) (f : Semiring.Carrier r → Set b) where
 module _ (r : CommutativeSemiring c ℓ) (f : CommutativeSemiring.Carrier r → Set b) where
   open CommutativeSemiring r hiding (isSemiring) ; open Dop f
   mkCommutativeSemiring
-    : dop₂ _+_ → dop₂ _*_ → dop₀ 0# → dop₀ 1#
+    : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
     → CommutativeSemiring (c ⊔ b) ℓ
   mkCommutativeSemiring _+′_ _*′_ 0#′ 1#′ = record
     { isCommutativeSemiring =
@@ -238,7 +238,7 @@ module _ (r : CancellativeCommutativeSemiring c ℓ)
   open CancellativeCommutativeSemiring r hiding (isCommutativeSemiring)
   open Dop f
   mkCancellativeCommutativeSemiring
-    : dop₂ _+_ → dop₂ _*_ → dop₀ 0# → dop₀ 1#
+    : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
     → CancellativeCommutativeSemiring (c ⊔ b) ℓ
   mkCancellativeCommutativeSemiring _+′_ _*′_ 0#′ 1#′ = record
     { isCancellativeCommutativeSemiring = record
@@ -250,7 +250,7 @@ module _ (r : CancellativeCommutativeSemiring c ℓ)
 
 module _ (r : Ring c ℓ) (f : Ring.Carrier r → Set b) where
   open Ring r hiding (+-isAbelianGroup; *-isMonoid) ; open Dop f
-  mkRing : dop₂ _+_ → dop₂ _*_ → dop₁ (-_) → dop₀ 0# → dop₀ 1# → Ring (c ⊔ b) ℓ
+  mkRing : D₂ _+_ → D₂ _*_ → D₁ (-_) → D₀ 0# → D₀ 1# → Ring (c ⊔ b) ℓ
   mkRing _+′_ _*′_ -′_ 0#′ 1#′ = record
     { isRing = record
         { +-isAbelianGroup = +-isAbelianGroup
@@ -266,7 +266,7 @@ module _ (r : Ring c ℓ) (f : Ring.Carrier r → Set b) where
 module _ (r : CommutativeRing c ℓ) (f : CommutativeRing.Carrier r → Set b) where
   open CommutativeRing r hiding (isRing) ; open Dop f
   mkCommutativeRing
-    : dop₂ _+_ → dop₂ _*_ → dop₁ (-_) → dop₀ 0# → dop₀ 1#
+    : D₂ _+_ → D₂ _*_ → D₁ (-_) → D₀ 0# → D₀ 1#
     → CommutativeRing (c ⊔ b) ℓ
   mkCommutativeRing _+′_ _*′_ _-′ 0#′ 1#′ = record
     { isCommutativeRing = record { isRing = isRing  ; *-comm = prop₂ *-comm }
