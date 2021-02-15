@@ -198,4 +198,54 @@ Andreas Abel solved this puzzle using sized types:
 \agda{defs}
 \end{frame}
 
+
+\rnc\source{Predicate}
+
+\begin{comment}
+\begin{frame}{Two kinds of language operations}
+Codomain transformations: \AF{∅}, \AF 𝒰, \AF{\_∪\_}, \AF{\_∩\_}
+
+Domain transformations: \AF{𝟏}, \AF{\_⋆\_}, \AF{\_☆}
+\end{frame}
+\end{comment}
+
+\begin{frame}{Generalize languages to predicates}
+\begin{center}
+\mathindent-12ex
+\agda{Pred}
+\end{center}
+\vspace{-2ex}
+\hfill
+\mathindent0ex
+\begin{minipage}[b]{16em}
+%% Transform codomain: %\small
+\agda{codomain-transformers}
+\end{minipage}
+\hfill
+\begin{minipage}[b]{22em}
+%% Transform domain: %\small
+\agda{domain-transformers}
+\end{minipage}
+\hfill\;
+\end{frame}
+
+\begin{frame}{Specialize predicates to languages}
+\mathindent0ex
+\begin{center}
+\mathindent-12ex
+\agda{Lang}
+\end{center}
+\vspace{-2ex}
+\hfill
+\begin{minipage}[c]{10em}
+\setstretch{1.7}
+\agda{codomain-ops}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{18em}
+\agda{list-ops}
+\end{minipage}
+\hfill\;
+\end{frame}
+
 \end{document}

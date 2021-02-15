@@ -64,6 +64,17 @@ _⊙_ = _++_
 
 \begin{code}
 open import Data.Product
+
+uncurry₃ˡ : ∀ {a b c d} {A : Set a} {B : A → Set b} {C : (x : A) → B x → Set c}
+            {D : Σ (Σ A B) (uncurry C) → Set d} →
+            ((x : A) → (y : B x) → (z : C x y) → D ((x , y) , z)) →
+            ((p : _) → D p)
+uncurry₃ˡ f ((x , y) , z) = f x y z
+
+\end{code}
+
+\begin{code}
+open import Data.Product
 private variable A B : Set ℓ
 \end{code}
 
