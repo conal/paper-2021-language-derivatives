@@ -32,7 +32,7 @@ isFix : (a ✯ * b) isFixpointOf (λ x → b + a * x)
 isFix {a}{b} =
   begin
     a ✯ * b
-  ≈⟨ *-congʳ starˡ ⟩
+  ≈⟨ *-congʳ (starˡ _) ⟩
     (1# + a * a ✯) * b
   ≈⟨ distribʳ _ _ _ ⟩
     1# * b + (a * a ✯) * b

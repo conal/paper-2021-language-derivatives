@@ -20,7 +20,7 @@ open import Algebra.Structures _≈_
 \AgdaTarget{Starˡ, IsClosedSemiring, starˡ, isSemiring}
 \begin{code}
 Starˡ : (_+_ _✲_ : Op₂ A) (𝟘 𝟙 : A) (_✯ : Op₁ A) → Set (a ⊔ ℓ)
-Starˡ _+_ _✲_ 𝟘 𝟙 _✯ = ∀ {x} → (x ✯) ≈ (𝟙 + (x ✲ (x ✯)))
+Starˡ _+_ _✲_ 𝟘 𝟙 _✯ = ∀ x → (x ✯) ≈ (𝟙 + (x ✲ (x ✯)))
 
 record IsClosedSemiring (_+_ _✲_ : Op₂ A) (𝟘 𝟙 : A) (_✯ : Op₁ A) : Set (a ⊔ ℓ) where
   field

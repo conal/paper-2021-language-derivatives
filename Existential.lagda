@@ -317,8 +317,7 @@ module _ (r : ClosedSemiring c ℓ) where
     { _✯ =  λ { (inj x) → inj (x ✯′) }
     ; isClosedSemiring = record
         { isSemiring = isSemiring
-        -- ; starˡ = λ { {(x , _)} → starˡ {x} }
-        ; starˡ = starˡ
+        ; starˡ = λ (x , _) → starˡ x
         }
     } where open Semiring (mkSemiring semiring f _+′_ _*′_ 0#′ 1#′)
 
@@ -335,7 +334,7 @@ module _ (r : ClosedCommutativeSemiring c ℓ) where
     { _✯ =  λ { (inj x) → inj (x ✯′) }
     ; isClosedCommutativeSemiring = record
         { isCommutativeSemiring = isCommutativeSemiring
-        ; starˡ = starˡ
+        ; starˡ = λ _ → starˡ _
         }
     } where open CommutativeSemiring
               (mkCommutativeSemiring commutativeSemiring f _+′_ _*′_ 0#′ 1#′)
