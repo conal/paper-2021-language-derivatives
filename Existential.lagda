@@ -16,15 +16,29 @@ import Relation.Binary.Construct.On as On
 
 private variable b c ℓ : Level
 
+-- Lift operations to dependent products
+module Dop {A : Set c} (f : A → Set ℓ) where
+
+  dop₀ : A → Set ℓ
+  dop₀ ∙ = f ∙
+
+  dop₁ : Op₁ A → Set (c ⊔ ℓ)
+  dop₁ ∙_ = ∀ {x} → f x → f (∙ x)
+
+  dop₂ : Op₂ A → Set (c ⊔ ℓ)
+  dop₂ _∙_ = ∀ {x y} → f x → f y → f (x ∙ y)
+
 module Inj {A : Set c} {f : A → Set ℓ} where
 
+  open Dop f
+  
   -- Mostly work with 2nd projections, ignoring and inferring 1st projections.
   pattern inj b = (_ , b)
 
-  inj₁ : ∀ {∙_ : Op₁ A} (∙′_ : ∀ {x} → f x → f (∙ x)) → Op₁ (∃ f)
+  inj₁ : ∀ {∙_ : Op₁ A} (∙′_ : dop₁ ∙_) → Op₁ (∃ f)
   inj₁ ∙′_ (inj x) = inj (∙′ x)
 
-  inj₂ : ∀ {_∙_ : Op₂ A} (_∙′_ : ∀ {x y} → f x → f y → f (x ∙ y)) → Op₂ (∃ f)
+  inj₂ : ∀ {_∙_ : Op₂ A} (_∙′_ : dop₂ _∙_) → Op₂ (∃ f)
   inj₂ _∙′_ (inj x) (inj y) = inj (x ∙′ y)
 
   prop₁ : ∀ {B : A → Set b} → (∀ x → B x) → (∀ (p : ∃ f) → B (proj₁ p))
@@ -39,13 +53,13 @@ module Inj {A : Set c} {f : A → Set ℓ} where
   prop₃ P (x , _) (y , _) (z , _) = P x y z
   -- prop₃ P _ _ _ = P _ _ _
 
+open Dop
+
 open Inj
 
 module _ (m : Magma c ℓ) where
   open Magma m
-  mkMagma : (f : Carrier → Set b)
-          → (∀ {x y} → f x → f y → f (x ∙ y))
-          → Magma (c ⊔ b) ℓ
+  mkMagma : (f : Carrier → Set b) → dop₂ f _∙_ → Magma (c ⊔ b) ℓ
   mkMagma f _∙′_ = record
     { Carrier = ∃ f
     ; _≈_ = _≈_ on proj₁
@@ -58,9 +72,7 @@ module _ (m : Magma c ℓ) where
 
 module _ (g : Semigroup c ℓ) where
   open Semigroup g hiding (isMagma)
-  mkSemigroup : (f : Carrier → Set b)
-              → (∀ {x y} → f x → f y → f (x ∙ y))
-              → Semigroup (c ⊔ b) ℓ
+  mkSemigroup : (f : Carrier → Set b) → dop₂ f _∙_ → Semigroup (c ⊔ b) ℓ
   mkSemigroup f _∙′_ = record
     { isSemigroup = record
        { isMagma = isMagma
@@ -70,21 +82,16 @@ module _ (g : Semigroup c ℓ) where
 
 module _ (g : Monoid c ℓ) where
   open Monoid g hiding (isSemigroup)
-  mkMonoid : (f : Carrier → Set b)
-           → (∀ {x y} → f x → f y → f (x ∙ y))
-           → f ε
-           → Monoid (c ⊔ b) ℓ
+  mkMonoid : (f : Carrier → Set b) → dop₂ f _∙_ → f ε → Monoid (c ⊔ b) ℓ
   mkMonoid f _∙′_ ε′ = record
       { ε = inj ε′
       ; isMonoid = record { isSemigroup = isSemigroup
-                          ; identity = (λ (x , _) → identityˡ x)
-                                     , (λ (x , _) → identityʳ x) }
+                          ; identity = prop₁ identityˡ , prop₁ identityʳ }
       } where open Semigroup (mkSemigroup semigroup f _∙′_)
 
 module _ (g : CommutativeMonoid c ℓ) where
   open CommutativeMonoid g hiding (isMonoid)
-  mkCommutativeMonoid : (f : Carrier → Set b)
-                      → (∀ {x y} → f x → f y → f (x ∙ y)) → f ε
+  mkCommutativeMonoid : (f : Carrier → Set b) → dop₂ f _∙_ → f ε
                       → CommutativeMonoid (c ⊔ b) ℓ
   mkCommutativeMonoid f _∙′_ ε′ = record
     { isCommutativeMonoid = record { isMonoid = isMonoid ; comm = prop₂ comm }
@@ -92,10 +99,7 @@ module _ (g : CommutativeMonoid c ℓ) where
 
 module _ (g : Group c ℓ) where
   open Group g hiding (isMonoid)
-  mkGroup : (f : Carrier → Set b)
-          → (∀ {x y} → f x → f y → f (x ∙ y))
-          → f ε
-          → (∀ {x} → f x → f (x ⁻¹))
+  mkGroup : (f : Carrier → Set b) → dop₂ f _∙_ → f ε → dop₁ f _⁻¹
           → Group (c ⊔ b) ℓ
   mkGroup f _∙′_ ε′ _⁻¹′ = record
      { _⁻¹ = inj₁ _⁻¹′
@@ -106,10 +110,7 @@ module _ (g : Group c ℓ) where
 
 module _ (g : AbelianGroup c ℓ) where
   open AbelianGroup g hiding (isGroup)
-  mkAbelianGroup : (f : Carrier → Set b)
-                 → (∀ {x y} → f x → f y → f (x ∙ y))
-                 → f ε
-                 → (∀ {x} → f x → f (x ⁻¹))
+  mkAbelianGroup : (f : Carrier → Set b) → dop₂ f _∙_ → f ε → dop₁ f _⁻¹
                  → AbelianGroup (c ⊔ b) ℓ
   mkAbelianGroup f _∙′_ ε′ _⁻¹′ = record
     { isAbelianGroup = record { isGroup = isGroup ; comm = prop₂ comm }
@@ -117,9 +118,7 @@ module _ (g : AbelianGroup c ℓ) where
 
 module _ (l : Lattice c ℓ) where
   open Lattice l hiding ()
-  mkLattice : (f : Carrier → Set b)
-            → (∀ {x y} → f x → f y → f (x ∨ y))
-            → (∀ {x y} → f x → f y → f (x ∧ y))
+  mkLattice : (f : Carrier → Set b) → dop₂ f _∨_ → dop₂ f _∧_
             → Lattice (c ⊔ b) ℓ
   mkLattice f _∨′_ _∧′_ = record
     { Carrier = ∃ f
@@ -140,9 +139,7 @@ module _ (l : Lattice c ℓ) where
 
 module _ (g : DistributiveLattice c ℓ) where
   open DistributiveLattice g hiding (isLattice)
-  mkDistributiveLattice : (f : Carrier → Set b)
-                        → (∀ {x y} → f x → f y → f (x ∨ y))
-                        → (∀ {x y} → f x → f y → f (x ∧ y))
+  mkDistributiveLattice : (f : Carrier → Set b) → dop₂ f _∨_ → dop₂ f _∧_
                         → DistributiveLattice (c ⊔ b) ℓ
   mkDistributiveLattice f _∨′_ _∧′_ = record
     { isDistributiveLattice = record
@@ -153,10 +150,7 @@ module _ (g : DistributiveLattice c ℓ) where
 
 module _ (r : NearSemiring c ℓ) where
   open NearSemiring r hiding (+-isMonoid; *-isSemigroup)
-  mkNearSemiring : (f : Carrier → Set b)
-                 → (∀ {x y} → f x → f y → f (x + y))
-                 → (∀ {x y} → f x → f y → f (x * y))
-                 → f 0#
+  mkNearSemiring : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → f 0#
                  → NearSemiring (c ⊔ b) ℓ
   mkNearSemiring f _+′_ _*′_ 0#′ = record
     { isNearSemiring = record
@@ -172,10 +166,7 @@ module _ (r : NearSemiring c ℓ) where
 
 module _ (r : SemiringWithoutOne c ℓ) where
   open SemiringWithoutOne r hiding (+-isCommutativeMonoid; *-isSemigroup)
-  mkSemiringWithoutOne : (f : Carrier → Set b)
-                       → (∀ {x y} → f x → f y → f (x + y))
-                       → (∀ {x y} → f x → f y → f (x * y))
-                       → f 0#
+  mkSemiringWithoutOne : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → f 0#
                        → SemiringWithoutOne (c ⊔ b) ℓ
   mkSemiringWithoutOne f _+′_ _*′_ 0#′ = record
     { isSemiringWithoutOne = record
@@ -193,10 +184,7 @@ module _ (r : SemiringWithoutOne c ℓ) where
 module _ (r : CommutativeSemiringWithoutOne c ℓ) where
   open CommutativeSemiringWithoutOne r hiding (isSemiringWithoutOne)
   mkCommutativeSemiringWithoutOne
-    : (f : Carrier → Set b)
-    → (∀ {x y} → f x → f y → f (x + y))
-    → (∀ {x y} → f x → f y → f (x * y))
-    → f 0#
+    : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → f 0#
     → CommutativeSemiringWithoutOne (c ⊔ b) ℓ
   mkCommutativeSemiringWithoutOne f _+′_ _*′_ 0#′ = record
     { isCommutativeSemiringWithoutOne = record
@@ -210,11 +198,7 @@ module _ (r : SemiringWithoutAnnihilatingZero c ℓ) where
   open SemiringWithoutAnnihilatingZero r hiding
          (+-isCommutativeMonoid; *-isMonoid)
   mkSemiringWithoutAnnihilatingZero
-    : (f : Carrier → Set b)
-    → (∀ {x y} → f x → f y → f (x + y))
-    → (∀ {x y} → f x → f y → f (x * y))
-    → f 0#
-    → f 1#
+    : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → f 0# → f 1#
     → SemiringWithoutAnnihilatingZero (c ⊔ b) ℓ
   mkSemiringWithoutAnnihilatingZero f _+′_ _*′_ 0#′ 1#′ = record
     { isSemiringWithoutAnnihilatingZero = record
@@ -230,11 +214,7 @@ module _ (r : SemiringWithoutAnnihilatingZero c ℓ) where
 
 module _ (r : Semiring c ℓ) where
   open Semiring r hiding (isSemiringWithoutAnnihilatingZero)
-  mkSemiring : (f : Carrier → Set b)
-             → (∀ {x y} → f x → f y → f (x + y))
-             → (∀ {x y} → f x → f y → f (x * y))
-             → f 0#
-             → f 1#
+  mkSemiring : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → f 0# → f 1#
              → Semiring (c ⊔ b) ℓ
   mkSemiring f _+′_ _*′_ 0#′ 1#′ = record
     { isSemiring = record
@@ -247,12 +227,9 @@ module _ (r : Semiring c ℓ) where
 
 module _ (r : CommutativeSemiring c ℓ) where
   open CommutativeSemiring r hiding (isSemiring)
-  mkCommutativeSemiring : (f : Carrier → Set b)
-                        → (∀ {x y} → f x → f y → f (x + y))
-                        → (∀ {x y} → f x → f y → f (x * y))
-                        → f 0#
-                        → f 1#
-                        → CommutativeSemiring (c ⊔ b) ℓ
+  mkCommutativeSemiring
+    : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → f 0# → f 1#
+    → CommutativeSemiring (c ⊔ b) ℓ
   mkCommutativeSemiring f _+′_ _*′_ 0#′ 1#′ = record
     { isCommutativeSemiring =
         record { isSemiring = isSemiring
@@ -263,11 +240,7 @@ module _ (r : CommutativeSemiring c ℓ) where
 module _ (r : CancellativeCommutativeSemiring c ℓ) where
   open CancellativeCommutativeSemiring r hiding (isCommutativeSemiring)
   mkCancellativeCommutativeSemiring
-    : (f : Carrier → Set b)
-    → (∀ {x y} → f x → f y → f (x + y))
-    → (∀ {x y} → f x → f y → f (x * y))
-    → f 0#
-    → f 1#
+    : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → f 0# → f 1#
     → CancellativeCommutativeSemiring (c ⊔ b) ℓ
   mkCancellativeCommutativeSemiring f _+′_ _*′_ 0#′ 1#′ = record
     { isCancellativeCommutativeSemiring = record
@@ -279,13 +252,9 @@ module _ (r : CancellativeCommutativeSemiring c ℓ) where
 
 module _ (r : Ring c ℓ) where
   open Ring r hiding (+-isAbelianGroup; *-isMonoid)
-  mkRing : (f : Carrier → Set b)
-         → (∀ {x y} → f x → f y → f (x + y))
-         → (∀ {x y} → f x → f y → f (x * y))
-         → (∀ {x} → f x → f (- x))
-         → f 0#
-         → f 1#
-         → Ring (c ⊔ b) ℓ
+
+  mkRing : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → dop₁ f (-_)
+         → f 0# → f 1# → Ring (c ⊔ b) ℓ
   mkRing f _+′_ _*′_ -′_ 0#′ 1#′ = record
     { isRing = record
         { +-isAbelianGroup = +-isAbelianGroup
@@ -300,13 +269,9 @@ module _ (r : Ring c ℓ) where
 
 module _ (r : CommutativeRing c ℓ) where
   open CommutativeRing r hiding (isRing)
-  mkCommutativeRing : (f : Carrier → Set b)
-                    → (∀ {x y} → f x → f y → f (x + y))
-                    → (∀ {x y} → f x → f y → f (x * y))
-                    → (∀ {x} → f x → f (- x))
-                    → f 0#
-                    → f 1#
-                    → CommutativeRing (c ⊔ b) ℓ
+  mkCommutativeRing
+    : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → dop₁ f (-_) → f 0# → f 1#
+    → CommutativeRing (c ⊔ b) ℓ
   mkCommutativeRing f _+′_ _*′_ _-′ 0#′ 1#′ = record
     { isCommutativeRing = record { isRing = isRing  ; *-comm = prop₂ *-comm }
     } where open Ring (mkRing ring f _+′_ _*′_ _-′ 0#′ 1#′)
@@ -318,29 +283,20 @@ open import Closed
 
 module _ (r : ClosedSemiring c ℓ) where
   open ClosedSemiring r hiding (isSemiring)
-  mkClosedSemiring : (f : Carrier → Set b)
-             → (∀ {x y} → f x → f y → f (x + y))
-             → (∀ {x y} → f x → f y → f (x * y))
-             → f 0#
-             → f 1#
-             → (∀ {x} → f x → f (x ✯))
-             → ClosedSemiring (c ⊔ b) ℓ
+  mkClosedSemiring : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → f 0#
+                   → f 1# → dop₁ f _✯ → ClosedSemiring (c ⊔ b) ℓ
   mkClosedSemiring f _+′_ _*′_ 0#′ 1#′ _✯′ = record
-    { _✯ =  λ { (inj x) → inj (x ✯′) }
+    { _✯ =  inj₁ _✯′
     ; isClosedSemiring = record { isSemiring = isSemiring ; starˡ = prop₁ starˡ }
     } where open Semiring (mkSemiring semiring f _+′_ _*′_ 0#′ 1#′)
 
 module _ (r : ClosedCommutativeSemiring c ℓ) where
   open ClosedCommutativeSemiring r hiding (isCommutativeSemiring)
-  mkClosedCommutativeSemiring : (f : Carrier → Set b)
-             → (∀ {x y} → f x → f y → f (x + y))
-             → (∀ {x y} → f x → f y → f (x * y))
-             → f 0#
-             → f 1#
-             → (∀ {x} → f x → f (x ✯))
-             → ClosedCommutativeSemiring (c ⊔ b) ℓ
+  mkClosedCommutativeSemiring
+    : (f : Carrier → Set b) → dop₂ f _+_ → dop₂ f _*_ → f 0# → f 1#
+    → dop₁ f _✯ → ClosedCommutativeSemiring (c ⊔ b) ℓ
   mkClosedCommutativeSemiring f _+′_ _*′_ 0#′ 1#′ _✯′ = record
-    { _✯ =  λ { (inj x) → inj (x ✯′) }
+    { _✯ =  inj₁ _✯′
     ; isClosedCommutativeSemiring = record
         { isCommutativeSemiring = isCommutativeSemiring
         ; starˡ = prop₁ starˡ
