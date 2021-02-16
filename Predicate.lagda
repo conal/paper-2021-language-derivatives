@@ -16,17 +16,17 @@ open import Misc {ℓ}
 %<*Pred>
 \AgdaTarget{Pred}
 \begin{code}[hide]
-Pred : Set ℓ → Set (suc ℓ)
+Pred : Set⇃ → Set⇃₁
 \end{code}
 \begin{code}
-Pred A = A → Set ℓ
+Pred A = A → Set⇃
 \end{code}
 %</Pred>
 
 \begin{code}
 private
   variable
-    A B C D : Set ℓ
+    A B C D : Set⇃
     P Q R S : Pred A
 \end{code}
 
@@ -36,13 +36,14 @@ First, we can transform types (predicate codomains) covariantly, with convenient
 %<*codomain-transformers>
 \AgdaTarget{pureᵀ, mapᵀ, mapᵀ₂}
 \begin{code}
-pureᵀ : Set ℓ → Pred A
+pureᵀ : Set⇃ → Pred A
 pureᵀ ∙ a = ∙
 
-mapᵀ : Op₁ (Set ℓ) → Op₁ (Pred A)
+mapᵀ : (Set⇃ → Set⇃) → (Pred A → Pred A)
 mapᵀ ∙_ P a = ∙ P a
 
-mapᵀ₂ : Op₂ (Set ℓ) → Op₂ (Pred A)
+mapᵀ₂ :  (Set⇃ → Set⇃ → Set⇃) →
+         (Pred A  → Pred A  → Pred A)
 mapᵀ₂ _∙_ P Q a = P a ∙ Q a
 \end{code}
 %</codomain-transformers>
@@ -81,7 +82,8 @@ pureⱽ x a = a ≡ x
 mapⱽ : (A → B) → (Pred A → Pred B)
 mapⱽ g P b = ∃ λ a → b ≡ g a × P a
 
-mapⱽ₂ : (A → B → C) → (Pred A → Pred B → Pred C)
+mapⱽ₂ :  (A → B → C) →
+         (Pred  A → Pred  B → Pred  C)
 mapⱽ₂ g P Q c = ∃⇃ λ (a , b) → c ≡ g a b × P a × Q b
 \end{code}
 \begin{code}[hide]
@@ -101,13 +103,15 @@ These domain transformations generalize concatenation and its identity to arbitr
 Rather than specialize all the way back to lists at this point, it will be useful to generalize to a binary operation \AB{\_∙\_} and an element \AB{ε}, which will form a monoid:
 % \AgdaTarget{MonoidOps, 𝟏, _⋆_, ⋆, \_☆, ☆, zero☆, suc☆}
 \begin{code}[hide]
-module MonoidOps {M : Set ℓ} (_∙_ : Op₂ M) (ε : M) where
+module MonoidOps {M : Set⇃} (_∙_ : Op₂ M) (ε : M) where
   𝟏 : Pred M
   infixl 7 _⋆_
   _⋆_ : Op₂ (Pred M)
   infixl 10 _☆
 
   data _☆ (P : Pred M) : Pred M
+
+  data _☆ʳ (P : Pred M) : Pred M
 
 \end{code}
 %<*domain-ops>
@@ -121,14 +125,19 @@ module MonoidOps {M : Set ℓ} (_∙_ : Op₂ M) (ε : M) where
     suc☆   : ∀ {w} → (P ⋆ P ☆) w → (P ☆) w
 \end{code}
 %</domain-ops>
+\begin{code}
+  data _☆ʳ P where
+    zero☆ʳ  : (P ☆ʳ) ε
+    suc☆ʳ   : ∀ {w} → (P ☆ʳ ⋆ P) w → (P ☆ʳ) w
+\end{code}
 
 Further specialize to lists:
 \begin{code}[hide]
-module ListOps (A : Set ℓ) where
+module ListOps (A : Set⇃) where
   open import Data.List
   open MonoidOps {M = A ✶} _⊙_ [] public
 
-  Lang : Set (suc ℓ)
+  Lang : Set⇃₁
 \end{code}
 %<*Lang>
 \begin{code}
@@ -144,4 +153,14 @@ module ListOps (A : Set ℓ) where
 \end{code}
 %</list-ops>
 
-\note{To do: Eliminate \AM{ListOps} or redefine via \AF{++-isMonoid}. It's only used in the talk for now.}
+\note{Experiment}
+\begin{code}
+module AltStar {M : Set⇃} (_∙_ : Op₂ M) (ε : M) where
+  open import Data.List
+  open import Data.List.Relation.Unary.All
+
+  infixl 10 _✪
+  _✪ : Op₁ (Pred M)
+  (P ✪) w = ∃ λ ps → w ≡ foldr _∙_ ε ps × All P ps
+  
+\end{code}

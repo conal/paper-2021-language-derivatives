@@ -65,6 +65,29 @@ private
 %\begin{code}[hide]
 %</ν∘foldlδ>
 
+%<*νδ-codomain>
+\AgdaTarget{νpureᵀ, νmapᵀ, νmapᵀ₂}
+\AgdaTarget{δpureᵀ, δmapᵀ, δmapᵀ₂}
+\begin{code}
+νpureᵀ  : ∀ {∙} → ν  (pureᵀ ∙)    ≡ ∙
+δpureᵀ  : ∀ {∙} → δ  (pureᵀ ∙) a  ≡ pureᵀ ∙
+
+νmapᵀ   : ∀ {∙_} → ν  (mapᵀ ∙_ P)    ≡ ∙ ν P
+δmapᵀ   : ∀ {∙_} → δ  (mapᵀ ∙_ P) a  ≡ mapᵀ ∙_ (δ P a)
+
+νmapᵀ₂  : ∀ {_∙_} → ν  (mapᵀ₂ _∙_ P Q)    ≡ ν P ∙ ν Q
+δmapᵀ₂  : ∀ {_∙_} → δ  (mapᵀ₂ _∙_ P Q) a  ≡ mapᵀ₂ _∙_ (δ P a) (δ Q a)
+\end{code}
+\begin{code}[hide]
+νpureᵀ = refl
+δpureᵀ = refl
+νmapᵀ  = refl
+δmapᵀ  = refl
+νmapᵀ₂ = refl
+δmapᵀ₂ = refl
+\end{code}
+%</νδ-codomain>
+
 %<*νδ-lemmas>
 {\mathindent0ex
 \hfill

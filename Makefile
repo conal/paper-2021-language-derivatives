@@ -1,7 +1,7 @@
 PAPER=paper
 TALK=talk
 
-all: latex/$(TALK).pdf latex/$(PAPER).pdf
+all: latex/$(PAPER).pdf latex/$(TALK).pdf
 
 MODULES:= \
   Language \

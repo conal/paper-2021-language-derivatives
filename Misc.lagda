@@ -73,6 +73,19 @@ uncurry₃ˡ f ((x , y) , z) = f x y z
 
 \end{code}
 
+%% %<*Ops>
+%% \AgdaTarget{Op₁, Op₂}
+%% \begin{code}
+%% Op₁ : ∀ {ℓ} → Set ℓ → Set ℓ
+%% Op₁ A = A → A
+
+%% Op₂ : ∀ {ℓ} → Set ℓ → Set ℓ
+%% Op₂ A = A → A → A
+%% \end{code}
+%% %</Ops>
+
+\subsection{Quantification}
+
 \begin{code}
 open import Data.Product
 private variable A B : Set ℓ

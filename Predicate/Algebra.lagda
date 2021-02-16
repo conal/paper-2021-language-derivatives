@@ -92,7 +92,7 @@ The \AF{ClosedSemiring} algebraic structure is similarly extended to \AF{ClosedC
 Conveniently, booleans and types form commutative semirings with all necessary definitions already in the standard library.
 (The equivalence relation used for types is isomorphism rather than equality.)
 Both are also closed.
-For booleans, closure maps both \AIC{false} and \AIC{true} to \AIC{true}, with the \AF{starˡ} law holding definitionally.
+For booleans, closure maps both \AIC{false} and \AIC{true} to \AIC{true}, with the closure laws holding definitionally.
 For types, the closure of \AB{A} is {\AB{A} ✶} (the usual inductive list type) with a simple, non-inductive proof of \AF{starˡ}.
 
 \begin{code}[hide]
@@ -116,13 +116,16 @@ A general vector (predicate) is a linear combination (often infinite) of these b
 \begin{code}
 ⋆-∪-isClosedSemiring : IsClosedSemiring _⟷_ _∪_ _⋆_ ∅ 𝟏  _☆
 ⋆-∪-isClosedSemiring = record { isSemiring = ⋆-∪-isSemiring
-                              ; starˡ = λ _ → ☆-starˡ }
+                              ; starˡ = λ _ → ☆-starˡ
+                              -- ; starʳ = λ _ → ☆-starʳ
+                              }
 
 ⋆-∪-isClosedCommutativeSemiring :
   Commutative _≡_ _∙_ → IsClosedCommutativeSemiring _⟷_ _∪_ _⋆_ ∅ 𝟏 _☆
 ⋆-∪-isClosedCommutativeSemiring ∙-comm = record
   { isCommutativeSemiring = ⋆-∪-isCommutativeSemiring ∙-comm
   ; starˡ = λ _ → ☆-starˡ
+  -- ; starʳ = λ _ → ☆-starʳ
   }
 
 ⋆-∪-ClosedSemiring : ClosedSemiring _ _

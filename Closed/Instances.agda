@@ -31,6 +31,7 @@ module _ where
   ∨-∧-isClosedCommutativeSemiring = record
     {  isCommutativeSemiring = ∨-∧-isCommutativeSemiring
     ;  starˡ = λ _ → refl
+    -- ;  starʳ = λ _ → refl
     }
 
   ∨-∧-closedCommutativeSemiring : ClosedCommutativeSemiring zero zero
@@ -56,11 +57,20 @@ module Types {ℓ : Level} where
     (λ {(inj₁ _) → refl ; (inj₂ (x , xs)) → refl})
     (λ {[] → refl ; (x ∷ xs) → refl})
 
+  -- -- A ✶ ↔ ⊤ ⊎ A ✶ × A
+  -- ✶-starʳ : Starʳ {ℓ = ℓ} _↔_ _⊎_ _×_ ⊥ ⊤ _✶
+  -- ✶-starʳ _ = mk↔′
+  --   (λ {[] → inj₁ tt ; (x ∷ xs) → inj₂ (xs , x)})
+  --   (λ {(inj₁ _) → [] ; (inj₂ (xs , x)) → x ∷ xs})
+  --   (λ {(inj₁ _) → refl ; (inj₂ (xs , x)) → refl})
+  --   (λ {[] → refl ; (x ∷ xs) → refl})
+
   ⊎-×-isClosedCommutativeSemiring :
     IsClosedCommutativeSemiring {ℓ = ℓ} _↔_ _⊎_ _×_ ⊥ ⊤ _✶
   ⊎-×-isClosedCommutativeSemiring = record
     {  isCommutativeSemiring = ⊎-×-isCommutativeSemiring ℓ
     ;  starˡ = ✶-starˡ
+    -- ;  starʳ = ✶-starʳ
     }
 
   ×-⊎-closedCommutativeSemiring : ClosedCommutativeSemiring (suc ℓ) ℓ
