@@ -14,8 +14,8 @@ private variable b c ℓ : Level
 
 module _ (r : ClosedSemiring c ℓ) (f : ClosedSemiring.Carrier r → Set b) where
   open ClosedSemiring r hiding (isSemiring) ; open Dop f
-  mkClosedSemiring : dop₂ _+_ → dop₂ _*_ → dop₀ 0#
-                   → dop₀ 1# → dop₁ _✯ → ClosedSemiring (c ⊔ b) ℓ
+  mkClosedSemiring : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1# → D₁ _✯
+                   → ClosedSemiring (c ⊔ b) ℓ
   mkClosedSemiring _+′_ _*′_ 0#′ 1#′ _✯′ = record
     { _✯ =  inj₁ _✯′
     ; isClosedSemiring = record { isSemiring = isSemiring ; starˡ = prop₁ starˡ }
@@ -24,9 +24,8 @@ module _ (r : ClosedSemiring c ℓ) (f : ClosedSemiring.Carrier r → Set b) whe
 module _ (r : ClosedCommutativeSemiring c ℓ)
          (f : ClosedCommutativeSemiring.Carrier r → Set b) where
   open ClosedCommutativeSemiring r hiding (isCommutativeSemiring) ; open Dop f
-  mkClosedCommutativeSemiring
-    : dop₂ _+_ → dop₂ _*_ → dop₀ 0# → dop₀ 1#
-    → dop₁ _✯ → ClosedCommutativeSemiring (c ⊔ b) ℓ
+  mkClosedCommutativeSemiring : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1# → D₁ _✯
+                              → ClosedCommutativeSemiring (c ⊔ b) ℓ
   mkClosedCommutativeSemiring _+′_ _*′_ 0#′ 1#′ _✯′ = record
     { _✯ =  inj₁ _✯′
     ; isClosedCommutativeSemiring = record

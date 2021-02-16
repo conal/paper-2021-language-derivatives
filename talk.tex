@@ -253,13 +253,122 @@ Domain transformations: \AF{𝟏}, \AF{\_⋆\_}, \AF{\_☆}
 \item Predicates form a semimodule closed semiring:
 \item Functions from monoids to semirings (e.g., languages) also form the \emph{monoid semring}.
 \item Commutative if the monoid and semiring are.
-\item What about decidable languages?
+\item Algebraic abstractions are simply typed, so existentially wrap decidable types.
 \end{itemize}
 \end{frame}
 
+\rnc\source{Existential}
+
 \begin{frame}{Transferring properties}
 
-Algebraic abstractions are simply typed, e.g.,
+\agda{Dop}
+
+% \agda{Semiring}
+
+%% Copied
+%<*Semiring>
+\begin{code}%
+%% \>[0]\AgdaKeyword{module}\AgdaSpace{}%
+%% \AgdaModule{\AgdaUnderscore{}}\AgdaSpace{}%
+%% \AgdaSymbol{(}\AgdaBound{r}\AgdaSpace{}%
+%% \AgdaSymbol{:}\AgdaSpace{}%
+%% \AgdaRecord{Semiring}\AgdaSpace{}%
+%% \AgdaGeneralizable{c}\AgdaSpace{}%
+%% \AgdaGeneralizable{ℓ}\AgdaSymbol{)}\AgdaSpace{}%
+%% \AgdaSymbol{(}\AgdaBound{f}\AgdaSpace{}%
+%% \AgdaSymbol{:}\AgdaSpace{}%
+%% \AgdaField{Semiring.Carrier}\AgdaSpace{}%
+%% \AgdaBound{r}\AgdaSpace{}%
+%% \AgdaSymbol{→}\AgdaSpace{}%
+%% \AgdaPrimitiveType{Set}\AgdaSpace{}%
+%% \AgdaGeneralizable{b}\AgdaSymbol{)}\AgdaSpace{}%
+%% \AgdaKeyword{where}\<%
+%% \\
+%% \>[0][@{}l@{\AgdaIndent{0}}]%
+%% \>[2]\AgdaKeyword{open}\AgdaSpace{}%
+%% \AgdaModule{Semiring}\AgdaSpace{}%
+%% \AgdaBound{r}\AgdaSpace{}%
+%% \AgdaKeyword{hiding}\AgdaSpace{}%
+%% \AgdaSymbol{(}isSemiringWithoutAnnihilatingZero\AgdaSymbol{)}\AgdaSpace{}%
+%% \AgdaSymbol{;}\AgdaSpace{}%
+%% \AgdaKeyword{open}\AgdaSpace{}%
+%% \AgdaModule{Dop}\AgdaSpace{}%
+%% \AgdaBound{f}\<%
+%% \\
+%% %
+\>[2]\AgdaFunction{mkSemiring}\AgdaSpace{}%
+\AgdaSymbol{:}\AgdaSpace{}%
+\AgdaFunction{D₂}\AgdaSpace{}%
+\AgdaOperator{\AgdaFunction{\AgdaUnderscore{}+\AgdaUnderscore{}}}\AgdaSpace{}%
+\AgdaSymbol{→}\AgdaSpace{}%
+\AgdaFunction{D₂}\AgdaSpace{}%
+\AgdaOperator{\AgdaFunction{\AgdaUnderscore{}*\AgdaUnderscore{}}}\AgdaSpace{}%
+\AgdaSymbol{→}\AgdaSpace{}%
+\AgdaFunction{D₀}\AgdaSpace{}%
+\AgdaFunction{0\#}\AgdaSpace{}%
+\AgdaSymbol{→}\AgdaSpace{}%
+\AgdaFunction{D₀}\AgdaSpace{}%
+\AgdaFunction{1\#}\AgdaSpace{}%
+\AgdaSymbol{→}\AgdaSpace{}%
+\AgdaRecord{Semiring}\AgdaSpace{}%
+\AgdaSymbol{(}\AgdaBound{c}\AgdaSpace{}%
+\AgdaOperator{\AgdaPrimitive{⊔}}\AgdaSpace{}%
+\AgdaBound{b}\AgdaSymbol{)}\AgdaSpace{}%
+\AgdaBound{ℓ}\<%
+%% \\
+%% %
+%% \>[2]\AgdaFunction{mkSemiring}\AgdaSpace{}%
+%% \AgdaOperator{\AgdaBound{\AgdaUnderscore{}+′\AgdaUnderscore{}}}\AgdaSpace{}%
+%% \AgdaOperator{\AgdaBound{\AgdaUnderscore{}*′\AgdaUnderscore{}}}\AgdaSpace{}%
+%% \AgdaBound{0\#′}\AgdaSpace{}%
+%% \AgdaBound{1\#′}\AgdaSpace{}%
+%% \AgdaSymbol{=}\AgdaSpace{}%
+%% \AgdaKeyword{record}\<%
+%% \\
+%% \>[2][@{}l@{\AgdaIndent{0}}]%
+%% \>[4]\AgdaSymbol{\{}%
+%% \>[1125I]\AgdaField{isSemiring}\AgdaSpace{}%
+%% \AgdaSymbol{=}\AgdaSpace{}%
+%% \AgdaKeyword{record}\<%
+%% \\
+%% \>[1125I][@{}l@{\AgdaIndent{0}}]%
+%% \>[8]\AgdaSymbol{\{}\AgdaSpace{}%
+%% \AgdaField{isSemiringWithoutAnnihilatingZero}\AgdaSpace{}%
+%% \AgdaSymbol{=}\AgdaSpace{}%
+%% \AgdaFunction{isSemiringWithoutAnnihilatingZero}\<%
+%% \\
+%% %
+%% \>[8]\AgdaSymbol{;}\AgdaSpace{}%
+%% \AgdaField{zero}\AgdaSpace{}%
+%% \AgdaSymbol{=}\AgdaSpace{}%
+%% \AgdaFunction{prop₁}\AgdaSpace{}%
+%% \AgdaFunction{zeroˡ}\AgdaSpace{}%
+%% \AgdaOperator{\AgdaInductiveConstructor{,}}\AgdaSpace{}%
+%% \AgdaFunction{prop₁}\AgdaSpace{}%
+%% \AgdaFunction{zeroʳ}\<%
+%% \\
+%% %
+%% \>[8]\AgdaSymbol{\}}\<%
+%% \\
+%% %
+%% \>[4]\AgdaSymbol{\}}\AgdaSpace{}%
+%% \AgdaKeyword{where}\AgdaSpace{}%
+%% \AgdaKeyword{open}%
+%% \>[1140I]\AgdaModule{SemiringWithoutAnnihilatingZero}\<%
+%% \\
+%% \>[1140I][@{}l@{\AgdaIndent{0}}]%
+%% \>[20]\AgdaSymbol{(}\AgdaFunction{mkSemiringWithoutAnnihilatingZero}\<%
+%% \\
+%% \>[20][@{}l@{\AgdaIndent{0}}]%
+%% \>[23]\AgdaFunction{semiringWithoutAnnihilatingZero}\AgdaSpace{}%
+%% \AgdaBound{f}\AgdaSpace{}%
+%% \AgdaOperator{\AgdaBound{\AgdaUnderscore{}+′\AgdaUnderscore{}}}\AgdaSpace{}%
+%% \AgdaOperator{\AgdaBound{\AgdaUnderscore{}*′\AgdaUnderscore{}}}\AgdaSpace{}%
+%% \AgdaBound{0\#′}\AgdaSpace{}%
+%% \AgdaBound{1\#′}\AgdaSymbol{)}\<%
+\end{code}
+%</Semiring>
+
 \end{frame}
 
 \end{document}

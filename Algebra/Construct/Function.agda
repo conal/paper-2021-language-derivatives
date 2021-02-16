@@ -38,6 +38,7 @@ semigroup G = record
   { isSemigroup = record
      { isMagma = Magma.isMagma (magma magma-G)
      ; assoc = λ f g h {x} → assoc (f x) (g x) (h x)
+     -- ; assoc = λ _ _ _ → assoc _ _ _  -- also works throughout
      }
   } where open Semigroup G renaming (magma to magma-G)
 
@@ -123,7 +124,7 @@ closedSemiring M = record
   { _✯ = λ f a → f a ✯
   ; isClosedSemiring = record
     { isSemiring = Semiring.isSemiring (semiring semiring-M)
-    ; starˡ = starˡ
+    ; starˡ = λ f {x} → starˡ (f x)
     }
   } where open ClosedSemiring M renaming (semiring to semiring-M)
 
@@ -133,7 +134,7 @@ closedCommutativeSemiring M = record
   { isClosedCommutativeSemiring = record
     { isCommutativeSemiring = CommutativeSemiring.isCommutativeSemiring
                                (commutativeSemiring commutativeSemiring-M)
-    ; starˡ = starˡ
+    ; starˡ = λ f {x} → starˡ (f x)
     }
   } where open ClosedCommutativeSemiring M renaming
                  (commutativeSemiring to commutativeSemiring-M)

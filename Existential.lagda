@@ -17,17 +17,24 @@ import Relation.Binary.Construct.On as On
 private variable b c ℓ : Level
 
 -- Lift operations to dependent products
+\end{code}
+%<*Dop>
+\begin{AgdaAlign}
+\begin{code}[hide]
 module Dop {A : Set c} (f : A → Set ℓ) where
-
   D₀ : A → Set ℓ
-  D₀ ∙ = f ∙
-
   D₁ : Op₁ A → Set (c ⊔ ℓ)
-  D₁ ∙_ = ∀ {x} → f x → f (∙ x)
-
   D₂ : Op₂ A → Set (c ⊔ ℓ)
-  D₂ _∙_ = ∀ {x y} → f x → f y → f (x ∙ y)
+\end{code}
+\begin{code}
+  D₀ ∙  = f ∙
+  D₁ ∙_ = ∀ {x} → f x → f (∙ x)
+  D₂ _∙_  = ∀ {x y} → f x → f y → f (x ∙ y)
+\end{code}
+\end{AgdaAlign}
+%</Dop>
 
+\begin{code}
 module Inj {A : Set c} {f : A → Set ℓ} where
 
   open Dop f
@@ -108,8 +115,7 @@ module _ (g : Group c ℓ) (f : Group.Carrier g → Set b) where
 
 module _ (g : AbelianGroup c ℓ) (f : AbelianGroup.Carrier g → Set b) where
   open AbelianGroup g hiding (isGroup) ; open Dop f
-  mkAbelianGroup : D₂ _∙_ → D₀ ε → D₁ _⁻¹
-                 → AbelianGroup (c ⊔ b) ℓ
+  mkAbelianGroup : D₂ _∙_ → D₀ ε → D₁ _⁻¹ → AbelianGroup (c ⊔ b) ℓ
   mkAbelianGroup _∙′_ ε′ _⁻¹′ = record
     { isAbelianGroup = record { isGroup = isGroup ; comm = prop₂ comm }
     } where open Group (mkGroup group f _∙′_ ε′ _⁻¹′)
@@ -193,9 +199,8 @@ module _ (r : SemiringWithoutAnnihilatingZero c ℓ)
          (f : SemiringWithoutAnnihilatingZero.Carrier r → Set b) where
   open SemiringWithoutAnnihilatingZero r hiding (+-isCommutativeMonoid; *-isMonoid)
   open Dop f
-  mkSemiringWithoutAnnihilatingZero
-    : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
-    → SemiringWithoutAnnihilatingZero (c ⊔ b) ℓ
+  mkSemiringWithoutAnnihilatingZero : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
+                                    → SemiringWithoutAnnihilatingZero (c ⊔ b) ℓ
   mkSemiringWithoutAnnihilatingZero _+′_ _*′_ 0#′ 1#′ = record
     { isSemiringWithoutAnnihilatingZero = record
         { +-isCommutativeMonoid = +-isCommutativeMonoid
@@ -207,11 +212,13 @@ module _ (r : SemiringWithoutAnnihilatingZero c ℓ)
                renaming (isCommutativeMonoid to +-isCommutativeMonoid)
             open Monoid (mkMonoid *-monoid f _*′_ 1#′)
                renaming (isMonoid to *-isMonoid)
+\end{code}
 
+%<*Semiring>
+\begin{code}
 module _ (r : Semiring c ℓ) (f : Semiring.Carrier r → Set b) where
   open Semiring r hiding (isSemiringWithoutAnnihilatingZero) ; open Dop f
-  mkSemiring : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
-             → Semiring (c ⊔ b) ℓ
+  mkSemiring : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1# → Semiring (c ⊔ b) ℓ
   mkSemiring _+′_ _*′_ 0#′ 1#′ = record
     { isSemiring = record
         { isSemiringWithoutAnnihilatingZero = isSemiringWithoutAnnihilatingZero
@@ -220,12 +227,14 @@ module _ (r : Semiring c ℓ) (f : Semiring.Carrier r → Set b) where
     } where open SemiringWithoutAnnihilatingZero
                     (mkSemiringWithoutAnnihilatingZero
                        semiringWithoutAnnihilatingZero f _+′_ _*′_ 0#′ 1#′)
+\end{code}
+%</Semiring>
 
+\begin{code}
 module _ (r : CommutativeSemiring c ℓ) (f : CommutativeSemiring.Carrier r → Set b) where
   open CommutativeSemiring r hiding (isSemiring) ; open Dop f
-  mkCommutativeSemiring
-    : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
-    → CommutativeSemiring (c ⊔ b) ℓ
+  mkCommutativeSemiring : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
+                        → CommutativeSemiring (c ⊔ b) ℓ
   mkCommutativeSemiring _+′_ _*′_ 0#′ 1#′ = record
     { isCommutativeSemiring =
         record { isSemiring = isSemiring
@@ -237,9 +246,8 @@ module _ (r : CancellativeCommutativeSemiring c ℓ)
          (f : CancellativeCommutativeSemiring.Carrier r → Set b) where
   open CancellativeCommutativeSemiring r hiding (isCommutativeSemiring)
   open Dop f
-  mkCancellativeCommutativeSemiring
-    : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
-    → CancellativeCommutativeSemiring (c ⊔ b) ℓ
+  mkCancellativeCommutativeSemiring : D₂ _+_ → D₂ _*_ → D₀ 0# → D₀ 1#
+                                    → CancellativeCommutativeSemiring (c ⊔ b) ℓ
   mkCancellativeCommutativeSemiring _+′_ _*′_ 0#′ 1#′ = record
     { isCancellativeCommutativeSemiring = record
         { isCommutativeSemiring = isCommutativeSemiring
@@ -265,9 +273,8 @@ module _ (r : Ring c ℓ) (f : Ring.Carrier r → Set b) where
 
 module _ (r : CommutativeRing c ℓ) (f : CommutativeRing.Carrier r → Set b) where
   open CommutativeRing r hiding (isRing) ; open Dop f
-  mkCommutativeRing
-    : D₂ _+_ → D₂ _*_ → D₁ (-_) → D₀ 0# → D₀ 1#
-    → CommutativeRing (c ⊔ b) ℓ
+  mkCommutativeRing : D₂ _+_ → D₂ _*_ → D₁ (-_) → D₀ 0# → D₀ 1#
+                    → CommutativeRing (c ⊔ b) ℓ
   mkCommutativeRing _+′_ _*′_ _-′ 0#′ 1#′ = record
     { isCommutativeRing = record { isRing = isRing  ; *-comm = prop₂ *-comm }
     } where open Ring (mkRing ring f _+′_ _*′_ _-′ 0#′ 1#′)

@@ -12,7 +12,8 @@ MODULES:= \
   Symbolic \
   Automatic \
   SizedAutomatic \
-  Predicate
+  Predicate \
+  Existential
 
 LAGDAS:=$(patsubst %,%.lagda,$(MODULES))
 
