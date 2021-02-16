@@ -61,22 +61,28 @@ private
 ν∘foldlδ []        = refl
 ν∘foldlδ (a ∷ as)  = ν∘foldlδ as
 \end{code}
-%\end{code}
-%\begin{code}[hide]
 %</ν∘foldlδ>
+
+\begin{code}
+open import Algebra.Core
+private
+  variable
+    g : Op₁ Set⇃
+    h : Op₂ Set⇃
+\end{code}
 
 %<*νδ-codomain>
 \AgdaTarget{νpureᵀ, νmapᵀ, νmapᵀ₂}
 \AgdaTarget{δpureᵀ, δmapᵀ, δmapᵀ₂}
 \begin{code}
-νpureᵀ  : ∀ {∙} → ν  (pureᵀ ∙)    ≡ ∙
-δpureᵀ  : ∀ {∙} → δ  (pureᵀ ∙) a  ≡ pureᵀ ∙
+νpureᵀ  : ν  (pureᵀ s)    ≡ s
+δpureᵀ  : δ  (pureᵀ s) a  ≡ pureᵀ s
 
-νmapᵀ   : ∀ {∙_} → ν  (mapᵀ ∙_ P)    ≡ ∙ ν P
-δmapᵀ   : ∀ {∙_} → δ  (mapᵀ ∙_ P) a  ≡ mapᵀ ∙_ (δ P a)
+νmapᵀ   : ν  (mapᵀ g P)    ≡ g (ν P)
+δmapᵀ   : δ  (mapᵀ g P) a  ≡ mapᵀ g (δ P a)
 
-νmapᵀ₂  : ∀ {_∙_} → ν  (mapᵀ₂ _∙_ P Q)    ≡ ν P ∙ ν Q
-δmapᵀ₂  : ∀ {_∙_} → δ  (mapᵀ₂ _∙_ P Q) a  ≡ mapᵀ₂ _∙_ (δ P a) (δ Q a)
+νmapᵀ₂  : ν  (mapᵀ₂ h P Q)    ≡ h (ν P) (ν Q)
+δmapᵀ₂  : δ  (mapᵀ₂ h P Q) a  ≡ mapᵀ₂ h (δ P a) (δ Q a)
 \end{code}
 \begin{code}[hide]
 νpureᵀ = refl
