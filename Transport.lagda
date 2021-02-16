@@ -3,7 +3,7 @@
 open import Relation.Binary.PropositionalEquality using (_≡_) ; open _≡_
 open import Decidability
 
-module TransferringProperties {ℓ} {A : Set ℓ} (_≟_ : Decidable₂ {A = A} _≡_) where
+module Transport {ℓ} {A : Set ℓ} (_≟_ : Decidable₂ {A = A} _≡_) where
 
 open import Level
 open import Algebra
