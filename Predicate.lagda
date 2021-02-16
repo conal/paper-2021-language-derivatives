@@ -8,7 +8,7 @@ module Predicate {ℓ : Level} where
 open import Algebra.Core
 open import Data.Sum
 open import Data.Product
-open import Relation.Binary.PropositionalEquality
+open import Relation.Binary.PropositionalEquality hiding ([_])
 
 open import Misc {ℓ}
 \end{code}
@@ -22,17 +22,6 @@ Pred : Set ℓ → Set (suc ℓ)
 Pred A = A → Set ℓ
 \end{code}
 %</Pred>
-
-%<*Lang>
-\begin{code}[hide]
-module LangAsPred (A : Set ℓ) where
-  Lang : Set (suc ℓ)
-\end{code}
-\begin{code}
-  Lang = Pred (A ✶)
-\end{code}
-%</Lang>
-
 
 \begin{code}
 private
@@ -60,23 +49,25 @@ mapᵀ₂ _∙_ P Q a = P a ∙ Q a
 With these generalizations, we can easily define union and intersection with their identities (the empty and universal predicates), as well as complement:\footnote{All of these operations are standard \stdlibCite{Relation.Unary}.}
 %% \AgdaTarget{\_∪\_, ∪, ∅, \_∩\_, ∩, 𝒰, ∁}
 \begin{code}[hide]
-module SetOps where
-  infixr 6 _∪_
-  infixr 7 _∩_
+infixr 6 _∪_
+infixr 7 _∩_
+infixr 7 _·_
 
-  ∅ : Pred A
-  𝒰 : Pred A
-  _∪_ : Op₂ (Pred A)
-  _∩_ : Op₂ (Pred A)
-  ∁ : Op₁ (Pred A)
+∅ : Pred A
+𝒰 : Pred A
+_∪_ : Op₂ (Pred A)
+_∩_ : Op₂ (Pred A)
+_·_ : Set⇃ → Op₁ (Pred A)
+∁ : Op₁ (Pred A)
 \end{code}
 %<*codomain-ops>
 \begin{code}
-  ∅    = pureᵀ ⊥
-  𝒰    = pureᵀ ⊤
-  _∪_  = mapᵀ₂ _⊎_
-  _∩_  = mapᵀ₂ _×_
-  ∁    = mapᵀ ¬_
+∅      = pureᵀ ⊥
+𝒰      = pureᵀ ⊤
+_∪_    = mapᵀ₂ _⊎_
+_∩_    = mapᵀ₂ _×_
+_·_ s  = mapᵀ (s ×_)
+∁      = mapᵀ ¬_
 \end{code}
 %</codomain-ops>
 
@@ -115,6 +106,9 @@ module MonoidOps {M : Set ℓ} (_∙_ : Op₂ M) (ε : M) where
   infixl 7 _⋆_
   _⋆_ : Op₂ (Pred M)
   infixl 10 _☆
+
+  data _☆ (P : Pred M) : Pred M
+
 \end{code}
 %<*domain-ops>
 \begin{code}
@@ -122,30 +116,32 @@ module MonoidOps {M : Set ℓ} (_∙_ : Op₂ M) (ε : M) where
 
   _⋆_ = mapⱽ₂ _∙_
 
-  data _☆ (P : Pred M) : Pred M where
+  data _☆ P where
     zero☆  : (P ☆) ε
     suc☆   : ∀ {w} → (P ⋆ P ☆) w → (P ☆) w
 \end{code}
 %</domain-ops>
 
-Or specialize to lists:
+Further specialize to lists:
 \begin{code}[hide]
 module ListOps (A : Set ℓ) where
   open import Data.List
+  open MonoidOps {M = A ✶} _⊙_ [] public
 
-  𝟏 : Pred (A ✶)
-  infixl 7 _⋆_
-  _⋆_ : Op₂ (Pred (A ✶))
-  infixl 10 _☆
+  Lang : Set (suc ℓ)
+\end{code}
+%<*Lang>
+\begin{code}
+  Lang = Pred (A ✶)
+\end{code}
+%</Lang>
+\begin{code}
+  ` : A → Lang
 \end{code}
 %<*list-ops>
 \begin{code}
-  𝟏 = pureⱽ []
-
-  _⋆_ = mapⱽ₂ _⊙_
-
-  data _☆ (P : Pred (A ✶)) : Pred (A ✶) where
-    zero☆  : (P ☆) []
-    suc☆   : ∀ {w} → (P ⋆ P ☆) w → (P ☆) w
+  ` c = pureⱽ [ c ]
 \end{code}
 %</list-ops>
+
+\note{To do: Eliminate \AM{ListOps} or redefine via \AF{++-isMonoid}. It's only used in the talk for now.}

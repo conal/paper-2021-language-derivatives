@@ -38,7 +38,7 @@ PRECIOUS: $(LATEX_DEPENDENCIES) latex/$(PAPER).tex latex/$(TALK).tex
 
 latex/%.tex: %.lagda
 	@mkdir -p $(dir $@)
-	${AGDA} -i . --latex $(AGDA-EXTRAS) $< --latex-dir=latex
+	${AGDA} -i . --latex --latex-dir=latex $(AGDA-EXTRAS) $<
 
 #  > $(basename $@).log
 

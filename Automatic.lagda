@@ -11,7 +11,8 @@ open import Misc {ℓ}
 open import Inverses {ℓ}
 
 module ◬ where
-  open import Language A public
+  -- open import Language A public
+  open import Predicate public ; open ListOps A public
   open import Calculus A public
 
 open ◬ using (ν⋆; δ⋆; ν☆; δ☆; ν𝟏; δ𝟏; ν`; δ`)

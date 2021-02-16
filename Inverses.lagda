@@ -32,7 +32,7 @@ module ↔R {ℓ} = SetoidR {s₂ = ℓ} (record {isEquivalence = ↔-isEquivale
 
 open import Misc {ℓ}
 
-open import Predicate {ℓ} ; open SetOps
+open import Predicate {ℓ}
 
 private
   variable

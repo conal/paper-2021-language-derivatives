@@ -41,7 +41,6 @@ module Pred-Semimodule {A} = Semimodule (Pred-Semimodule A)
 open Pred-Semimodule
 
 open import Predicate {ℓ}
-open SetOps
 
 -- Most of these attempts fail in the presence of level polymorphism, because
 -- equational reasoning and sym require before & after to have the same type,

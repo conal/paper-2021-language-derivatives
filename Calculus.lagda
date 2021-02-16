@@ -15,7 +15,8 @@ open import Relation.Binary.PropositionalEquality
 open import Misc {ℓ}
 open import Inverses {ℓ}
 
-open import Language A
+-- open import Language A
+open import Predicate ; open ListOps A
 
 private
   variable

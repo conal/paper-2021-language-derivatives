@@ -55,12 +55,7 @@ open import Data.List.Properties
 
 open import Predicate.Algebra (++-isMonoid {A = A})
 
--- open import 
-
--- semiring : Semiring {!!} {!!}
--- semiring = mkSemiring ⋆-∪-Semiring ◬.Lang ◬._∪_ ◬._⋆_ ◬.∅ ◬.𝟏
-
-closedSemiring : ClosedSemiring {!!} {!!}
-closedSemiring = mkClosedSemiring ⋆-∪-ClosedSemiring ◬.Lang ◬._∪_ ◬._⋆_ ◬.∅ ◬.𝟏 {!!} -- ◬._☆
+closedSemiring : ClosedSemiring (suc ℓ) ℓ
+closedSemiring = mkClosedSemiring ⋆-∪-ClosedSemiring ◬.Lang ◬._∪_ ◬._⋆_ ◬.∅ ◬.𝟏 ◬._☆
 
 \end{code}

@@ -43,7 +43,6 @@ open import Algebra.Structures {suc ℓ} {ℓ} {Pred M} _⟷_
 open MonoidOps _∙_ ε
 
 open import Predicate.Properties {ℓ}
-open SetOps
 open Pred-Semimodule
 
 open MonoidSemiringProperties isMonoid-M
