@@ -13,7 +13,8 @@ MODULES:= \
   Automatic \
   SizedAutomatic \
   Predicate \
-  Existential
+  Existential \
+  TransferringProperties
 
 LAGDAS:=$(patsubst %,%.lagda,$(MODULES))
 
