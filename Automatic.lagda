@@ -74,8 +74,9 @@ _◂_  : (Q ⟷ P) → Lang P → Lang Q
 %</api>
 
 %<*rules>
+\newcommand\rulesSep{-4.57ex}
 \newcommand\rules[2]{
-\vspace{-4.57ex}
+\vspace{\rulesSep}
 \hspace{0ex}\\% Weirdness fix
 \hspace{0.00ex}
 \hfill
