@@ -72,18 +72,26 @@ private
 \end{code}
 
 %<*νδ-codomain>
+{\mathindent0ex
+\hfill
+\begin{minipage}{18em}
 \AgdaTarget{νpureᵀ, νmapᵀ, νmapᵀ₂}
+\begin{code}
+νpureᵀ  : ν (pureᵀ  s)      ≡ s
+νmapᵀ   : ν (mapᵀ   g P)    ≡ g  (ν P)
+νmapᵀ₂  : ν (mapᵀ₂  h P Q)  ≡ h  (ν P) (ν Q)
+\end{code}
+\end{minipage}
+\hfill
+\begin{minipage}{22em}
 \AgdaTarget{δpureᵀ, δmapᵀ, δmapᵀ₂}
 \begin{code}
-νpureᵀ  : ν  (pureᵀ s)    ≡ s
-δpureᵀ  : δ  (pureᵀ s) a  ≡ pureᵀ s
-
-νmapᵀ   : ν  (mapᵀ g P)    ≡ g (ν P)
-δmapᵀ   : δ  (mapᵀ g P) a  ≡ mapᵀ g (δ P a)
-
-νmapᵀ₂  : ν  (mapᵀ₂ h P Q)    ≡ h (ν P) (ν Q)
-δmapᵀ₂  : δ  (mapᵀ₂ h P Q) a  ≡ mapᵀ₂ h (δ P a) (δ Q a)
+δpureᵀ  : δ (pureᵀ  s)      a ≡ pureᵀ  s
+δmapᵀ   : δ (mapᵀ   g P)    a ≡ mapᵀ   g (δ P a)
+δmapᵀ₂  : δ (mapᵀ₂  h P Q)  a ≡ mapᵀ₂  h (δ P a) (δ Q a)
 \end{code}
+\end{minipage}
+\hfill\;}
 \begin{code}[hide]
 νpureᵀ = refl
 δpureᵀ = refl

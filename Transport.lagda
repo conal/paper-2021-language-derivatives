@@ -12,6 +12,10 @@ open import Data.Product
 open import Existential ; open Inj
 open import Closed
 
+module ▣ where
+  open import Predicate public
+  open ListOps A public
+
 module ◬ where
   open import Symbolic _≟_ public
 
@@ -77,3 +81,18 @@ module Wrap where
   ` c    = inj   (◬.` c)
   _☆     = inj₁  ◬._☆
 \end{code}
+
+\begin{code}
+module ManualWrap where
+\end{code}
+%<*wrapped-Lang>
+\begin{code}
+  Lang = ∃ ◬.Lang
+\end{code}
+%</wrapped-Lang>
+%<*wrapped-union>
+\begin{code}
+  _∪_ : Lang → Lang → Lang
+  (_ , p) ∪ (_ , q) = (_ , p ◬.∪ q)
+\end{code}
+%</wrapped-union>

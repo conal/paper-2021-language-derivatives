@@ -14,7 +14,7 @@ open import Data.Product
 open import Function using (_on_)
 import Relation.Binary.Construct.On as On
 
-private variable b c ℓ : Level
+private variable b c h ℓ : Level
 
 -- Lift operations to dependent products
 \end{code}
@@ -34,6 +34,24 @@ module Dop {A : Set c} (f : A → Set ℓ) where
 \end{AgdaAlign}
 %</Dop>
 
+This version is for the paper:
+%<*inj>
+\begin{code}[hide]
+module InjPaper {A : Set c} {f : A → Set ℓ} where
+  open Dop f
+\end{code}
+\begin{code}
+  inj₀ : ∀ {s : A} (s′ : f s) → ∃ f
+  inj₀ {s} s′ = s , s′
+
+  inj₁ : ∀ {g : A → A} (g′ : ∀ {a} → f a → f (g a)) → (∃ f → ∃ f)
+  inj₁ {g} g′ (a , x) = g a , g′ x
+
+  inj₂ : ∀ {h : A → A → A} (h′ : ∀ {a b} → f a → f b → f (h a b)) → (∃ f → ∃ f → ∃ f)
+  inj₂ {h} h′ (a , x) (b , y) = h a b , h′ x y
+\end{code}
+%</inj>
+
 \begin{code}
 module Inj {A : Set c} {f : A → Set ℓ} where
 
@@ -47,18 +65,24 @@ module Inj {A : Set c} {f : A → Set ℓ} where
 
   inj₂ : ∀ {_∙_ : Op₂ A} (_∙′_ : D₂ _∙_) → Op₂ (∃ f)
   inj₂ _∙′_ (inj x) (inj y) = inj (x ∙′ y)
+\end{code}
 
-  prop₁ : ∀ {B : A → Set b} → (∀ x → B x) → (∀ (p : ∃ f) → B (proj₁ p))
-  prop₁ P (x , _) = P x
+%<*prop>
+\begin{code}
+  prop₁ : ∀ {H : A → Set h} → (∀ a → H a) → (∀ ((a , _) : ∃ f) → H a)
+  prop₁ P (a , _) = P a
 
-  prop₂ : ∀ {B : A → A → Set b} → (∀ x y → B x y)
-        → (∀ (p q : ∃ f) → B (proj₁ p) (proj₁ q))
-  prop₂ P (x , _) (y , _) = P x y
+  prop₂ : ∀ {H : A → A → Set h} → (∀ a b → H a b)
+        → (∀ ((a , _) (b , _) : ∃ f) → H a b)
+  prop₂ P (a , _) (b , _) = P a b
 
-  prop₃ : ∀ {B : A → A → A → Set b} → (∀ x y z → B x y z)
-        → (∀ (p q r : ∃ f) → B (proj₁ p) (proj₁ q) (proj₁ r))
-  prop₃ P (x , _) (y , _) (z , _) = P x y z
+  prop₃ : ∀ {H : A → A → A → Set h} → (∀ a b c → H a b c)
+        → (∀ ((a , _) (b , _) (c , _) : ∃ f) → H a b c)
+  prop₃ P (a , _) (b , _) (c , _) = P a b c
+\end{code}
+%</prop>
 
+\begin{code}
   -- -- The propᵢ definitions can be mostly inferred, e.g.,
   -- prop₃ P _ _ _ = P _ _ _
 

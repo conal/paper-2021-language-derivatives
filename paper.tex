@@ -188,7 +188,7 @@ Fortunately, this issue was already identified and solved by Andreas \citet{Abel
 \rnc\source{SizedAutomatic}
 This solution needs only to give \AF{Lang} (now tries) an index {\AB{i} \AK : \APT{Size}} corresponding to the maximum depth to which a trie can be searched, or equivalently the longest string that can be matched\out{ (via {\AF{⟦\_⟧}})}.
 In practice, we will work with arbitrarily deep tries, i.e., ones having index \APo{∞}, as in the type of {\AF{⟦\_⟧}}.
-The modified representation is shown in \figrefdef{sized automatic-api}{Sized tries (coinductive)}{\api}.
+The modified representation is shown in \figrefdef{sized-automatic-api}{Sized tries (coinductive)}{\api}.
 
 Decidable recognition is defined exactly as with unsized tries (\figref{automatic-defs}), and this time the compiler successfully proves \emph{total} correctness (including termination).
 
@@ -245,12 +245,13 @@ These generalized operations then specialize to language operations as in \figre
 \hfill\;
 }, which also includes language complement (\AF ∁).
 \rnc\source{Calculus}
-The language representations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation} adapt easily to the generalized codomain operations (\AF{pureᵀ}, \AF{mapᵀ}, and \AF{mapᵀ₂}) resulting in broader coverage with less code.
-The relevant \AF{ν} and \AF{δ} lemmas in \figref{nu-delta-lemmas} are easily generalized as shown in \figrefdef{nu-delta-codomain-lemmas}{Properties of \AF{ν} and \AF{δ} for predicate codomain operations}{\agda{νδ-codomain}} and are all proved automatically by normalization.
+The \AF{ν} and \AF{δ} lemmas for codomain operations in \figref{nu-delta-lemmas} are easily generalized as shown in \figrefdef{nu-delta-codomain-lemmas}{Properties of \AF{ν} and \AF{δ} for predicate codomain operations}{\agda{νδ-codomain}} and are all proved automatically by normalization.
+(In contrast, the \AF{ν} and \AF{δ} lemmas do not easily generalize for domain operations.)
+Since the decidable language implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation} are corollaries of \AF{ν} and \AF{δ} lemmas, those implementations adapt easily to the generalized codomain operations (\AF{pureᵀ}, \AF{mapᵀ}, and \AF{mapᵀ₂}), resulting in a somewhat smaller implementation with broader coverage code.
 
 \sectionl{Properties}
 
-\subsectionl{Predicate Algebra}
+\sectionl{Predicate Algebra}
 
 The basic building blocks of type-level predicates---and languages in particular---form the vocabulary of a \emph{closed semiring} in two different ways\out{, as reflected in the structure of regular expressions \needcite{}}.
 The semiring abstraction has three aspects: (a) a commutative monoid providing ``zero'' and ``addition'', (b) a (possibly non-commutative) monoid providing ``one'' and ``multiplication'', and (c) the relationship between them, namely that multiplication distributes over addition and zero.\footnote{Distributing of multiplication over zero is also known as ``annihilation''.}
@@ -283,16 +284,64 @@ In this setting, language concatenation is subsumed by a very general form of \e
 The semimodule structure of predicates provides the additive aspect and is built entirely from the \emph{codomain}-transforming predicate operations defined in \secref{Languages, Predicates, and Types}.
 The multiplicative aspect (convolution) comes entirely from the \emph{domain}-transforming operations, applied to any domain monoid.
 The two needed distributive properties hold for \emph{any} domain-transforming operation, whether associative or not.
-The proofs of these properties, while not terribly complex, are beyond the scope of this paper but are available in the paper's Agda source code.\notefoot{There will be short and long forms of this paper. Perhaps the long form will contain narrated parts of the monoid semiring proof.}
+The proofs of these properties, while reasonably straightforward, are beyond the scope of this paper but are available in the paper's Agda source code.\out{\notefoot{There will be short and long forms of this paper. Perhaps the long form will contain narrated parts of the monoid semiring proof.}}
 
 Not only do types form a closed semiring, the \emph{only} properties needed from types in the monoid semiring come from the laws of closed semirings.
-We can thus apply the ideas in this paper to many other useful semirings as well, including natural numbers (e.g., number of parses), probability distributions, and the tropical semirings (max/plus and min/plus) for optimization.
+One can thus apply the ideas in this paper to many other useful semirings as well, including natural numbers (e.g., number of parses), probability distributions, and the tropical semirings (max/plus and min/plus) for optimization.
 \out{We will explore this generality in \secref{Beyond Predicates}.}
 As a bonus, when the domain monoid commutes (multiplicatively)---e.g., for functions of space and time rather than languages---the monoid semiring does as well.
 
+\subsectionl{Transporting Algebraic Properties}
 
-\subsectionl{Transporting algebraic properties}
+\rnc\source{Transport}
 
+Given that type-level languages have useful and interesting algebraic properties and that the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation} are tightly connected to languages, do the algebraic properties transfer to those implementations?
+This question immediately raises a technical obstacle.
+Algebraic abstractions and their properties are simply typed.
+For instance, each instance of the \ARe{Monoid} abstraction involves a single type \AB τ with a binary operation {\AB{\_∙\_} \AK : \AB τ \AK → \AB τ \AK → \AB τ} and identity value {\AB ε \AK : \AB τ}.
+This recipe accommodates the language operations in \figref{Lang-ops} and their generalizations in \figref{predicates} but not the dependently typed, \emph{indexed} versions of languages and their operations in \figreftwo{symbolic-api}{sized-automatic-api}, nor decidable types and their vocabulary in \figref{compositional-dec}.
+
+Fortunately, there is a simple way to encapsulate indexed types into simple (non-indexed) types, namely existential quantification.
+For instance, {\AF{∃} \AD{Dec}} and {\AF{∃} \AD{(\ARe{Lang} \APo ∞)}} are simple types.
+For a type family {\AB f \AK : \AB A \AK → \APT Set⇃}, values of type {\AF ∃ \AB f} are pairs {(\AB a , \AB b)} with {\AB a \AK : \AB A} and {\AB b \AK : \AB f \AB a}.
+We can also encapsulate dependently typed \emph{operations} on indexed types into simply typed operations on the (simply typed) existentially wrapped versions of those types.
+For instance, consider language union from \figref{symbolic-api}:
+\begin{code}
+% Copied from latex/Symbolic.tex
+\>[2]\AgdaOperator{\AgdaInductiveConstructor{\AgdaUnderscore{}∪\AgdaUnderscore{}}}%
+\>[7]\AgdaSymbol{:}\AgdaSpace{}%
+\AgdaDatatype{Lang}%
+\>[15]\AgdaGeneralizable{P}%
+\>[18]\AgdaSymbol{→}\AgdaSpace{}%
+\AgdaDatatype{Lang}\AgdaSpace{}%
+\AgdaGeneralizable{Q}%
+\>[28]\AgdaSymbol{→}\AgdaSpace{}%
+\AgdaDatatype{Lang}\AgdaSpace{}%
+\AgdaSymbol{(}\AgdaGeneralizable{P}%
+\>[39]\AgdaOperator{\AgdaFunction{◬.∪}}%
+\>[44]\AgdaGeneralizable{Q}\AgdaSymbol{)}\<%
+\end{code}
+Referring to the type and operations of \figref{symbolic-api} via the module prefix ``{◬.}\hspace{0.05em}'', define \agda{wrapped-Lang}
+Then wrap union as follows:
+\agda{wrapped-union}
+Note that the type-level language components of the arguments and result are left to be inferred by the compiler.
+\rnc\source{Existential}
+Indexed operations of all arities for a type family \AB{f} can be systematically wrapped in this style, as shown in
+\figrefdef{inj}{Existential wrappers}{\agda{inj}}, this time with the inferable components filled in for clarity.
+Then wrapped union can be defined simply as {\AF{\_∪\_} \AS = \AF{inj₂} \AIC{◬.\_∪\_}} and likewise for the other operations.
+
+In addition to wrapping types and operations, we also need to transport \emph{properties}.
+A crucial question is the choice of equivalence relation for the new properties.
+Choosing wrapped equivalence to be equivalence of \emph{first} projections (type \emph{indices}) results in all algebraic properties of those indices easily transporting to the existentially wrapped versions.
+This choice may at first seem like cheating, since the entire operational aspect of the representation is ignored.
+The correctness of that aspect, however, is guaranteed by its dependent typing, which anchors its meaning (no matter how cleverly implemented) to the non-operational type index.
+For language implementations of \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, this anchoring is guaranteed by the type of \AF{⟦\_⟧} in \figreftwo{symbolic-api}{sized-automatic-api}.
+Given this choice of equivalence, properties of index types are easily lifted to properties of existential types, as in \figrefdef{prop}{Liftings of index properties to existential types}{\agda{prop}}.
+These definitions ease specification of algebraic instances for existentially wrapped types from corresponding instances for their indices.
+% As an example, \figrefdef{wrap-semiring}{Lifting semiring instances}{\agda{Semiring}} 
+As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift the \AF{\_∪\_}/\AF{\_⋆\_} language semiring of \secref{Specifying Languages} to the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, as follows (where \AF{\_≟\_} is decidable equality on list elements):\notefoot{Lift the \AF{\_∪\_}/\AF{\_∩\_} predicate semiring as well.}
+\rnc\source{Transport}
+\agda{examples}
 
 \bibliography{bib}
 
