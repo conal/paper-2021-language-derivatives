@@ -2,6 +2,11 @@
 
 Paper draft: *Symbolic and Automatic Differentiation of Languages*.
 
+See PDF [here](http://conal.net/papers/language-derivatives/language-derivatives.pdf).
+Comments appreciated as GitHub issues and pull requests or email (firstname@firstname.net).
+
+There's also an accompanying [talk draft](http://conal.net/talks/differentiation-of-languages.pdf).
+
 **Abstract:**
 
 Formal languages are usually defined in terms of set theory. Choosing type theory instead gives us languages as type-level predicates over strings. Applying a language to a string yields a type whose elements are language membership proofs describing *how* a string parses in the language. The usual building blocks of languages (including union, concatenation, and Kleene closure) have precise and compelling specifications uncomplicated by operational strategies and are easily generalized to a few general domain-transforming and codomain-transforming operations on predicates.
