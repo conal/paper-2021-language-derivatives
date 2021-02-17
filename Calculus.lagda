@@ -32,10 +32,10 @@ private
 %<*νδ>
 \AgdaTarget{ν, δ}
 \begin{code}
-ν : (A ✶ → B) → B              -- "nullable"
+ν : (A ✶ → B) → B              -- “nullable”
 ν f = f []
 
-δ : (A ✶ → B) → A → (A ✶ → B)  -- "derivative"
+δ : (A ✶ → B) → A → (A ✶ → B)  -- “derivative”
 δ f a = f ∘ (a ∷_)
 \end{code}
 %% δ f a as = f (a ∷ as)

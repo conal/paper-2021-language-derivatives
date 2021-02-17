@@ -1,16 +1,46 @@
+\newif\ifacm
+
+\acmtrue
+%% \acmfalse
+
+\ifacm
+\documentclass[acmsmall,screen]{acmart}
+\else
 \documentclass[hidelinks]{article}  % fleqn,12pt
 \usepackage[margin=1in]{geometry}  % 0.12in, 0.9in, 1in
+\usepackage[useregional]{datetime2}
+\fi
 
 \usepackage{catchfilebetweentags}
-\usepackage[useregional]{datetime2}
 
 %% \usepackage{balance}  % even out final two-column page
 
-\RequirePackage{newunicodechar, amssymb, stmaryrd, unicode-math, setspace, comment}
+\ifacm\else
+%% Already in acmart
+\RequirePackage{amssymb, unicode-math}
+\fi
+\RequirePackage{newunicodechar, stmaryrd, setspace, comment}
 
 \input{commands}
 \input{unicode}
 \input{macros}
+
+\ifacm
+\bibliographystyle{ACM-Reference-Format}
+\else
+\usepackage[round]{natbib} % [square]
+\bibliographystyle{plainnat}
+\fi
+
+%% I prefer ∅ in XITSMath-Regular, but I don't know how to make setmathfont
+%% work with acmart.
+\ifacm
+\newunicodechar{◬}{\raisebox{0.02ex}{\ensuremath{_{\diamond}\hspace{-0.323em}}}}
+\else
+\setmathfont{XITSMath-Regular.otf}
+\newunicodechar{◬}{\raisebox{0.23ex}{\ensuremath{_{\diamond}\hspace{-0.352em}}}}
+\newunicodechar{∷}{\ensuremath{\mathbin{\hspace{-0.2em}:\hspace{-0.27em}:\hspace{-0.15em}}}}
+\fi
 
 \usepackage{libertine}  %% [tt=false]
 \usepackage{agda}% references
@@ -38,7 +68,9 @@ Symbolic and Automatic Differentiation of Languages}
 \title{\tit}
 \date{Early draft of \DTMnow}
 
+\ifacm\else
 \maketitle
+\fi
 
 \begin{abstract}
 Formal languages are usually defined in terms of set theory.
@@ -54,6 +86,11 @@ The regular expression version corresponds to symbolic differentiation, while th
 The relatively easy-to-prove properties of type-level languages transfer almost effortlessly to the decidable implementations.
 In particular, despite the inductive and coinductive nature of regular expressions and tries respectively, we need neither inductive nor coinductive/bisumulation arguments to prove algebraic properties.
 \end{abstract}
+
+\ifacm
+\maketitle
+\mathindent2em
+\fi
 
 \sectionl{Specifying Languages}
 \rnc\source{Language}
@@ -203,6 +240,9 @@ The first category applies to predicates over all types (not just over lists).
 Within the second category, \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_☆} apply to all monoids, while \AF{`} is specific to lists.
 
 \figrefdef{predicates}{Predicate operations}{
+\ifacm
+\small
+\fi
 \begin{center}
 \mathindent-12ex
 \agda{Pred}
