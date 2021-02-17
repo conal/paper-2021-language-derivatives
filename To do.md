@@ -19,5 +19,30 @@ Less important:
     *   Could I automate the transition from lemmas to implementation via rewrite rules?
         I'd have to suppress normalization, which would seem to break many proofs.
 
+From old paper version to-do:
 
-
+*   Maybe switch to semiring and module notation starting in *Predicate Algebra*.
+*   Scour ICFP proceedings for papers done in dependently typed languages, especially Agda.
+    What can I learn?
+    Must I tone down the Agda-ness for ICFP?
+    Maybe ask colleagues for advice, e.g., Wouter Swierstra.
+*   Explore the idea that Brzozowski's technique uses symbolic differentiation, but automatic differentiation has the usual advantages.
+    What dimension do our domain and codomain have?
+    Do forward, reverse, and mixed modes have anything to say?
+    Is there something *linear* about derivatives?
+    The right meaning for linearity seems clear from the function/free semimodule.
+*   Generalize from lists.
+    Other types have their own deltas.
+*   Other forms of convolution.
+    I think generalized convolution is intrinsically amenable to memoization / dynamic programming.
+    What about incremental evaluation?
+*   Try redefining `AgdaFormat` as described in latex/agda.sty for more control over token rendering.
+    If successful, stop using a special unicode replacement for "`*`" in the text.
+*   Regular expressions and beyond:
+    *   Define an inductive type family of regular expressions and a semantic function.
+        Provide a `ClosedSemiring` instance and prove that the semantic function is a closed semiring homomorphism.
+        Use as an alternative implementation of matching.
+    *   Likewise for other language classes.
+*   Run this stuff, and do some simple timing.
+*   Find some languages with genuinely dependent types.
+    I have something similar with decidability, though `Dec` instead of `Set`.
