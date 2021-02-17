@@ -106,7 +106,7 @@ private
 {\mathindent0ex
 \hfill
 \setstretch{1.7}
-\begin{minipage}{2.25in}
+\begin{minipage}{28ex}
 \AgdaTarget{ν∅, ν∪, ν𝟏, ν⋆, ν☆, δ∅, δ∪, δ𝟏, δ⋆, δ☆}
 \begin{code}
 ν∅  : ν ∅ ≡ ⊥
@@ -121,7 +121,7 @@ private
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}{3in}
+\begin{minipage}{38ex}
 \begin{code}
 δ∅  : δ ∅ a ≡ ∅
 δ𝒰  : δ 𝒰 a ≡ 𝒰
