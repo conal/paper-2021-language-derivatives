@@ -97,10 +97,10 @@ In particular, despite the inductive and coinductive nature of regular expressio
 \sectionl{Specifying Languages}
 \rnc\source{Language}
 
-Languages are usually formalized either set-theoretically as a set of strings \needcite{} or operationally as a parser \needcite{}.
-Alternatively, we can use type theory, so that a language is a type-level predicate on ``strings'' (lists of an arbitrary type \AB{A} of ``characters''):
+Languages are usually formalized either set-theoretically as sets of strings or operationally as parsers.
+Alternatively, one can use type theory, so that a language is a type-level predicate on ``strings'' (lists of an arbitrary type \AB{A} of ``characters''):
 \agda{Lang}
-\figrefdef{Lang-ops}{Language operations}{\agda{Lang-ops}} gives definitions of the usual language operations, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ☆}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
+\figrefdef{Lang-ops}{Languages as type-level predicates}{\agda{Lang-ops}} gives definitions of the usual language operations, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ☆}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
 \note{Explain the types used here and their logical interpretation under the Curry-Howard isomorphism.}
 
 Note that for a language \AB{P} and string \AB{w}, {\AB{P} \AB{w}} is the type of \emph{proofs} that {\AB{w} ∈ \AB{P}}, in other words \emph{explanations} of membership, or \emph{parsing}.
@@ -380,13 +380,11 @@ Choosing wrapped equivalence to be equivalence of \emph{first} projections (type
 This choice may at first seem like cheating, since the entire operational aspect of the representation is ignored.
 The correctness of that aspect, however, is guaranteed by its dependent typing, which anchors its meaning (no matter how cleverly implemented) to the non-operational type index.
 For language implementations of \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, this anchoring is guaranteed by the type of \AF{⟦\_⟧} in \figreftwo{symbolic-api}{sized-automatic-api}.
+(Similarly, for the decidable type constructors in \figref{compositional-dec}, correctness is guaranteed by the types of \AIC{yes} and \AIC{no} in the definition of ‌\ARe{Dec} in \secref{Decidability}.)
 Given this choice of equivalence, properties of index types are easily lifted to properties of existential types, as in \figrefdef{prop}{Liftings of index properties to existential types}{\mathindent0ex\agda{prop}}.
 These definitions ease specification of algebraic instances for existentially wrapped types from corresponding instances for their indices.
 \rnc\source{Transport}
-As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift both language semirings to the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, as in \figrefdef{transport-examples}{Examples of algebraic instances transported from indices to existential wrappings}{
-\mathindent0ex
-\agda{examples}
-}
+As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift both language semirings to the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, as in \figrefdef{transport-examples}{Examples of algebraic instances transported from indices to existential wrappings}{\agda{examples}}.
 \bibliography{bib}
 
 \end{document}

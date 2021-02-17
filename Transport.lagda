@@ -45,6 +45,7 @@ module Examples where
   automaticCS₂ : ClosedSemiring (suc ℓ) ℓ
 \end{code}
 %<*examples>
+\mathindent0ex
 \begin{code}
   decCCS = mkClosedCommutativeSemiring ×-⊎-closedCommutativeSemiring
                                          Dec _⊎‽_ _×‽_ ⊥‽ ⊤‽ _✶‽
