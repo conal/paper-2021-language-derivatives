@@ -19,7 +19,7 @@
 %% Already in acmart
 \RequirePackage{amssymb, unicode-math}
 \fi
-\RequirePackage{newunicodechar, stmaryrd, setspace, comment}
+\RequirePackage{newunicodechar, stmaryrd, setspace, comment, scalerel}
 
 \input{commands}
 \input{unicode}
@@ -36,9 +36,11 @@
 %% work with acmart.
 \ifacm
 \newunicodechar{◬}{\raisebox{0.02ex}{\ensuremath{_{\diamond}\hspace{-0.323em}}}}
+\newunicodechar{▣}{\raisebox{-0.12ex}{\ensuremath{\scaleobj{0.4}{\Box}}\hspace{-0.238em}}}
 \else
 \setmathfont{XITSMath-Regular.otf}
 \newunicodechar{◬}{\raisebox{0.23ex}{\ensuremath{_{\diamond}\hspace{-0.352em}}}}
+\newunicodechar{▣}{\raisebox{-0.13ex}{\ensuremath{\scaleobj{0.3}{\Box}}\hspace{-0.23em}}}
 \newunicodechar{∷}{\ensuremath{\mathbin{\hspace{-0.2em}:\hspace{-0.27em}:\hspace{-0.15em}}}}
 \fi
 
@@ -78,7 +80,7 @@ Choosing type theory instead gives us languages as type-level predicates over st
 Applying a language to a string yields a type whose elements are language membership proofs describing \emph{how} a string parses in the language.
 The usual building blocks of languages (including union, concatenation, and Kleene closure) have precise and compelling specifications uncomplicated by operational strategies and are easily generalized to a few general domain-transforming and codomain-transforming operations on predicates.
 
-A simple characterization of languages (and indeed functions from lists to any type) captures the essential idea behind language ``differentiation'' and ``integration'' as used for recognizing languages and leads to a collection of lemmas about type-level languages.
+A simple characterization of languages (and indeed functions from lists to any type) captures the essential idea behind language ``differentiation'' and ``integration'' as used for recognizing languages and leads to a collection of lemmas about type-level predicates.
 These lemmas form the backbone of two dual implementations of language recognition---(inductive) regular expressions and (coinductive) tries---each containing the same code but in dual arrangements.
 The language lemmas form most of the implementation in both cases, while the representation and primitive operations trade places.
 The regular expression version corresponds to symbolic differentiation, while the trie version corresponds to automatic differentiation.
@@ -293,7 +295,7 @@ Since the decidable language implementations in \secreftwo{Symbolic Differentiat
 
 \sectionl{Properties}
 
-\sectionl{Predicate Algebra}
+\subsectionl{Predicate Algebra}
 
 The basic building blocks of type-level predicates---and languages in particular---form the vocabulary of a \emph{closed semiring} in two different ways\out{, as reflected in the structure of regular expressions \needcite{}}.
 The semiring abstraction has three aspects: (a) a commutative monoid providing ``zero'' and ``addition'', (b) a (possibly non-commutative) monoid providing ``one'' and ``multiplication'', and (c) the relationship between them, namely that multiplication distributes over addition and zero.\footnote{Distributing of multiplication over zero is also known as ``annihilation''.}
@@ -363,13 +365,13 @@ For instance, consider language union from \figref{symbolic-api}:
 \>[39]\AgdaOperator{\AgdaFunction{◬.∪}}%
 \>[44]\AgdaGeneralizable{Q}\AgdaSymbol{)}\<%
 \end{code}
-Referring to the type and operations of \figref{symbolic-api} via the module prefix ``{◬.}\hspace{0.05em}'', define \agda{wrapped-Lang}
+Referring to the type and operations of \secref{Specifying Languages} and \figref{symbolic-api} via the module prefix ``{◬.}\hspace{0.05em}'' and ``{▣.}\hspace{0.05em}'' respectively, define \agda{wrapped-Lang}
 Then wrap union as follows:
 \agda{wrapped-union}
-Note that the type-level language components of the arguments and result are left to be inferred by the compiler.
+The type-level language components of the arguments and result are given explicitly here but could instead be inferred by the compiler.
 \rnc\source{Existential}
 Indexed operations of all arities for a type family \AB{F} can be systematically wrapped in this style, as shown in
-\figrefdef{inj}{Existential wrappers}{\mathindent0ex\agda{inj}}, this time with the inferable components filled in for clarity.
+\figrefdef{inj}{Existential wrappers}{\mathindent0ex\agda{inj}}, again with inferable components given explicitly for clarity.
 Then wrapped union can be defined simply as {\AF{\_∪\_} \AS = \AF{inj₂} \AIC{◬.\_∪\_}} and likewise for the other operations.
 
 In addition to wrapping types and operations, we also need to transport \emph{properties}.
