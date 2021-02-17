@@ -14,7 +14,7 @@ open import Data.Product
 open import Function using (_on_)
 import Relation.Binary.Construct.On as On
 
-private variable b c h ℓ : Level
+private variable b c ℓ : Level
 
 -- Lift operations to dependent products
 \end{code}
@@ -69,17 +69,23 @@ module Inj {A : Set c} {F : A → Set ℓ} where
 \end{code}
 
 %<*prop>
+\begin{code}[hide]
+  private
+    variable
+      h : Level
+      P : A → Set h
+      Q : A → A → Set h
+      R : A → A → A → Set h
+\end{code}
 \begin{code}
-  prop₁ : ∀ {H : A → Set h} → (∀ a → H a) → (∀ ((a , _) : ∃ F) → H a)
+  prop₁ : (∀ a → P a) → ∀ ((a , _) : ∃ F) → P a
   prop₁ P (a , _) = P a
 
-  prop₂ : ∀ {H : A → A → Set h} → (∀ a b → H a b)
-        → (∀ ((a , _) (b , _) : ∃ F) → H a b)
-  prop₂ P (a , _) (b , _) = P a b
+  prop₂ : (∀ a b → Q a b) → ∀ ((a , _) (b , _) : ∃ F) → Q a b
+  prop₂ Q (a , _) (b , _) = Q a b
 
-  prop₃ : ∀ {H : A → A → A → Set h} → (∀ a b c → H a b c)
-        → (∀ ((a , _) (b , _) (c , _) : ∃ F) → H a b c)
-  prop₃ P (a , _) (b , _) (c , _) = P a b c
+  prop₃ : (∀ a b c → R a b c) → ∀ ((a , _) (b , _) (c , _) : ∃ F) → R a b c
+  prop₃ R (a , _) (b , _) (c , _) = R a b c
 \end{code}
 %</prop>
 
