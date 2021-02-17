@@ -291,7 +291,7 @@ One can thus apply the ideas in this paper to many other useful semirings as wel
 \out{We will explore this generality in \secref{Beyond Predicates}.}
 As a bonus, when the domain monoid commutes (multiplicatively)---e.g., for functions of space and time rather than languages---the monoid semiring does as well.
 
-\subsectionl{Transporting Algebraic Properties}
+\subsectionl{Transporting Properties}
 
 \rnc\source{Transport}
 
@@ -303,7 +303,7 @@ This recipe accommodates the language operations in \figref{Lang-ops} and their 
 
 Fortunately, there is a simple way to encapsulate indexed types into simple (non-indexed) types, namely existential quantification.
 For instance, {\AF{∃} \AD{Dec}} and {\AF{∃} \AD{(\ARe{Lang} \APo ∞)}} are simple types.
-For a type family {\AB f \AK : \AB A \AK → \APT Set⇃}, values of type {\AF ∃ \AB f} are pairs {(\AB a , \AB b)} with {\AB a \AK : \AB A} and {\AB b \AK : \AB f \AB a}.
+For a type family {\AB F \AK : \AB A \AK → \APT Set⇃}, values of type {\AF ∃ \AB F} are pairs {(\AB a , \AB b)} with {\AB a \AK : \AB A} and {\AB b \AK : \AB F \AB a}.
 We can also encapsulate dependently typed \emph{operations} on indexed types into simply typed operations on the (simply typed) existentially wrapped versions of those types.
 For instance, consider language union from \figref{symbolic-api}:
 \begin{code}
@@ -326,7 +326,7 @@ Then wrap union as follows:
 \agda{wrapped-union}
 Note that the type-level language components of the arguments and result are left to be inferred by the compiler.
 \rnc\source{Existential}
-Indexed operations of all arities for a type family \AB{f} can be systematically wrapped in this style, as shown in
+Indexed operations of all arities for a type family \AB{F} can be systematically wrapped in this style, as shown in
 \figrefdef{inj}{Existential wrappers}{\agda{inj}}, this time with the inferable components filled in for clarity.
 Then wrapped union can be defined simply as {\AF{\_∪\_} \AS = \AF{inj₂} \AIC{◬.\_∪\_}} and likewise for the other operations.
 
