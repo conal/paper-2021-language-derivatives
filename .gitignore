@@ -1,3 +1,5 @@
 latex/
 *.agdai
 
+.paper-token
+.talk-token
