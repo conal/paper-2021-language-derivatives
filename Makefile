@@ -66,8 +66,13 @@ clean:
 tags: $(LAGDAS)
 	etags $^
 
-# web: web-token
+web: .paper-token .talk-token
 
-# web-token: latex/$(PAPER).pdf
-# 	scp $< conal@conal.net:/home/conal/domains/conal/htdocs/papers/new-language-derivatives/$(PAPER)
-# 	touch web-token
+.paper-token: latex/$(PAPER).pdf
+	scp $< conal@conal.net:/home/conal/domains/conal/htdocs/papers/language-derivatives/
+	@touch $@
+
+.talk-token: latex/$(TALK).pdf
+	scp $< conal@conal.net:/home/conal/domains/conal/htdocs/talks/language-derivatives.pdf
+	@touch $@
+
