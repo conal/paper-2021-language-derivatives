@@ -46,7 +46,8 @@ module Examples where
 \end{code}
 %<*examples>
 \begin{code}
-  decCCS = mkClosedCommutativeSemiring ×-⊎-closedCommutativeSemiring Dec _⊎‽_ _×‽_ ⊥‽ ⊤‽ _✶‽
+  decCCS = mkClosedCommutativeSemiring ×-⊎-closedCommutativeSemiring
+                                         Dec _⊎‽_ _×‽_ ⊥‽ ⊤‽ _✶‽
 
   symbolicCS₁ = mkCommutativeSemiring (∩-∪-commutativeSemiring _) Lang _∪_ _∩_ ∅ 𝒰
     where open Symbolic
