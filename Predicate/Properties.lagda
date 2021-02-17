@@ -33,10 +33,6 @@ open import Closed ; open Closed.Types {ℓ}
 
 open ClosedCommutativeSemiring ×-⊎-closedCommutativeSemiring
 
--- Pred as commutative semiring
-∩-∪-commutativeSemiring : Set ℓ → CommutativeSemiring _ _
-∩-∪-commutativeSemiring A = C.commutativeSemiring A (×-⊎-commutativeSemiring ℓ)
-
 -- Pred as semimodule
 Pred-Semimodule : Set ℓ → Semimodule (×-⊎-commutativeSemiring ℓ) _ _
 Pred-Semimodule A = C.semimodule A

@@ -26,7 +26,6 @@ module Examples where
 
   open import Data.List.Properties
 
-  open import Predicate.Properties {ℓ} using (∩-∪-commutativeSemiring)
   open import Predicate.Algebra (++-isMonoid {A = A})
 
   open import Size
