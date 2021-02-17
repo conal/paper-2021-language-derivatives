@@ -28,14 +28,18 @@ open import Data.Product.Algebra using (Σ-assoc)
 -- Local
 open import Misc {ℓ}
 open import Inverses {ℓ} -- using (module ↔Eq; module ↔R; ∃≡ˡ)
-open import Algebra.Construct.Function using (semimodule)
+import Algebra.Construct.Function as C
 open import Closed ; open Closed.Types {ℓ}
 
 open ClosedCommutativeSemiring ×-⊎-closedCommutativeSemiring
 
+-- Pred as commutative semiring
+∩-∪-commutativeSemiring : Set ℓ → CommutativeSemiring _ _
+∩-∪-commutativeSemiring A = C.commutativeSemiring A (×-⊎-commutativeSemiring ℓ)
+
 -- Pred as semimodule
 Pred-Semimodule : Set ℓ → Semimodule (×-⊎-commutativeSemiring ℓ) _ _
-Pred-Semimodule A = semimodule A
+Pred-Semimodule A = C.semimodule A
 
 module Pred-Semimodule {A} = Semimodule (Pred-Semimodule A)
 open Pred-Semimodule

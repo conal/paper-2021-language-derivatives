@@ -26,26 +26,40 @@ module Examples where
 
   open import Data.List.Properties
 
+  open import Predicate.Properties {ℓ} using (∩-∪-commutativeSemiring)
   open import Predicate.Algebra (++-isMonoid {A = A})
 
   open import Size
 
   open import Closed.Instances ; open Types {ℓ}
 
+  module Symbolic where
+    open import Symbolic _≟_ public
+
+  module Automatic where
+    open import SizedAutomatic _≟_ public
+
   decCCS : ClosedCommutativeSemiring (suc ℓ) ℓ
-  symbolicCS  : ClosedSemiring (suc ℓ) ℓ
-  automaticCS : ClosedSemiring (suc ℓ) ℓ
+  symbolicCS₁ : CommutativeSemiring (suc ℓ) ℓ
+  symbolicCS₂ : ClosedSemiring (suc ℓ) ℓ
+  automaticCS₁ : CommutativeSemiring (suc ℓ) ℓ
+  automaticCS₂ : ClosedSemiring (suc ℓ) ℓ
 \end{code}
 %<*examples>
 \begin{code}
-  decCCS = mkClosedCommutativeSemiring ×-⊎-closedCommutativeSemiring
-                                         Dec _⊎‽_ _×‽_ ⊥‽ ⊤‽ _✶‽
+  decCCS = mkClosedCommutativeSemiring ×-⊎-closedCommutativeSemiring Dec _⊎‽_ _×‽_ ⊥‽ ⊤‽ _✶‽
 
-  symbolicCS = mkClosedSemiring ⋆-∪-ClosedSemiring Lang _∪_ _⋆_ ∅ 𝟏 _☆
-    where open import Symbolic _≟_
+  symbolicCS₁ = mkCommutativeSemiring (∩-∪-commutativeSemiring _) Lang _∪_ _∩_ ∅ 𝒰
+    where open Symbolic
 
-  automaticCS = mkClosedSemiring ⋆-∪-ClosedSemiring (Lang ∞) _∪_ _⋆_ ∅ 𝟏 _☆
-    where open import SizedAutomatic _≟_
+  symbolicCS₂ = mkClosedSemiring ⋆-∪-ClosedSemiring Lang _∪_ _⋆_ ∅ 𝟏 _☆
+    where open Symbolic
+
+  automaticCS₁ = mkCommutativeSemiring (∩-∪-commutativeSemiring _) (Lang ∞) _∪_ _∩_ ∅ 𝒰
+    where open Automatic
+
+  automaticCS₂ = mkClosedSemiring ⋆-∪-ClosedSemiring (Lang ∞) _∪_ _⋆_ ∅ 𝟏 _☆
+    where open Automatic
 \end{code}
 %</examples>
 

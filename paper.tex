@@ -339,7 +339,7 @@ For language implementations of \secreftwo{Symbolic Differentiation}{Automatic D
 Given this choice of equivalence, properties of index types are easily lifted to properties of existential types, as in \figrefdef{prop}{Liftings of index properties to existential types}{\agda{prop}}.
 These definitions ease specification of algebraic instances for existentially wrapped types from corresponding instances for their indices.
 % As an example, \figrefdef{wrap-semiring}{Lifting semiring instances}{\agda{Semiring}} 
-As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift the \AF{\_∪\_}/\AF{\_⋆\_} language semiring of \secref{Specifying Languages} to the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, as follows (where \AF{\_≟\_} is decidable equality on list elements):\notefoot{Lift the \AF{\_∪\_}/\AF{\_∩\_} predicate semiring as well.}
+As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift both language semirings to the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, as follows\out{ (where \AF{\_≟\_} is decidable equality on list elements)}:\notefoot{What is the first closure for predicates?}
 \rnc\source{Transport}
 \agda{examples}
 
