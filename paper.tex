@@ -1,5 +1,5 @@
-\documentclass[hidelinks,12pt]{article}  % fleqn,12pt
-\usepackage[margin=0.2in]{geometry}  % 0.12in, 0.9in, 1in
+\documentclass[hidelinks]{article}  % fleqn,12pt
+\usepackage[margin=1in]{geometry}  % 0.12in, 0.9in, 1in
 
 \usepackage{catchfilebetweentags}
 \usepackage[useregional]{datetime2}
@@ -62,7 +62,6 @@ Languages are usually formalized either set-theoretically as a set of strings \n
 Alternatively, we can use type theory, so that a language is a type-level predicate on ``strings'' (lists of an arbitrary type \AB{A} of ``characters''):
 \agda{Lang}
 \figrefdef{Lang-ops}{Language operations}{\agda{Lang-ops}} gives definitions of the usual language operations, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ☆}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
-
 \note{Explain the types used here and their logical interpretation under the Curry-Howard isomorphism.}
 
 Note that for a language \AB{P} and string \AB{w}, {\AB{P} \AB{w}} is the type of \emph{proofs} that {\AB{w} ∈ \AB{P}}, in other words \emph{explanations} of membership, or \emph{parsing}.
@@ -221,7 +220,8 @@ Within the second category, \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_☆} apply to all
 \agda{domain-transformers}
 \end{minipage}
 \hfill\;
-} shows two parallel collections of predicate operations, each covariantly transforming the codomain (left) or domain (right).
+} shows two parallel collections of predicate operations, each covariantly transforming the codomain (left) or domain (right).\footnote{The types of operations on the left can be further relaxed from \AF{Set⇂} to any codomain type, while keeping \AB{A} fixed, resulting in the usual covariant applicative functor of functions \emph{from} a fixed type \citep{McBride2008APE}.
+Dually, the operations on the right (in their current generality) form a covariant applicative functor of functions \emph{to} the type \AF{Set⇂}.}
 These generalized operations then specialize to language operations as in \figrefdef{lang-via-pred}{Languages via predicate operations}{
 \mathindent0ex
 \begin{center}
@@ -244,6 +244,7 @@ These generalized operations then specialize to language operations as in \figre
 \end{minipage}
 \hfill\;
 }, which also includes language complement (\AF ∁).
+
 \rnc\source{Calculus}
 The \AF{ν} and \AF{δ} lemmas for codomain operations in \figref{nu-delta-lemmas} are easily generalized as shown in \figrefdef{nu-delta-codomain-lemmas}{Properties of \AF{ν} and \AF{δ} for predicate codomain operations}{\agda{νδ-codomain}} and are all proved automatically by normalization.
 (In contrast, the \AF{ν} and \AF{δ} lemmas do not easily generalize for domain operations.)
@@ -338,10 +339,11 @@ The correctness of that aspect, however, is guaranteed by its dependent typing, 
 For language implementations of \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, this anchoring is guaranteed by the type of \AF{⟦\_⟧} in \figreftwo{symbolic-api}{sized-automatic-api}.
 Given this choice of equivalence, properties of index types are easily lifted to properties of existential types, as in \figrefdef{prop}{Liftings of index properties to existential types}{\mathindent0ex\agda{prop}}.
 These definitions ease specification of algebraic instances for existentially wrapped types from corresponding instances for their indices.
-% As an example, \figrefdef{wrap-semiring}{Lifting semiring instances}{\agda{Semiring}} 
-As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift both language semirings to the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, as follows\out{ (where \AF{\_≟\_} is decidable equality on list elements)}:\notefoot{What is the first closure for predicates?}
 \rnc\source{Transport}
+As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift both language semirings to the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, as in \figrefdef{transport-examples}{Examples of algebraic instances transported from indices to existential wrappings}{
+\mathindent0ex
 \agda{examples}
+}\out{ (where \AF{\_≟\_} is decidable equality on list elements)}:\notefoot{What is the first closure for predicates?}
 
 \bibliography{bib}
 
