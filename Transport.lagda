@@ -52,13 +52,13 @@ module Examples where
   symbolicCS₁ = mkCommutativeSemiring (∩-∪-commutativeSemiring _) Lang _∪_ _∩_ ∅ 𝒰
     where open Symbolic
 
-  symbolicCS₂ = mkClosedSemiring ⋆-∪-ClosedSemiring Lang _∪_ _⋆_ ∅ 𝟏 _☆
+  symbolicCS₂ = mkClosedSemiring ⋆-∪-closedSemiring Lang _∪_ _⋆_ ∅ 𝟏 _☆
     where open Symbolic
 
   automaticCS₁ = mkCommutativeSemiring (∩-∪-commutativeSemiring _) (Lang ∞) _∪_ _∩_ ∅ 𝒰
     where open Automatic
 
-  automaticCS₂ = mkClosedSemiring ⋆-∪-ClosedSemiring (Lang ∞) _∪_ _⋆_ ∅ 𝟏 _☆
+  automaticCS₂ = mkClosedSemiring ⋆-∪-closedSemiring (Lang ∞) _∪_ _⋆_ ∅ 𝟏 _☆
     where open Automatic
 \end{code}
 %</examples>

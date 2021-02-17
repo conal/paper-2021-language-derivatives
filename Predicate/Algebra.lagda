@@ -128,11 +128,11 @@ A general vector (predicate) is a linear combination (often infinite) of these b
   -- ; starʳ = λ _ → ☆-starʳ
   }
 
-⋆-∪-ClosedSemiring : ClosedSemiring _ _
-⋆-∪-ClosedSemiring = record { isClosedSemiring =  ⋆-∪-isClosedSemiring }
+⋆-∪-closedSemiring : ClosedSemiring _ _
+⋆-∪-closedSemiring = record { isClosedSemiring =  ⋆-∪-isClosedSemiring }
 
-⋆-∪-ClosedCommutativeSemiring : Commutative _≡_ _∙_ → ClosedCommutativeSemiring _ _
-⋆-∪-ClosedCommutativeSemiring ∙-comm =
+⋆-∪-closedCommutativeSemiring : Commutative _≡_ _∙_ → ClosedCommutativeSemiring _ _
+⋆-∪-closedCommutativeSemiring ∙-comm =
   record { isClosedCommutativeSemiring = ⋆-∪-isClosedCommutativeSemiring ∙-comm }
 \end{code}
 
