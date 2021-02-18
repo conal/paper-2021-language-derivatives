@@ -9,6 +9,10 @@
 *   Define language star via `mapⱽ` and `All`.
 *   Consider exposing level polymorphism in the talk & paper.
     It's there just under the surface.
+*   Mention the *non-idempotence* of this notion of languages, due to choice of equivalence relation.
+*   Mention that everything in the paper is verified by Agda.
+    Here's what Andreas Abel wrote in *Equational Reasoning about Formal Languages in Coalgebraic Style*:
+    "All the definitions, theorems, and proofs of this paper have been extracted from Agda code via an Agda to LaTeX translation and are, thus, guaranteed to be correct (assuming the consistency of Agda itself)."
 
 Less important:
 
@@ -16,6 +20,7 @@ Less important:
 *   Reconcile talk font vs paper font.
     I don't know how they come to differ.
 *   Future work:
+    *   Beyond regular languages
     *   Could I automate the transition from lemmas to implementation via rewrite rules?
         I'd have to suppress normalization, which would seem to break many proofs.
 
