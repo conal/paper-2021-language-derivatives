@@ -4,6 +4,8 @@
 *   Introduction, including clear statement of contributions
 *   Polish the abstract, especially the second/middle paragraph.
 *   Clarify tries as "automatic differentiation".
+*   Read over `Predicate.Properties` and see what might be worth mentioning.
+    For instance, distributivity of concatenation over union generalizes to mapping.
 *   Mention potential optimizations for regular expressions and tries.
 *   `starʳ`
 *   Define language star via `mapⱽ` and `All`.
