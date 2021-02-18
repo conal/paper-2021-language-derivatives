@@ -1,10 +1,10 @@
 \newif\ifacm
 
-\acmtrue
-%% \acmfalse
+%% \acmtrue
+\acmfalse
 
 \ifacm
-\documentclass[acmsmall,screen]{acmart}
+\documentclass[acmsmall,screen,anonymous,timestamp]{acmart}
 \else
 \documentclass[hidelinks]{article}  % fleqn,12pt
 \usepackage[margin=1in]{geometry}  % 0.12in, 0.9in, 1in
@@ -298,7 +298,7 @@ Since the decidable language implementations in \secreftwo{Symbolic Differentiat
 \subsectionl{Predicate Algebra}
 
 The basic building blocks of type-level predicates---and languages in particular---form the vocabulary of a \emph{closed semiring} in two different ways\out{, as reflected in the structure of regular expressions \needcite{}}.
-The semiring abstraction has three aspects: (a) a commutative monoid providing ``zero'' and ``addition'', (b) a (possibly non-commutative) monoid providing ``one'' and ``multiplication'', and (c) the relationship between them, namely that multiplication distributes over addition and zero.\footnote{Distributing of multiplication over zero is also known as ``annihilation''.}
+The semiring abstraction has three aspects: (a) a commutative monoid providing ``zero'' and ``addition'', (b) a (possibly non-commutative) monoid providing ``one'' and ``multiplication'', and (c) the relationship between them, namely that multiplication distributes over addition and zero.\footnote{Distribution of multiplication over zero is also known as ``annihilation''.}
 In the first predicate semiring, which is \emph{commutative} (i.e., multiplication commutes), zero and addition are \AF ∅ and \AF{\_∪\_}, while one and multiplication are \AF 𝒰 and \AF{\_∩\_}.
 Closure adds a star/closure operation \AF{\_✯} with \AF{starˡ} law: {\AB x \AF ✯ \AF ≈ 1 \AF + \AB x \AF ✲ \AB x \AF ✯}.
 
@@ -365,7 +365,7 @@ For instance, consider language union from \figref{symbolic-api}:
 \>[39]\AgdaOperator{\AgdaFunction{◬.∪}}%
 \>[44]\AgdaGeneralizable{Q}\AgdaSymbol{)}\<%
 \end{code}
-Referring to the type and operations of \secref{Specifying Languages} and \figref{symbolic-api} via the module prefix ``{◬.}\hspace{0.05em}'' and ``{▣.}\hspace{0.05em}'' respectively, define \agda{wrapped-Lang}
+Referring to the type and operations of \secref{Specifying Languages} and \figref{symbolic-api} via the module prefixes ``{◬.}\hspace{0.05em}'' and ``{▣.}\hspace{0.05em}'' respectively, define \agda{wrapped-Lang}
 Then wrap union as follows:
 \agda{wrapped-union}
 The type-level language components of the arguments and result are given explicitly here but could instead be inferred by the compiler.
