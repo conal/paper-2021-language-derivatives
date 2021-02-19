@@ -17,11 +17,15 @@
     Doesn't seem strongly relevant, since it uses simple types and doesn't capture correctness.
     On the other hand, it may have some helpful pointers for extending from regular languages to context-free.
 
-*   [*Intrinsic Verification of a Regular Expression Matcher*]\:
-    *   Abstract:
-    
         > This paper describes an implementation of Harper's continuation-based regular-expression matcher as a strong functional program in Cedille; i.e., Cedille statically confirms termination of the program on all inputs. The approach uses neither dependent types nor termination proofs. Instead, a particular interface dubbed a recursion universe is provided by Cedille, and the language ensures that all programs written against this interface terminate. Standard polymorphic typing is all that is needed to check the code against the interface. This answers a challenge posed by Bove, Krauss, and Sozeau.
 
+*   *Strong Functional Pearl: Harper’s Regular-Expression Matcher in Cedille*:
+    *   Abstract:
+        > This paper describes an implementation of Harper's continuation-based regular-expression matcher as a strong functional program in Cedille; i.e., Cedille statically confirms termination of the program on all inputs. The approach uses neither dependent types nor termination proofs. Instead, a particular interface dubbed a recursion universe is provided by Cedille, and the language ensures that all programs written against this interface terminate. Standard polymorphic typing is all that is needed to check the code against the interface. This answers a challenge posed by Bove, Krauss, and Sozeau.
+
+*   [*Intrinsic Verification of a Regular Expression Matcher*]\:
+
+    *  Quote:
     > When coding a program/proof in a dependently typed language, there is a choice between "extrinsic" verification (write the simply-typed code, and then prove it correct) and "intrinsic verification" (fuse the program and proof into one function, with a dependent type).
 
     *   Uses Agda
@@ -53,13 +57,15 @@
         </blockquote>
     *   Similar language definition as predicate but via an inductive type of regular expressions and another of membership proofs.
     *   Uses boolean matrices to represent NFA.
+        "We parse strings with nondeterministic finite automata and represent them in terms of Boolean matrices."
+        I'd like to understand this technique, and consider replacing the booleans with propositions.
 
 *   [*Regular Expressions in Agda*]\:
     *   Similar to my work in some ways, but `ν` and `δ` are *defined* on regular expressions instead of proved.
     *   It's a short paper, but I'm unsure what the authors really proved.
     *   In the conclusion section:
         <blockquote>
-        However, we note a particular defficiency in our program. That is the in- ability to prove the non-membership of some string in a given language. Indeed, we prove membership by constructing an element of the dependent data type `x ∈⌣⟦E⟧` in doing this we have to be able to construct an element of the datatype e0 = e/a at each step of the induction, to do a complete pattern matching we need to include the cases when this construction fails (i.e. the `Nothing` case). The fact that we couldn’t construct an element of the datatype doesn’t execulde the possibility that `e′` is a derviative of `e` to a since `e′` might be semanticaly equivalent to `e/a` but syntactically different.
+        However, we note a particular defficiency in our program. That is the inability to prove the non-membership of some string in a given language. Indeed, we prove membership by constructing an element of the dependent data type `x ∈⌣⟦E⟧` in doing this we have to be able to construct an element of the datatype e0 = e/a at each step of the induction, to do a complete pattern matching we need to include the cases when this construction fails (i.e. the `Nothing` case). The fact that we couldn’t construct an element of the datatype doesn’t execulde the possibility that `e′` is a derviative of `e` to a since `e′` might be semanticaly equivalent to `e/a` but syntactically different.
         </blockquote>
 
 *   [*Certified Context-Free Parsing: A formalisation of Valiant's Algorithm in Agda]
@@ -114,6 +120,3 @@
 
 [*Total parser combinators*]: http://www.cse.chalmers.se/~nad/publications/danielsson-parser-combinators.html "paper by Nils Anders Danielsson (2015)"
 
-A monadic parser combinator library which guarantees termination of parsing, while still allowing many forms of left recursion, is described. The library's interface is similar to those of many other parser combinator libraries, with two important differences: one is that the interface clearly specifies which parts of the constructed parsers may be infinite, and which parts have to be finite, using dependent types and a combination of induction and coinduction; and the other is that the parser type is unusually informative.
-
-The library comes with a formal semantics, using which it is proved that the parser combinators are as expressive as possible. The implementation is supported by a machine-checked correctness proof.
