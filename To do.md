@@ -1,20 +1,16 @@
 ## To do
 
-*   Related work
-*   Introduction, including clear statement of contributions
+*   Fill in missing references and explanations flagged in the text.
+
 *   Polish the abstract, especially the second/middle paragraph.
 *   Clarify tries as "automatic differentiation".
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
-*   Mention potential optimizations for regular expressions and tries.
 *   `starʳ`
 *   Define language star via `mapⱽ` and `All`.
 *   Consider exposing level polymorphism in the talk & paper.
     It's there just under the surface.
 *   Mention the *non-idempotence* of this notion of languages, due to choice of equivalence relation.
-*   Mention that everything in the paper is verified by Agda.
-    Here's what Andreas Abel wrote in *Equational Reasoning about Formal Languages in Coalgebraic Style*:
-    "All the definitions, theorems, and proofs of this paper have been extracted from Agda code via an Agda to LaTeX translation and are, thus, guaranteed to be correct (assuming the consistency of Agda itself)."
 
 Less important:
 
@@ -25,6 +21,8 @@ Less important:
     *   Beyond regular languages
     *   Could I automate the transition from lemmas to implementation via rewrite rules?
         I'd have to suppress normalization, which would seem to break many proofs.
+    *   DFA and/or NFA implementations from the same specification and in the same style, i.e., indexed by type-level languages.
+    *   Optimizations for regular expressions and tries.
 
 From old paper version to-do:
 
@@ -53,3 +51,11 @@ From old paper version to-do:
 *   Run this stuff, and do some simple timing.
 *   Find some languages with genuinely dependent types.
     I have something similar with decidability, though `Dec` instead of `Set`.
+
+## Did
+
+*   Related work
+*   Introduction, including clear statement of contributions
+*   Mention that everything in the paper is verified by Agda.
+    Here's what Andreas Abel wrote in *Equational Reasoning about Formal Languages in Coalgebraic Style*:
+    "All the definitions, theorems, and proofs of this paper have been extracted from Agda code via an Agda to LaTeX translation and are, thus, guaranteed to be correct (assuming the consistency of Agda itself)."
