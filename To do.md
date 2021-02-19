@@ -1,8 +1,5 @@
 ## To do
 
-*   Fill in missing references and explanations flagged in the text.
-
-*   Cite Martin Löf type theory.
 *   Polish the abstract, especially the second/middle paragraph.
 *   Clarify tries as "automatic differentiation".
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
@@ -55,6 +52,8 @@ From old paper version to-do:
 
 ## Did
 
+*   Fill in missing references and explanations flagged in the text.
+*   Cite Martin Löf type theory.
 *   Related work
 *   Introduction, including clear statement of contributions
 *   Mention that everything in the paper is verified by Agda.

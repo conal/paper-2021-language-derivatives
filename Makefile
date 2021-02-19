@@ -47,7 +47,7 @@ latex/%: %
 	@mkdir -p $(dir $@)
 	cp $< $@
 
-latex/%.pdf: latex/%.tex $(LATEX_DEPENDENCIES)
+latex/%.pdf: $(LATEX_DEPENDENCIES) latex/%.tex
 	cd latex && latexmk -xelatex -bibtex $*.tex
 	@touch $@
 
