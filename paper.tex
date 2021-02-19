@@ -385,6 +385,49 @@ Given this choice of equivalence, properties of index types are easily lifted to
 These definitions ease specification of algebraic instances for existentially wrapped types from corresponding instances for their indices.
 \rnc\source{Transport}
 As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift both language semirings to the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, as in \figrefdef{transport-examples}{Examples of algebraic instances transported from indices to existential wrappings}{\agda{examples}}.
+
+
+\sectionl{Related Work}
+
+Most work on formal languages in functional programming has been in parsing, particularly via parsing combinators \needcite{}.
+Such work typically concentrates on usability, composability, and sometimes efficiency, rather than on simple, precise specification and verifiable correctness.
+
+There has also been some work using type theory to capture languages as type-level predicates much like in \secref{Specifying Languages}:
+\begin{itemize}
+
+\item \citet{KorkutEtAl2016} defined a non-indexed algebraic data type of regular expressions together with an indexed inductive type of proofs of membership of strings in the language denoted by the regular expressions and a corresponding function that matches an implicitly concatenated stack of regular expressions.
+Special attention is paid to ensuring and proving termination, particularly in regard to languages that contain the empty string.
+Addressing both involves defunctionalization and translating between general regular expressions and a restricted ``standard'' form.
+
+\item \citet{AgularMannaa2009} also defined a non-indexed algebraic type of regular expressions.
+They also \emph{defined} indexed types for \AF{ν} and \AF{δ} on regular expressions rather than defining the meanings of those operations in terms of languages and then proving properties of them.
+They do prove a consistency property about \AF{δ}, but apparently not about \AF{ν}, and they note their method's ``inability to prove the non-membership of some string in a given language''.
+
+\item \citet{DoczkalEtAl2013} formalized regular languages constructively in Coq, also in terms of a type-level membership predicate.
+They then prove several classic results about finite automata, including minimization and relationship to Nerode and Myhill partitions.
+
+\item \citet{FirsovUustalu2013} used Agda to formalize regular expressions with a corresponding inductive type of language membership proofs and then related regular expressions to nondeterministic finite automata (NFAs) represented as boolean matrices and operations on that representation that correspond to those on regular expressions.
+They then proved soundness and completeness of the NFA representation with respect to regular language membership.
+
+\item \citet{Traytel2017} defined formal languages as tries and explored operations on tries defined via primitive corecursion and reasoned about coinductively in the Isabelle/HOL proof assistant.
+There appears to be no specification higher level (less operational) than tries, leading to some rather complex definitions (which, as \emph{definitions}, cannot be proved correct).
+The definition of language concatenation is particularly delicate.
+For the same reason, proofs of even basic properties involve coinduction.
+The authors point out that, however, that the coinductive trie formulation enabled better proof automation than with sets of strings.
+
+\item \citet{Abel2016} also formulated languages via tries and in particular noted the termination issue mentioned in \secref{Automatic Differentiation} and provided the sized-types solution adopted in this paper.
+Relationships to automata theory and coalgebraic notions were also explored in depth.
+Trie look-up yields boolean values rather than propositions, and there was no simpler specification of languages with respect to which the trie implementation could be specified and proved consistent, so every operation is \emph{defined} coinductively.
+The concatenation and closure (star) cases are especially delicate.
+Equality on tries is defined by strong bisimilarity, and thus properties require corresponding machinery to state and prove.
+
+%% requiring more careful construction and reading than the specification given in \figref{Lang-ops} and used in the implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}
+
+\end{itemize}
+
+
+
+
 \bibliography{bib}
 
 \end{document}
