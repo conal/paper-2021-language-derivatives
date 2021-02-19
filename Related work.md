@@ -76,7 +76,7 @@
 *   Convolution
 *   *A play on regular expressions*.
     Doesn't seem very relevant.
-*   *A constructive theory of regular languages in Coq*:
+*   [*A constructive theory of regular languages in Coq*]\:
     <blockquote>
     We present a formal constructive theory of regular languages consisting of about 1400 lines of Coq/Ssreflect. As representations we consider regular expressions, deterministic and nondeterministic automata, and Myhill and Nerode partitions. We construct computable functions translating between these representations and show that equivalence of representations is decidable. We also establish the usual closure properties, give a minimization algorithm for DFAs, and prove that minimal DFAs are unique up to state renaming. Our development profits much from Ssreflect’s support for finite types and graphs.
     </blockquote>
@@ -120,3 +120,4 @@
 
 [*Total parser combinators*]: http://www.cse.chalmers.se/~nad/publications/danielsson-parser-combinators.html "paper by Nils Anders Danielsson (2015)"
 
+[*A constructive theory of regular languages in Coq*]: https://www.ps.uni-saarland.de/~doczkal/regular/ConstructiveRegularLanguages.pdf "paper by Christian Doczkal, Jan-Oliver Kaiser, and Gert Smolka (2013)"

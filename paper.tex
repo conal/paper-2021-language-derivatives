@@ -80,7 +80,7 @@ Choosing type theory instead gives us languages as type-level predicates over st
 Applying a language to a string yields a type whose elements are language membership proofs describing \emph{how} a string parses in the language.
 The usual building blocks of languages (including union, concatenation, and Kleene closure) have precise and compelling specifications uncomplicated by operational strategies and are easily generalized to a few general domain-transforming and codomain-transforming operations on predicates.
 
-A simple characterization of languages (and indeed functions from lists to any type) captures the essential idea behind language ``differentiation'' and ``integration'' as used for recognizing languages and leads to a collection of lemmas about type-level predicates.
+A simple characterization of languages (and indeed functions from lists to any type) captures the essential idea behind language ``differentiation'' (and integration) as used for recognizing languages and leads to a collection of lemmas about type-level predicates.
 These lemmas form the backbone of two dual implementations of language recognition---(inductive) regular expressions and (coinductive) tries---each containing the same code but in dual arrangements.
 The language lemmas form most of the implementation in both cases, while the representation and primitive operations trade places.
 The regular expression version corresponds to symbolic differentiation, while the trie version corresponds to automatic differentiation.
@@ -119,12 +119,13 @@ These definitions do not, however, give us decidable parsing, because general ty
 In order to convert languages into parsers, it will help to decompose languages---and indeed any function from lists---into a regular form.
 Since lists are defined by an algebraic data type, we can decompose languages according to constructor, as follows:
 \agda{νδ}
+In terms of languages, {\AF{δ} \AB{P} \AB{a}} comprises all strings \AB{w} such that {\AB{a} \AIC ∷ \AB{w}} is in \AB{P}, i.e., the tails of strings in \AB{P} that start with \AB{a}.
+
 Each use of \AF{δ} takes us one step closer to reducing general language membership to nullability.
 In other words,\footnote{Repeated application is expressed as a standard left fold\out{ \stdlibCitep{Data.List}}:
 \agda{foldl}
 }%
 \agda{ν∘foldlδ}
-
 This simple observation is the semantic heart of the syntactic technique of \emph{derivatives of regular expressions} as used for efficient recognition of regular languages \citep{Brzozowski64}, later extended to parsing general context-free languages \citep{Might2010YaccID}.
 Lemma \AF{ν∘foldlδ} liberates this technique from the assumption that languages are represented \emph{symbolically}, by some form of grammar (e.g., regular or context-free), inviting other representations as we will see in \secref{Automatic Differentiation}.
 
@@ -237,8 +238,8 @@ Decidable recognition is defined exactly as with unsized tries (\figref{automati
 
 The language-building vocabulary defined in \secref{Specifying Languages} can be simplified and generalized.
 First note that there are two categories of operations.
-One category transforms the codomain (types): \AF{∅}, \AF 𝒰, \AF{\_∪\_}, \AF{\_∩\_}.
-The other transforms the domain (lists): \AF{𝟏}, \AF{\_⋆\_}, \AF{\_☆}, \AF{`}.
+One category transforms the codomain (types): \AF{∅}, \AF 𝒰, \AF{\_∪\_}, and \AF{\_∩\_}.
+The other transforms the domain (lists): \AF{𝟏}, \AF{\_⋆\_}, \AF{\_☆}, and \AF{`}.
 The first category applies to predicates over all types (not just over lists).
 Within the second category, \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_☆} apply to all monoids, while \AF{`} is specific to lists.
 
@@ -395,19 +396,19 @@ Such work typically concentrates on usability, composability, and sometimes effi
 There has also been some work using type theory to capture languages as type-level predicates much like in \secref{Specifying Languages}:
 \begin{itemize}
 
-\item \citet{KorkutEtAl2016} defined a non-indexed algebraic data type of regular expressions together with an indexed inductive type of proofs of membership of strings in the language denoted by the regular expressions and a corresponding function that matches an implicitly concatenated stack of regular expressions.
-Special attention is paid to ensuring and proving termination, particularly in regard to languages that contain the empty string.
-Addressing both involves defunctionalization and translating between general regular expressions and a restricted ``standard'' form.
-
 \item \citet{AgularMannaa2009} also defined a non-indexed algebraic type of regular expressions.
 They also \emph{defined} indexed types for \AF{ν} and \AF{δ} on regular expressions rather than defining the meanings of those operations in terms of languages and then proving properties of them.
-They do prove a consistency property about \AF{δ}, but apparently not about \AF{ν}, and they note their method's ``inability to prove the non-membership of some string in a given language''.
+They prove a consistency property about \AF{δ}, but apparently not about \AF{ν}, and they note their method's ``inability to prove the non-membership of some string in a given language''.
 
 \item \citet{DoczkalEtAl2013} formalized regular languages constructively in Coq, also in terms of a type-level membership predicate.
 They then prove several classic results about finite automata, including minimization and relationship to Nerode and Myhill partitions.
 
 \item \citet{FirsovUustalu2013} used Agda to formalize regular expressions with a corresponding inductive type of language membership proofs and then related regular expressions to nondeterministic finite automata (NFAs) represented as boolean matrices and operations on that representation that correspond to those on regular expressions.
 They then proved soundness and completeness of the NFA representation with respect to regular language membership.
+
+\item \citet{KorkutEtAl2016} defined a non-indexed algebraic data type of regular expressions together with an indexed inductive type of proofs of membership of strings in the language denoted by the regular expressions and a corresponding function that matches an implicitly concatenated stack of regular expressions.
+Special attention is paid to ensuring and proving termination, particularly in regard to languages that contain the empty string.
+Addressing both involves defunctionalization and translating between general regular expressions and a restricted ``standard'' form.
 
 \item \citet{Traytel2017} defined formal languages as tries and explored operations on tries defined via primitive corecursion and reasoned about coinductively in the Isabelle/HOL proof assistant.
 There appears to be no specification higher level (less operational) than tries, leading to some rather complex definitions (which, as \emph{definitions}, cannot be proved correct).
