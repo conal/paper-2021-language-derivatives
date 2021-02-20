@@ -1,18 +1,16 @@
 ## To do
 
-*   Maybe demote sections 4 (Reflections), 5 (Symbolic Differentiation), and 6 (Automatic Differentiation) into subsections of a new section called "From languages to parsing".
-   Probably replace all occurrences of "`\\secreftwo{Symbolic Differentiation}{Automatic Differentiation}`".
 *   Clarify tries as "automatic differentiation".
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
 *   `starʳ`
 *   Define language star via `mapⱽ` and `All`.
-*   Consider exposing level polymorphism in the talk & paper.
-    It's there just under the surface.
 *   Mention the *non-idempotence* of this notion of languages, due to choice of equivalence relation.
 *   Fix layout for `\\figref{nu-delta-codomain-lemmas}` in ACM version.
     It now uses horizontal layout, requiring `small` for ACM.
     Stack vertically instead.
+*   Generalize from lists.
+    Other types have their own deltas.
 
 Less important:
 
@@ -38,8 +36,6 @@ From old paper version to-do:
     Do forward, reverse, and mixed modes have anything to say?
     Is there something *linear* about derivatives?
     The right meaning for linearity seems clear from the function/free semimodule.
-*   Generalize from lists.
-    Other types have their own deltas.
 *   Other forms of convolution.
     I think generalized convolution is intrinsically amenable to memoization / dynamic programming.
     What about incremental evaluation?
@@ -56,6 +52,10 @@ From old paper version to-do:
 
 ## Did
 
+*   Maybe demote sections 4 (Reflections), 5 (Symbolic Differentiation), and 6 (Automatic Differentiation) into subsections of a new section called "From languages to parsing".
+   Probably replace all occurrences of "`\\secreftwo{Symbolic Differentiation}{Automatic Differentiation}`".
+*   Consider exposing level polymorphism in the talk & paper.
+    It's there just under the surface.
 *   Polish the abstract, especially the second/middle paragraph.
 *   Fill in missing references and explanations flagged in the text.
 *   Cite Martin Löf type theory.
