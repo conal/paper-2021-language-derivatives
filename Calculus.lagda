@@ -67,8 +67,8 @@ private
 open import Algebra.Core
 private
   variable
-    g : Op₁ Set⇃
-    h : Op₂ Set⇃
+    g : Op₁ (Set ℓ)
+    h : Op₂ (Set ℓ)
 \end{code}
 
 %<*νδ-codomain>

@@ -7,15 +7,6 @@ module Misc {ℓ : Level} where
 
 \end{code}
 
-\subsection{Types}
-
-I may want to say just ``\APT{Set}'' to mean ``{\APT Set \AB{ℓ}}'' in the slides and/or paper, but I really still want level polymorphism.
-\begin{code}
-Set⇃ = Set ℓ
-
-Set⇃₁ = Set (suc ℓ)
-\end{code}
-
 \subsection{̄{⊥ and ⊤}
 
 Make ⊥ and ⊤ level-monomorphic to simplify signatures elsewhere.

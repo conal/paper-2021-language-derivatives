@@ -22,7 +22,7 @@ private
 %<*Dec>
 \AgdaTarget{Dec; yes; no}
 \begin{code}
-data Dec (A : Set⇃) : Set⇃ where
+data Dec (A : Set ℓ) : Set ℓ where
   yes  :     A → Dec A
   no   : ¬   A → Dec A
 \end{code}%

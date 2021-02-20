@@ -36,7 +36,7 @@ infix   9 _◂_
 infixl 10 _☆
 \end{code}
 \begin{code}
-data Lang : ◬.Lang → Set⇃₁ where
+data Lang : ◬.Lang → Set (suc ℓ) where
   ∅    : Lang  ◬.∅
   𝒰    : Lang  ◬.𝒰
   _∪_  : Lang  P  → Lang Q  → Lang (P  ◬.∪  Q)

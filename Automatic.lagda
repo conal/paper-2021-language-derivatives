@@ -1,5 +1,6 @@
 \begin{code}[hide]
 
+open import Level
 open import Decidability hiding (_◂_)
 open import Relation.Binary.PropositionalEquality using (_≡_) ; open _≡_
 
@@ -36,7 +37,7 @@ infix   9 _◂_
 infixl 10 _☆
 \end{code}
 \begin{code}
-record Lang (P : ◬.Lang) : Set⇃₁ where
+record Lang (P : ◬.Lang) : Set (suc ℓ) where
   coinductive
   field
     ν : Dec (◬.ν P)

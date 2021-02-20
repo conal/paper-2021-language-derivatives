@@ -32,14 +32,16 @@ infixl 7 _⋆_
 infixl 10 _☆
 \end{code}
 
-%<*Lang>
-\begin{code}
-Lang = A ✶ → Set⇃
-\end{code}
-%</Lang>
-
 %<*Lang-ops>
-{\mathindent0ex
+{
+\begin{center}
+\mathindent-20ex
+\begin{code}
+Lang = A ✶ → Set ℓ
+\end{code}
+\end{center}
+\vspace{-3ex}
+\mathindent0ex
 \hfill
 \begin{minipage}[t]{20ex}
 \begin{code}

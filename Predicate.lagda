@@ -16,17 +16,17 @@ open import Misc {ℓ}
 %<*Pred>
 \AgdaTarget{Pred}
 \begin{code}[hide]
-Pred : Set⇃ → Set⇃₁
+Pred : Set ℓ → Set (suc ℓ)
 \end{code}
 \begin{code}
-Pred A = A → Set⇃
+Pred A = A → Set ℓ
 \end{code}
 %</Pred>
 
 \begin{code}
 private
   variable
-    A B C D : Set⇃
+    A B C D : Set ℓ
     P Q R S : Pred A
 \end{code}
 
@@ -36,13 +36,13 @@ First, we can transform types (predicate codomains) covariantly, with convenient
 %<*codomain-transformers>
 \AgdaTarget{pureᵀ, mapᵀ, mapᵀ₂}
 \begin{code}
-pureᵀ : Set⇃ → Pred A
+pureᵀ : Set ℓ → Pred A
 pureᵀ ∙ a = ∙
 
-mapᵀ : (Set⇃ → Set⇃) → (Pred A → Pred A)
+mapᵀ : (Set ℓ → Set ℓ) → (Pred A → Pred A)
 mapᵀ ∙_ P a = ∙ P a
 
-mapᵀ₂ :  (Set⇃ → Set⇃ → Set⇃) →
+mapᵀ₂ :  (Set ℓ → Set ℓ → Set ℓ) →
          (Pred A  → Pred A  → Pred A)
 mapᵀ₂ _∙_ P Q a = P a ∙ Q a
 \end{code}
@@ -58,7 +58,7 @@ infixr 7 _·_
 𝒰 : Pred A
 _∪_ : Op₂ (Pred A)
 _∩_ : Op₂ (Pred A)
-_·_ : Set⇃ → Op₁ (Pred A)
+_·_ : Set ℓ → Op₁ (Pred A)
 ∁ : Op₁ (Pred A)
 \end{code}
 %<*codomain-ops>
@@ -103,7 +103,7 @@ These domain transformations generalize concatenation and its identity to arbitr
 Rather than specialize all the way back to lists at this point, it will be useful to generalize to a binary operation \AB{\_∙\_} and an element \AB{ε}, which will form a monoid:
 % \AgdaTarget{MonoidOps, 𝟏, _⋆_, ⋆, \_☆, ☆, zero☆, suc☆}
 \begin{code}[hide]
-module MonoidOps {M : Set⇃} (_∙_ : Op₂ M) (ε : M) where
+module MonoidOps {M : Set ℓ} (_∙_ : Op₂ M) (ε : M) where
   𝟏 : Pred M
   infixl 7 _⋆_
   _⋆_ : Op₂ (Pred M)
@@ -133,11 +133,11 @@ module MonoidOps {M : Set⇃} (_∙_ : Op₂ M) (ε : M) where
 
 Further specialize to lists:
 \begin{code}[hide]
-module ListOps (A : Set⇃) where
+module ListOps (A : Set ℓ) where
   open import Data.List
   open MonoidOps {M = A ✶} _⊙_ [] public
 
-  Lang : Set⇃₁
+  Lang : Set (suc ℓ)
 \end{code}
 %<*Lang>
 \begin{code}
@@ -155,7 +155,7 @@ module ListOps (A : Set⇃) where
 
 \note{Experiment}
 \begin{code}
-module AltStar {M : Set⇃} (_∙_ : Op₂ M) (ε : M) where
+module AltStar {M : Set ℓ} (_∙_ : Op₂ M) (ε : M) where
   open import Data.List
   open import Data.List.Relation.Unary.All
 

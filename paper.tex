@@ -98,14 +98,16 @@ In particular, despite the inductive and coinductive nature of regular expressio
 \rnc\source{Language}
 
 Languages are usually formalized either set-theoretically as sets of strings or operationally as parsers.
-Alternatively, one can use type theory, so that a language is a type-level predicate on ``strings'' (lists of an arbitrary type \AB{A} of ``characters''):
-\agda{Lang}
+Alternatively, one can use type theory, so that a language is a type-level predicate on ``strings'' (lists of an arbitrary type \AB{A} of ``characters'').
 \figrefdef{Lang-ops}{Languages as type-level predicates}{\agda{Lang-ops}} gives definitions of the usual language operations, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ☆}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
 
 The definitions in \figref{Lang-ops} reflect the logical interpretation of types under the Curry-Howard (``propositions as types'') isomorphism, in which types represent propositions and elements/values of a type represent proofs of the corresponding proposition \citep{Wadler2015propositions}.
-The specific embodiment of Curry-Howard in \figref{Lang-ops} and throughout this paper is the language Agda \citep{Norell2009,BoveEtAl2009Agda}, which is both programming language and proof assistant founded on Martin-Löf's intuitionistic type theory \citep{MartinLöf1984intuitionistic}.
+The specific embodiment of Curry-Howard in \figref{Lang-ops} and throughout this paper is the language Agda \citep{Norell2008AFP, BoveEtAl2009Agda}, which is both programming language and proof assistant founded on Martin-Löf's intuitionistic type theory \citep{MartinLöf1984intuitionistic}.
 Specifically,
 \begin{itemize}
+
+\item Types have type {\APT{Set} \AB ℓ} for some universe level \AB ℓ.
+These levels avoid logical inconsistencies resulting from {\APT{Set} \AS : \APT{Set}} but can be safely ignored in this paper (which is parametrized over \AB ℓ).
 
 \item The types \AD ⊥ and \ARe ⊤ represent falsity and truth respectively, with \AD ⊥ having no elements (i.e., uninhabited) and \ARe ⊤ having a single element \AFi{tt}.
 
@@ -403,7 +405,7 @@ This recipe accommodates the language operations in \figref{Lang-ops} and their 
 
 Fortunately, there is a simple way to encapsulate indexed types into simple (non-indexed) types, namely existential quantification.
 For instance, {\AF{∃} \AD{Dec}} and {\AF{∃} \AD{(\ARe{Lang} \APo ∞)}} are simple types.
-For a type family {\AB F \AK : \AB A \AK → \APT Set⇃}, values of type {\AF ∃ \AB F} are pairs {(\AB a , \AB b)} with {\AB a \AK : \AB A} and {\AB b \AK : \AB F \AB a}.
+For a type family {\AB F \AK : \AB A \AK → \APT Set \AB ℓ}, values of type {\AF ∃ \AB F} are pairs {(\AB a , \AB b)} with {\AB a \AK : \AB A} and {\AB b \AK : \AB F \AB a}.
 We can also encapsulate dependently typed \emph{operations} on indexed types into simply typed operations on the (simply typed) existentially wrapped versions of those types.
 For instance, consider language union from \figref{symbolic-api}:
 \begin{code}

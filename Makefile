@@ -63,7 +63,7 @@ see: $(PAPER).see
 clean:
 	rm -r latex
 
-tags: $(LAGDAS)
+tags: $(LAGDAS) paper.tex talk.tex
 	etags $^
 
 web: .paper-token .talk-token
