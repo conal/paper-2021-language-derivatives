@@ -134,7 +134,7 @@ This paper makes the following specific contributions:
 \item
   A collection of lemmas are stated and proved about functions over lists, capturing the semantic essence of Brzozowski's syntactic technique of derivatives of regular expressions (\secref{Decomposing Languages}).
 \item
-  A duality is revealed between regular expressions and tries (prefix trees) in the context of language differentiation (\secreftwo{Symbolic Differentiation}{Automatic Differentiation}).
+  A duality is revealed between regular expressions and tries (prefix trees) in the context of language differentiation (\secref{From Languages to Parsing}).
   Each implementation contains exactly the same code but in transposed forms.
   Both are corollaries of the semantic lemmas and are automatically proved correct by type-checking.
 \item
@@ -188,7 +188,7 @@ Lemma \AF{ν∘foldlδ} again captures the correctness of this incremental imple
 
 Given the definitions of \AF{ν} and \AF{δ} above and of the language operations in \secref{Specifying Languages}, one can prove properties about how they relate, as shown in
 \figrefdef{nu-delta-lemmas}{Properties of \AF{ν} and \AF{δ} for language operations}{\agda{νδ-lemmas}}.
-The correct-by-construction parsing algorithms in \secreftwo{Symbolic Differentiation}{Automatic Differentiation} are corollaries of these properties.
+The correct-by-construction parsing algorithms in \secref{From Languages to Parsing} are corollaries of these properties.
 
 There are three relations involved in \figref{nu-delta-lemmas}: propositional equality (``≡''), (type) isomorphism (``↔'') and extensional isomorphism (``⟷'').
 Isomorphism relates types (propositions) whose inhabitants (proofs) are in one-to-one correspondence.
@@ -234,7 +234,9 @@ Type isomorphisms (such as those in \figref{nu-delta-lemmas}) play an important 
 One direction of the isomorphism proves \AB{B} from \AB{A}, while the other proves {\AF ¬ B} from {\AF ¬ A}.
 In fact, logical \emph{equivalence} suffices for the results in this paper, but the stronger condition of isomorphism enables variations such as generating all parses/proofs rather than just one.
 
-\sectionl{Reflections}
+\sectionl{From Languages to Parsing}
+
+\subsectionl{Reflections}
 
 The lemmas in \figref{nu-delta-lemmas} tell us how to decompose languages defined in terms of the vocabulary from \figref{Lang-ops}, while the definitions in \figref{compositional-dec} tell us how compute inhabitation of the resulting types, resulting in decidable parsing.
 These lemmas and definitions cannot be applied \emph{automatically} in their present form, however, because languages are functions, as are \AF{ν} and \AF{δ}, and so are not subject to pattern-matching.
@@ -246,10 +248,10 @@ In the former, functions are represented symbolically in some suitable vocabular
 The latter solution involves re-interpreting the vocabulary of functions to construct not just the usual functions, but also their derivatives \citep{Griewank89onAD, GriewankWalther2008EvalDerivs, Elliott-2018-ad-icfp}.
 This latter option is often much more efficient than the former, since it easily avoids a good deal of redundant computation due to significant amounts of duplicated work between function ``primals'' and their derivatives.
 
-\secreftwo{Symbolic Differentiation}{Automatic Differentiation} apply the symbolic and automatic strategies respectively to languages.
-In both cases, the algorithms are proved correct with minimal effort as corollaries of the lemmas in \figref{nu-delta-lemmas}.
+\secref{From Languages to Parsing} applies the symbolic and automatic strategies respectively to languages.
+In both cases, the algorithms are automatically proved correct by type checking as corollaries of the lemmas in \figref{nu-delta-lemmas}.
 
-\sectionl{Symbolic Differentiation}
+\subsectionl{Symbolic Differentiation}
 \rnc\source{Symbolic}
 
 \nc\api{\setstretch{1.1}\agda{api}}
@@ -266,7 +268,7 @@ Correctness is guaranteed by the types of \AF{ν} and \AF{δ} and so is proved a
 In \figref{symbolic-defs}, note the role of the isomorphisms from \figref{nu-delta-lemmas}.
 Since those isomorphisms relate \AF{ν} and \AF{δ} on the language-building operations to types and languages expressed in that \emph{same} vocabulary, we end up with a recursive algorithm.
 
-\sectionl{Automatic Differentiation}
+\subsectionl{Automatic Differentiation}
 \rnc\source{Automatic}
 
 \agda{rules}
@@ -352,7 +354,7 @@ These generalized operations then specialize to language operations as in \figre
 
 \rnc\source{Calculus}
 The \AF{ν} and \AF{δ} lemmas for codomain (but not domain) operations in \figref{nu-delta-lemmas} are easily generalized as shown in \figrefdef{nu-delta-codomain-lemmas}{Properties of \AF{ν} and \AF{δ} for predicate codomain operations}{\agda{νδ-codomain}} and are all proved automatically by normalization.
-Since the decidable language implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation} are corollaries of \AF{ν} and \AF{δ} lemmas, those implementations adapt easily to the generalized codomain operations (\AF{pureᵀ}, \AF{mapᵀ}, and \AF{mapᵀ₂}), resulting in a somewhat smaller implementation and broader coverage.
+Since the decidable language implementations in \secref{From Languages to Parsing} are corollaries of \AF{ν} and \AF{δ} lemmas, those implementations adapt easily to the generalized codomain operations (\AF{pureᵀ}, \AF{mapᵀ}, and \AF{mapᵀ₂}), resulting in a somewhat smaller implementation and broader coverage.
 
 \sectionl{Properties}
 
@@ -403,7 +405,7 @@ The role of semirings in parsing began with \citet{Chomsky1959CFL} and was furth
 
 \rnc\source{Transport}
 
-We have seen that type-level languages have useful and illuminating algebraic properties and that the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation} are tightly connected to languages.
+We have seen that type-level languages have useful and illuminating algebraic properties and that the decidable implementations in \secref{From Languages to Parsing} are tightly connected to languages.
 Must we prove these properties again for each implementation---here there are more operational details to manage---or do the algebraic properties somehow transfer to those implementations?
 This question immediately raises a technical obstacle.
 Algebraic abstractions and their properties are simply typed.
@@ -444,13 +446,13 @@ A crucial question is the choice of equivalence relation for the new properties.
 If we choose equivalence on these dependent pairs to be equivalence of \emph{first} projections (type \emph{indices}), then all algebraic properties of those indices will hold for the existentially wrapped versions as well.
 This choice may at first seem like cheating, since the entire operational aspect of the representation is ignored.
 The correctness of that aspect, however, is guaranteed by its dependent typing, which anchors its meaning (no matter how cleverly implemented) to the non-operational type index.
-For the language implementations of \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, this anchoring is guaranteed by the type of \AF{⟦\_⟧} in \figreftwo{symbolic-api}{sized-automatic-api}.
+For the language implementations of \secref{From Languages to Parsing}, this anchoring is guaranteed by the type of \AF{⟦\_⟧} in \figreftwo{symbolic-api}{sized-automatic-api}.
 (Similarly, for the decidable type constructors in \figref{compositional-dec}, correctness is guaranteed by the types of the \AIC{yes} and \AIC{no} constructors in the definition of ‌\ARe{Dec} in \secref{Decidability}.)
 Given this choice of equivalence, properties of index types easily lift to properties of existential types, as shown in \figrefdef{prop}{Liftings of index properties to existential types}{\mathindent0ex\agda{prop}}.
 (These definitions are partially inferable as well, e.g., from \agda{prop₃′}.)
 These definitions ease specification of algebraic instances for existentially wrapped types from corresponding instances for their indices.
 \rnc\source{Transport}
-As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift both language semirings to the decidable implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}, as in \figrefdef{transport-examples}{Examples of algebraic instances transported from indices to existential wrappings}{\agda{examples}}.
+As examples, we can lift the commutative semiring of types to wrappings of the decidable counterparts from \figref{compositional-dec} in \secref{Decidability}, and lift both language semirings to the decidable implementations in \secref{From Languages to Parsing}, as in \figrefdef{transport-examples}{Examples of algebraic instances transported from indices to existential wrappings}{\agda{examples}}.
 
 
 \sectionl{Related Work}
@@ -487,7 +489,7 @@ Trie look-up yielded boolean values rather than propositions, and there was no s
 The concatenation and closure (star) cases were especially delicate.
 Equality on tries was defined by strong bisimilarity, and thus properties required corresponding machinery to state and prove.
 
-%% requiring more careful construction and reading than the specification given in \figref{Lang-ops} and used in the implementations in \secreftwo{Symbolic Differentiation}{Automatic Differentiation}
+%% requiring more careful construction and reading than the specification given in \figref{Lang-ops} and used in the implementations in \secref{From Languages to Parsing}
 
 \end{itemize}
 
