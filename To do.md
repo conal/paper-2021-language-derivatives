@@ -10,6 +10,9 @@
 *   Consider exposing level polymorphism in the talk & paper.
     It's there just under the surface.
 *   Mention the *non-idempotence* of this notion of languages, due to choice of equivalence relation.
+*   Fix layout for `\\figref{nu-delta-codomain-lemmas}` in ACM version.
+    It now uses horizontal layout, requiring `small` for ACM.
+    Stack vertically instead.
 
 Less important:
 

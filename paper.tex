@@ -1,7 +1,6 @@
 \newif\ifacm
 
 %% \acmtrue
-\acmfalse
 
 \ifacm
 \documentclass[acmsmall,screen,anonymous,timestamp]{acmart}
@@ -316,7 +315,11 @@ Within the second category, \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_☆} apply to all
 \mathindent-12ex
 \agda{Pred}
 \end{center}
+\ifacm
+\vspace{1.5ex}
+\else
 \vspace{-2ex}
+\fi
 \hfill
 \mathindent0ex
 \begin{minipage}[b]{19em}
@@ -335,7 +338,11 @@ These generalized operations then specialize to language operations as in \figre
 \mathindent-12ex
 \agda{Lang}
 \end{center}
+\ifacm
+\vspace{1ex}
+\else
 \vspace{-2ex}
+\fi
 \hfill
 \begin{minipage}[c]{11em}
 \setstretch{1.7}

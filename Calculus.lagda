@@ -73,6 +73,9 @@ private
 
 %<*νδ-codomain>
 {\mathindent0ex
+\ifacm
+\small
+\fi
 \hfill
 \begin{minipage}{18em}
 \AgdaTarget{νpureᵀ, νmapᵀ, νmapᵀ₂}

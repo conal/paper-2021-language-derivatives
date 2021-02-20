@@ -40,7 +40,9 @@ infixl 10 _☆
 Lang = A ✶ → Set ℓ
 \end{code}
 \end{center}
+\ifacm\else
 \vspace{-3ex}
+\fi
 \mathindent0ex
 \hfill
 \begin{minipage}[t]{20ex}
