@@ -1,6 +1,7 @@
 ## To do
 
-*   Polish the abstract, especially the second/middle paragraph.
+*   Maybe demote sections 4 (Reflections), 5 (Symbolic Differentiation), and 6 (Automatic Differentiation) into subsections of a new section called "From languages to parsing".
+   Probably replace all occurrences of "`\\secreftwo{Symbolic Differentiation}{Automatic Differentiation}`".
 *   Clarify tries as "automatic differentiation".
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
@@ -52,6 +53,7 @@ From old paper version to-do:
 
 ## Did
 
+*   Polish the abstract, especially the second/middle paragraph.
 *   Fill in missing references and explanations flagged in the text.
 *   Cite Martin Löf type theory.
 *   Related work

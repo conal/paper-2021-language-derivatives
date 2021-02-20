@@ -21,10 +21,10 @@ open import Predicate ; open ListOps A
 private
   variable
     a c : A
-    s : Set ℓ
-    b x : Level
+    s x : Set ℓ
+    b : Level
     B : Set b
-    X : Set x
+    X : Set b
     P Q : Lang
 
 \end{code}
@@ -77,7 +77,7 @@ private
 \begin{minipage}{18em}
 \AgdaTarget{νpureᵀ, νmapᵀ, νmapᵀ₂}
 \begin{code}
-νpureᵀ  : ν (pureᵀ  s)      ≡ s
+νpureᵀ  : ν (pureᵀ  x)      ≡ x
 νmapᵀ   : ν (mapᵀ   g P)    ≡ g  (ν P)
 νmapᵀ₂  : ν (mapᵀ₂  h P Q)  ≡ h  (ν P) (ν Q)
 \end{code}
@@ -86,7 +86,7 @@ private
 \begin{minipage}{22em}
 \AgdaTarget{δpureᵀ, δmapᵀ, δmapᵀ₂}
 \begin{code}
-δpureᵀ  : δ (pureᵀ  s)      a ≡ pureᵀ  s
+δpureᵀ  : δ (pureᵀ  x)      a ≡ pureᵀ  x
 δmapᵀ   : δ (mapᵀ   g P)    a ≡ mapᵀ   g (δ P a)
 δmapᵀ₂  : δ (mapᵀ₂  h P Q)  a ≡ mapᵀ₂  h (δ P a) (δ Q a)
 \end{code}

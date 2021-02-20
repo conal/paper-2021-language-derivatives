@@ -37,14 +37,14 @@ First, we can transform types (predicate codomains) covariantly, with convenient
 \AgdaTarget{pureᵀ, mapᵀ, mapᵀ₂}
 \begin{code}
 pureᵀ : Set ℓ → Pred A
-pureᵀ ∙ a = ∙
+pureᵀ x a = x
 
 mapᵀ : (Set ℓ → Set ℓ) → (Pred A → Pred A)
-mapᵀ ∙_ P a = ∙ P a
+mapᵀ g P a = g (P a)
 
 mapᵀ₂ :  (Set ℓ → Set ℓ → Set ℓ) →
          (Pred A  → Pred A  → Pred A)
-mapᵀ₂ _∙_ P Q a = P a ∙ Q a
+mapᵀ₂ h P Q a = h (P a) (Q a)
 \end{code}
 %</codomain-transformers>
 With these generalizations, we can easily define union and intersection with their identities (the empty and universal predicates), as well as complement:\footnote{All of these operations are standard \stdlibCite{Relation.Unary}.}
@@ -84,7 +84,7 @@ mapⱽ g P b = ∃ λ a → b ≡ g a × P a
 
 mapⱽ₂ :  (A → B → C) →
          (Pred  A → Pred  B → Pred  C)
-mapⱽ₂ g P Q c = ∃⇃ λ (a , b) → c ≡ g a b × P a × Q b
+mapⱽ₂ h P Q c = ∃⇃ λ (a , b) → c ≡ h a b × P a × Q b
 \end{code}
 \begin{code}[hide]
 -- Alternatively

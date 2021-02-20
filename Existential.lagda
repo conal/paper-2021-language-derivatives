@@ -89,6 +89,15 @@ module Inj {A : Set c} {F : A → Set ℓ} where
 \end{code}
 %</prop>
 
+%<*prop₃′>
+\begin{code}[hide]
+  prop₃′ : (∀ a b c → R a b c) → ∀ ((a , _) (b , _) (c , _) : ∃ F) → R a b c
+\end{code}
+\begin{code}[inline]
+  prop₃′ R _ _ _ = R _ _ _
+\end{code}
+%</prop₃′>
+
 \begin{code}
   -- -- The propᵢ definitions can be mostly inferred, e.g.,
   -- prop₃ P _ _ _ = P _ _ _
