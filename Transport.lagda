@@ -16,7 +16,7 @@ module ◇ where
   open import Predicate public
   open ListOps A public
 
-module ▣ where
+module □ where
   open import Symbolic _≟_ public
 
 \end{code}
@@ -84,17 +84,17 @@ module Wrap where
   ` : A → Lang
   _☆ : Op₁ Lang
 
-  Lang = ∃ ▣.Lang
+  Lang = ∃ □.Lang
 
-  ∅      = inj   ▣.∅
-  𝒰      = inj   ▣.𝒰
-  _∪_    = inj₂  ▣._∪_
-  _∩_    = inj₂  ▣._∩_
-  𝟏      = inj   ▣.𝟏
-  _⋆_    = inj₂  ▣._⋆_
-  _·_ s  = inj₁  (s ▣.·_)
-  ` c    = inj   (▣.` c)
-  _☆     = inj₁  ▣._☆
+  ∅      = inj   □.∅
+  𝒰      = inj   □.𝒰
+  _∪_    = inj₂  □._∪_
+  _∩_    = inj₂  □._∩_
+  𝟏      = inj   □.𝟏
+  _⋆_    = inj₂  □._⋆_
+  _·_ s  = inj₁  (s □.·_)
+  ` c    = inj   (□.` c)
+  _☆     = inj₁  □._☆
 \end{code}
 
 \begin{code}
@@ -102,14 +102,14 @@ module ManualWrap where
 \end{code}
 %<*wrapped-Lang>
 \begin{code}
-  Lang = ∃ ▣.Lang
+  Lang = ∃ □.Lang
 \end{code}
 %</wrapped-Lang>
 %<*wrapped-union>
 \begin{code}
   _∪_ : Lang → Lang → Lang
-  (P , p) ∪ (Q , q) = (P ◇.∪ Q , p ▣.∪ q)
+  (P , p) ∪ (Q , q) = (P ◇.∪ Q , p □.∪ q)
 \end{code}
-%  (_ , p) ∪ (_ , q) = (_ , p ▣.∪ q)
+%  (_ , p) ∪ (_ , q) = (_ , p □.∪ q)
 
 %</wrapped-union>

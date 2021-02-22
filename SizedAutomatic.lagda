@@ -12,16 +12,16 @@ open import Data.List using ([]; _∷_)
 open import Misc {ℓ}
 open import Inverses {ℓ}
 
-module ◬ where
+module ◇ where
   -- open import Language A public
   open import Predicate public ; open ListOps A public
   open import Calculus A public
 
-open ◬ using (ν⋆; δ⋆; ν☆; δ☆; ν𝟏; δ𝟏; ν`; δ`)
+open ◇ using (ν⋆; δ⋆; ν☆; δ☆; ν𝟏; δ𝟏; ν`; δ`)
 
 private
   variable
-    P Q : ◬.Lang
+    P Q : ◇.Lang
     s : Set ℓ
     i : Size
 \end{code}
@@ -39,11 +39,11 @@ infix   9 _◂_
 infixl 10 _☆
 \end{code}
 \begin{code}
-record Lang i (P : ◬.Lang) : Set (suc ℓ) where
+record Lang i (P : ◇.Lang) : Set (suc ℓ) where
   coinductive
   field
-    ν : Dec (◬.ν P)
-    δ : ∀ {j : Size< i} → (a : A) → Lang j (◬.δ P a)
+    ν : Dec (◇.ν P)
+    δ : ∀ {j : Size< i} → (a : A) → Lang j (◇.δ P a)
 \end{code}
 \begin{code}[hide]
 open Lang
@@ -61,15 +61,15 @@ open Lang
 \vspace{-3.5ex}
 \begin{center}
 \begin{code}
-∅    : Lang i ◬.∅
-𝒰    : Lang i ◬.𝒰
-_∪_  : Lang i  P  → Lang i Q  → Lang i (P  ◬.∪  Q)
-_∩_  : Lang i  P  → Lang i Q  → Lang i (P  ◬.∩  Q)
-_·_  : Dec     s  → Lang i P  → Lang i (s  ◬.·  P)
-𝟏    : Lang i (◬.𝟏)
-_⋆_  : Lang i  P  → Lang i Q  → Lang i (P  ◬.⋆  Q)
-_☆   : Lang i  P  → Lang i (P ◬.☆)
-`    : (a : A) → Lang i (◬.` a)
+∅    : Lang i ◇.∅
+𝒰    : Lang i ◇.𝒰
+_∪_  : Lang i  P  → Lang i Q  → Lang i (P  ◇.∪  Q)
+_∩_  : Lang i  P  → Lang i Q  → Lang i (P  ◇.∩  Q)
+_·_  : Dec     s  → Lang i P  → Lang i (s  ◇.·  P)
+𝟏    : Lang i (◇.𝟏)
+_⋆_  : Lang i  P  → Lang i Q  → Lang i (P  ◇.⋆  Q)
+_☆   : Lang i  P  → Lang i (P ◇.☆)
+`    : (a : A) → Lang i (◇.` a)
 _◂_  : (Q ⟷ P) → Lang i P → Lang i Q
 \end{code}
 \end{center}

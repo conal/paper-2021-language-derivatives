@@ -43,11 +43,11 @@
 %% work with acmart.
 \ifacm
 \newunicodechar{◇}{\raisebox{0.02ex}{\ensuremath{_{\diamond}\hspace{-0.323em}}}}
-\newunicodechar{▣}{\raisebox{-0.12ex}{\ensuremath{\scaleobj{0.4}{\Box}}\hspace{-0.238em}}}
+\newunicodechar{□}{\raisebox{-0.12ex}{\ensuremath{\scaleobj{0.4}{\Box}}\hspace{-0.238em}}}
 \else
 \setmathfont{XITSMath-Regular.otf}
 \newunicodechar{◇}{\raisebox{0.23ex}{\ensuremath{_{\diamond}\hspace{-0.358em}}}}
-\newunicodechar{▣}{\raisebox{-0.13ex}{\ensuremath{\scaleobj{0.3}{\Box}}\hspace{-0.23em}}}
+\newunicodechar{□}{\raisebox{-0.13ex}{\ensuremath{\scaleobj{0.3}{\Box}}\hspace{-0.23em}}}
 \newunicodechar{∷}{\ensuremath{\mathbin{\hspace{-0.2em}:\hspace{-0.27em}:\hspace{-0.15em}}}}
 \fi
 
@@ -447,14 +447,14 @@ For instance, consider language union from \figref{symbolic-api}:
 \>[39]\AgdaOperator{\AgdaFunction{◇.∪}}%
 \>[44]\AgdaGeneralizable{Q}\AgdaSymbol{)}\<%
 \end{code}
-Referring to the type and operations of \figreftwo{Lang-ops}{symbolic-api} via the module prefixes ``{◇.}\hspace{0.05em}'' and ``{▣.}\hspace{0.05em}'' respectively, define \agda{wrapped-Lang}
+Referring to the type and operations of \figreftwo{Lang-ops}{symbolic-api} via the module prefixes ``{◇.}\hspace{0.05em}'' and ``{□.}\hspace{0.05em}'' respectively, define \agda{wrapped-Lang}
 Then wrap union as follows:
 \agda{wrapped-union}
 The type-level language components of the arguments and result are given explicitly here but could instead be inferred by the compiler.
 \rnc\source{Existential}
 Indexed operations of all arities for a type family \AB{F} can be systematically wrapped in this style, as shown in
 \figrefdef{inj}{Existential wrappers}{\mathindent0ex\agda{inj}}, again with automatically inferable components given explicitly for clarity.
-Then wrapped union can be defined simply as {\AF{\_∪\_} \AS = \AF{inj₂} \AIC{▣.\_∪\_}} and likewise for the other operations.
+Then wrapped union can be defined simply as {\AF{\_∪\_} \AS = \AF{inj₂} \AIC{□.\_∪\_}} and likewise for the other operations.
 
 In addition to transporting types and operations as just described, we also need to transport \emph{properties}.
 A crucial question is the choice of equivalence relation for the new properties.
