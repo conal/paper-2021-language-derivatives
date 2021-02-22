@@ -1,6 +1,8 @@
 ## To do
 
+*   Mention OstermannJabs2018.
 *   Clarify tries as "automatic differentiation".
+*   Maybe mention logical equivalence vs proof isomorphism again in the Related Work section.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
 *   `starʳ`
@@ -8,7 +10,7 @@
 *   Mention the *non-idempotence* of this notion of languages, due to choice of equivalence relation.
 *   Fix layout for `\\figref{nu-delta-codomain-lemmas}` in ACM version.
     It now uses horizontal layout, requiring `small` for ACM.
-    Stack vertically instead.
+    I have plenty of room, so stack vertically instead.
 *   Generalize from lists.
     Other types have their own deltas.
 
