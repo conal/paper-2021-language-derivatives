@@ -1,5 +1,8 @@
 ## Related work
 
+*   [*Combining predicate transformer semantics for effects: a case study in parsing regular languages*]\:
+    *   ...
+
 *   [*Equational Reasoning about Formal Languages in Coalgebraic Style*]\:
     *   Focuses on coalgebraic/coinductive techniques.
     *   Relates to automata theory.
@@ -121,3 +124,5 @@
 [*Total parser combinators*]: http://www.cse.chalmers.se/~nad/publications/danielsson-parser-combinators.html "paper by Nils Anders Danielsson (2015)"
 
 [*A constructive theory of regular languages in Coq*]: https://www.ps.uni-saarland.de/~doczkal/regular/ConstructiveRegularLanguages.pdf "paper by Christian Doczkal, Jan-Oliver Kaiser, and Gert Smolka (2013)"
+
+[*Combining predicate transformer semantics for effects: a case study in parsing regular languages*]: https://arxiv.org/abs/2005.00197 "paper by Anne Baanen Wouter Swierstra (2020)"
