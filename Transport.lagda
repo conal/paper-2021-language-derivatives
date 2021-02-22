@@ -12,7 +12,7 @@ open import Data.Product
 open import Existential ; open Inj
 open import Closed
 
-module ◬ where
+module ◇ where
   open import Predicate public
   open ListOps A public
 
@@ -108,7 +108,7 @@ module ManualWrap where
 %<*wrapped-union>
 \begin{code}
   _∪_ : Lang → Lang → Lang
-  (P , p) ∪ (Q , q) = (P ◬.∪ Q , p ▣.∪ q)
+  (P , p) ∪ (Q , q) = (P ◇.∪ Q , p ▣.∪ q)
 \end{code}
 %  (_ , p) ∪ (_ , q) = (_ , p ▣.∪ q)
 

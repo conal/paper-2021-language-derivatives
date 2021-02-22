@@ -42,11 +42,11 @@
 %% I prefer ∅ in XITSMath-Regular, but I don't know how to make setmathfont
 %% work with acmart.
 \ifacm
-\newunicodechar{◬}{\raisebox{0.02ex}{\ensuremath{_{\diamond}\hspace{-0.323em}}}}
+\newunicodechar{◇}{\raisebox{0.02ex}{\ensuremath{_{\diamond}\hspace{-0.323em}}}}
 \newunicodechar{▣}{\raisebox{-0.12ex}{\ensuremath{\scaleobj{0.4}{\Box}}\hspace{-0.238em}}}
 \else
 \setmathfont{XITSMath-Regular.otf}
-\newunicodechar{◬}{\raisebox{0.23ex}{\ensuremath{_{\diamond}\hspace{-0.358em}}}}
+\newunicodechar{◇}{\raisebox{0.23ex}{\ensuremath{_{\diamond}\hspace{-0.358em}}}}
 \newunicodechar{▣}{\raisebox{-0.13ex}{\ensuremath{\scaleobj{0.3}{\Box}}\hspace{-0.23em}}}
 \newunicodechar{∷}{\ensuremath{\mathbin{\hspace{-0.2em}:\hspace{-0.27em}:\hspace{-0.15em}}}}
 \fi
@@ -263,7 +263,7 @@ In both cases, the algorithms are automatically proved correct by type checking 
 \nc\api{\setstretch{1.1}\agda{api}}
 
 The ``symbolic differentiation'' style reflects language-building vocabulary (\figref{Lang-ops}) into an inductive data type (of modestly extended regular expressions), while \AF{ν} and \AF{δ} become functions defined by pattern-matching on that data type.
-For convenience, we can use the same names as in \secref{Specifying Languages} for these new counterparts, while referring to the original versions via the module prefix ``{◬.}\hspace{0.05em}''.
+For convenience, we can use the same names as in \secref{Specifying Languages} for these new counterparts, while referring to the original versions via the module prefix ``{◇.}\hspace{0.05em}''.
 The result is shown in \figrefdef{symbolic-api}{Regular expressions (inductive)}{\api} along with a function {\AF{⟦\_⟧}} that converts a symbolic language representation to a computable parser.
 
 Decidable parsing (via {\AF{⟦\_⟧}}) relies only on \AF{ν} and \AF{δ}, which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}, as systematically derived from the lemmas of \figref{nu-delta-lemmas}.\out{\notefoot{Describe this derivation.}}
@@ -283,7 +283,7 @@ Since those isomorphisms relate \AF{ν} and \AF{δ} on the language-building ope
 \secref{Symbolic Differentiation} embodies one choice of reflecting functions into a data representation.
 Now consider the dual strategy of ``automatic differentiation''.
 This time, reflect \AF{ν} and \AF{δ} into a \emph{coinductive} data type of tries\footnote{The classic trie (``prefix tree'') data structure was introduced by \citet{Thue1912Gegenseitige} to represent sets of strings \citep[Section 6.3]{Knuth1998ACP3}, later generalized to arbitrary non-nested algebraic data types \citep{Connelly1995GenTrie}, and then from sets to functions \citep{Hinze2000GGT}.}, while redefining the language-building vocabulary as functions on that data type defined by \emph{copatterns} \citep{AbelPientka2016}.
-Again, we will use the same names as in \secref{Specifying Languages}, referring to the original versions via the module prefix ``{◬.}\hspace{0.05em}''.
+Again, we will use the same names as in \secref{Specifying Languages}, referring to the original versions via the module prefix ``{◇.}\hspace{0.05em}''.
 The result is shown in \figrefdef{automatic-api}{Tries (coinductive)}{\api}.
 
 Decidable recognition again relies only on \AF{ν} and \AF{δ}, which are defined in \figrefdef{automatic-defs}{Automatic differentiation (row-major/copatterns)}{\agda{defs}}.
@@ -443,10 +443,10 @@ For instance, consider language union from \figref{symbolic-api}:
 \>[28]\AgdaSymbol{→}\AgdaSpace{}%
 \AgdaDatatype{Lang}\AgdaSpace{}%
 \AgdaSymbol{(}\AgdaGeneralizable{P}%
-\>[39]\AgdaOperator{\AgdaFunction{◬.∪}}%
+\>[39]\AgdaOperator{\AgdaFunction{◇.∪}}%
 \>[44]\AgdaGeneralizable{Q}\AgdaSymbol{)}\<%
 \end{code}
-Referring to the type and operations of \figreftwo{Lang-ops}{symbolic-api} via the module prefixes ``{◬.}\hspace{0.05em}'' and ``{▣.}\hspace{0.05em}'' respectively, define \agda{wrapped-Lang}
+Referring to the type and operations of \figreftwo{Lang-ops}{symbolic-api} via the module prefixes ``{◇.}\hspace{0.05em}'' and ``{▣.}\hspace{0.05em}'' respectively, define \agda{wrapped-Lang}
 Then wrap union as follows:
 \agda{wrapped-union}
 The type-level language components of the arguments and result are given explicitly here but could instead be inferred by the compiler.

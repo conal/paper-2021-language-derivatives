@@ -11,16 +11,16 @@ open import Data.List using ([]; _∷_)
 open import Misc {ℓ}
 open import Inverses {ℓ}
 
-module ◬ where
+module ◇ where
   -- open import Language A public
   open import Predicate public ; open ListOps A public
   open import Calculus A public
 
-open ◬ using (ν⋆; δ⋆; ν☆; δ☆; ν𝟏; δ𝟏; ν`; δ`)
+open ◇ using (ν⋆; δ⋆; ν☆; δ☆; ν𝟏; δ𝟏; ν`; δ`)
 
 private
   variable
-    P Q : ◬.Lang
+    P Q : ◇.Lang
     s : Set ℓ
 \end{code}
 
@@ -36,27 +36,26 @@ infix   9 _◂_
 infixl 10 _☆
 \end{code}
 \begin{code}
-data Lang : ◬.Lang → Set (suc ℓ) where
-  ∅    : Lang  ◬.∅
-  𝒰    : Lang  ◬.𝒰
-  _∪_  : Lang  P  → Lang Q  → Lang (P  ◬.∪  Q)
-  _∩_  : Lang  P  → Lang Q  → Lang (P  ◬.∩  Q)
-  _·_  : Dec   s  → Lang P  → Lang (s  ◬.·  P)
-  𝟏    : Lang (◬.𝟏)
-  _⋆_  : Lang  P  → Lang Q  → Lang (P  ◬.⋆  Q)
-  _☆   : Lang  P  → Lang (P ◬.☆)
-  `    : (a : A) → Lang (◬.` a)
+data Lang : ◇.Lang → Set (suc ℓ) where
+  ∅    : Lang  ◇.∅
+  𝒰    : Lang  ◇.𝒰
+  _∪_  : Lang  P  → Lang Q  → Lang (P  ◇.∪  Q)
+  _∩_  : Lang  P  → Lang Q  → Lang (P  ◇.∩  Q)
+  _·_  : Dec   s  → Lang P  → Lang (s  ◇.·  P)
+  𝟏    : Lang (◇.𝟏)
+  _⋆_  : Lang  P  → Lang Q  → Lang (P  ◇.⋆  Q)
+  _☆   : Lang  P  → Lang (P ◇.☆)
+  `    : (a : A) → Lang (◇.` a)
   _◂_  : (Q ⟷ P) → Lang P → Lang Q
 \end{code}
-%%   -- pureⱽ  : A ✴ → Lang 
 \end{center}
 \vspace{-5ex}
 \hfill
 \begin{minipage}[t]{33ex}
 \begin{code}
 
-ν  : Lang P → Dec (◬.ν P)
-δ  : Lang P → (a : A) → Lang (◬.δ P a)
+ν  : Lang P → Dec (◇.ν P)
+δ  : Lang P → (a : A) → Lang (◇.δ P a)
 \end{code}
 \end{minipage}
 \hfill
