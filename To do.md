@@ -1,6 +1,5 @@
 ## To do
 
-*   Mention OstermannJabs2018.
 *   Clarify tries as "automatic differentiation".
 *   Maybe mention logical equivalence vs proof isomorphism again in the Related Work section.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
@@ -54,6 +53,7 @@ From old paper version to-do:
 
 ## Did
 
+*   Mention OstermannJabs2018.
 *   Maybe demote sections 4 (Reflections), 5 (Symbolic Differentiation), and 6 (Automatic Differentiation) into subsections of a new section called "From languages to parsing".
    Probably replace all occurrences of "`\\secreftwo{Symbolic Differentiation}{Automatic Differentiation}`".
 *   Consider exposing level polymorphism in the talk & paper.
