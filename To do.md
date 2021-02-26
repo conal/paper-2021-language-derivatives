@@ -1,5 +1,6 @@
 ## To do
 
+*   Wouter's paper
 *   Clarify tries as "automatic differentiation".
 *   Maybe mention logical equivalence vs proof isomorphism again in the Related Work section.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
