@@ -1,5 +1,7 @@
 ## To do
 
+*   Check footnotes composition carefully.
+    Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
 *   Wouter's paper
 *   Clarify tries as "automatic differentiation".
 *   Maybe mention logical equivalence vs proof isomorphism again in the Related Work section.
