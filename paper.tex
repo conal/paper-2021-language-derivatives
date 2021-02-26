@@ -125,10 +125,10 @@ These levels avoid logical inconsistencies resulting from {\APT{Set} \AS : \APT{
 
 \end{itemize}
 
-Note that for a language \AB{P} and string \AB{w}, {\AB{P} \AB{w}} is the type of \emph{proofs} that {\AB{w} ∈ \AB{P}}, in other words \emph{explanations} of membership, or \emph{parsings}.
+Note that for a language \AB{P} and string \AB{w}, {\AB{P} \AB{w}} is the type of \emph{proofs} that {\AB{w} \AF ∈ \AB{P}}, in other words \emph{explanations} of membership, or \emph{parsings}.
 (If the type {\AB{P} \AB{w}} is uninhabited, then {\AB{w} ∉ \AB{P}}.)
-For instance, a proof of {\AB{w} ∈ \AB{P} \AF ∪ \AB{Q}} contains a proof of {\AB{w} ∈ \AB{P}} or of {\AB{w} \AF ∈ \AB{Q}}, \emph{and} the knowledge of which one was chosen.
-Likewise, a proof of {w ∈ \AB{P} \AF ⋆ \AB{Q}} (language concatenation) includes the choice of strings \AB{u} and \AB{v}, a proof that {\AB{u} \AF ⊙ \AB{v} \AD ≡ \AB{w}}, and proofs that {\AB{u} ∈ \AB{P}} and {\AB{v} ∈ \AB{Q}}.
+For instance, a proof of {\AB{w} \AF ∈ \AB{P} \AF ∪ \AB{Q}} contains a proof of {\AB{w} \AF ∈ \AB{P}} or of {\AB{w} \AF ∈ \AB{Q}}, \emph{and} the knowledge of which one was chosen.
+Likewise, a proof of {w \AF ∈ \AB{P} \AF ⋆ \AB{Q}} (language concatenation) includes the choice of strings \AB{u} and \AB{v}, a proof that {\AB{u} \AF ⊙ \AB{v} \AD ≡ \AB{w}}, and proofs that {\AB{u} \AF ∈ \AB{P}} and {\AB{v} \AF ∈ \AB{Q}}.
 
 The use of type-level predicates makes for simple, direct specification, including the use of existential quantification.
 As described in \secref{Properties}, it's also fairly easy to prove algebraic properties of predicates\out{, including the semimodule and semiring laws for both predicate semirings}.
