@@ -2,7 +2,6 @@
 
 *   Check footnotes composition carefully.
     Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
-*   Wouter's paper
 *   Clarify tries as "automatic differentiation".
 *   Maybe mention logical equivalence vs proof isomorphism again in the Related Work section.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
@@ -56,6 +55,7 @@ From old paper version to-do:
 
 ## Did
 
+*   Wouter's paper
 *   Mention OstermannJabs2018.
 *   Maybe demote sections 4 (Reflections), 5 (Symbolic Differentiation), and 6 (Automatic Differentiation) into subsections of a new section called "From languages to parsing".
    Probably replace all occurrences of "`\\secreftwo{Symbolic Differentiation}{Automatic Differentiation}`".
