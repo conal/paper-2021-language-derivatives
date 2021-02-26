@@ -107,7 +107,7 @@ Languages are usually formalized either set-theoretically as sets of strings or 
 Alternatively, one can use type theory, so that a language is a type-level predicate on ``strings'' (lists of an arbitrary type \AB{A} of ``characters'').
 The usual language operations are defined in \figrefdef{Lang-ops}{Languages as type-level predicates}{\agda{Lang-ops}}, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ☆}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
 
-The definitions in \figref{Lang-ops} reflect the logical interpretation of types under the Curry-Howard (``propositions as types'') isomorphism, in which types represent propositions and element (values) of a type represent proofs of the corresponding proposition \citep{Wadler2015propositions}.
+The definitions in \figref{Lang-ops} reflect the logical interpretation of types under the Curry-Howard (``propositions as types'') isomorphism, in which types represent propositions and elements (values) of a type represent proofs of the corresponding proposition \citep{Wadler2015propositions}.
 The specific embodiment of Curry-Howard in \figref{Lang-ops} and throughout this paper is the language Agda \citep{Norell2008AFP, BoveEtAl2009Agda}, which is both programming language and proof assistant founded on Martin-Löf's intuitionistic type theory \citep{MartinLöf1984intuitionistic}.
 Specifically,
 \begin{itemize}
