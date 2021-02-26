@@ -506,6 +506,10 @@ Equality on tries was defined by strong bisimilarity, and thus properties requir
 
 %% requiring more careful construction and reading than the specification given in \figref{Lang-ops} and used in the implementations in \secref{From Languages to Parsing}
 
+\item \citet{BaanenSwierstra2020} also explored correctness of regular expression matching in Agda, but from the perspective of \emph{effects} and their predicate transformer semantics.
+The authors shared a common starting point with \citet{KorkutEtAl2016} and addressed differentiation on regular expressions, while separating termination from partial correctness.
+Their regular expression matching function targets a free monad (later to be interpreted with suitable effect semantics) rather than propositions.
+
 \end{itemize}
 
 Of the previous work involving language derivatives, none appear to have based their formal specification and proofs on the essential, non-inductive, nearly-trivial definition in terms of functions of lists from \secref{Decomposing Languages}, although \citet{Abel2016} did indeed mention this definition informally as motivation for the more complex, coinductively defined operations on tries.
