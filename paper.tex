@@ -255,7 +255,7 @@ In the former, functions are represented symbolically in some suitable vocabular
 The latter solution involves re-interpreting the vocabulary of functions to construct not just the usual functions, but also their derivatives \citep{Griewank89onAD, GriewankWalther2008EvalDerivs, Elliott-2018-ad-icfp}.
 This latter option is often much more efficient than the former, since it easily avoids a good deal of redundant computation due to significant amounts of duplicated work between function ``primals'' and their derivatives.
 
-\secref{From Languages to Parsing} applies the symbolic and automatic strategies respectively to languages.
+\secreftwo{Symbolic Differentiation}{Automatic Differentiation} applies the symbolic and automatic strategies respectively to languages.
 In both cases, the algorithms are automatically proved correct by type checking as corollaries of the lemmas in \figref{nu-delta-lemmas}.
 
 \subsectionl{Symbolic Differentiation}
@@ -303,6 +303,8 @@ In practice, we will work with arbitrarily deep tries, i.e., ones having index \
 The modified representation is shown in \figrefdef{sized-automatic-api}{Sized tries (coinductive)}{\api}.
 Decidable recognition is defined exactly as with unsized tries (\figref{automatic-defs}), with the sole exception of removing the compiler pragma that suppressed termination checking.
 This time the compiler successfully proves \emph{total} correctness (including termination).
+
+%% To more clearly see the parallel with automatic differentiation, note that 
 
 
 \sectionl{Generalizing from languages to predicates}
@@ -369,7 +371,7 @@ These generalized operations then specialize to language operations as in \figre
 }, which adds language complement (\AF ∁).
 
 \rnc\source{Calculus}
-The \AF{ν} and \AF{δ} lemmas for codomain (but not domain) operations in \figref{nu-delta-lemmas} are easily generalized as shown in \figrefdef{nu-delta-codomain-lemmas}{Properties of \AF{ν} and \AF{δ} for predicate codomain operations}{\agda{νδ-codomain}} and are all proved automatically by normalization.
+The \AF{ν} and \AF{δ} lemmas for codomain (but not domain) operations in \figref{nu-delta-lemmas} are easily generalized as shown in \figrefdef{nu-delta-codomain-lemmas}{Properties of \AF{ν} and \AF{δ} for predicate codomain operations}{\setstretch{1.5}\agda{νδ-codomain}} and are all proved automatically by normalization.
 Since the decidable language implementations in \secref{From Languages to Parsing} are corollaries of \AF{ν} and \AF{δ} lemmas, those implementations adapt easily to the generalized codomain operations (\AF{pureᵀ}, \AF{mapᵀ}, and \AF{mapᵀ₂}), resulting in a somewhat smaller implementation and broader coverage.
 
 \sectionl{Properties}

@@ -1,14 +1,16 @@
 ## To do
 
-*   Maybe "proof relevance" is a better to talk about the proof isomorphism aspect of this paper.
-    For languages, proof relevance means we care about the proofs, and we do care, since the parsing information is in the proof.
-    "Proof-relevant languages".
 *   Conclusions and future work.
-*   Check footnotes composition carefully.
-    Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
 *   Clarify tries as "automatic differentiation".
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
+
+*   Maybe "proof relevance" is a better to talk about the proof isomorphism aspect of this paper.
+    For languages, proof relevance means we care about the proofs, and we do care, since the parsing information is in the proof.
+    "Proof-relevant languages".
+*   Check footnotes composition carefully.
+    Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
+    The ACM layout does better than my own.
 *   `starʳ`
 *   Define language star via `mapⱽ` and `All`.
 *   Fix layout for `\\figref{nu-delta-codomain-lemmas}` in ACM version.

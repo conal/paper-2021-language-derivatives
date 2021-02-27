@@ -10,7 +10,7 @@ open import Data.Sum
 open import Data.Product
 open import Data.List
 open import Function using (id; _∘_; _↔_; mk↔′)
-open import Relation.Binary.PropositionalEquality
+open import Relation.Binary.PropositionalEquality hiding ([_])
 
 open import Misc {ℓ}
 open import Inverses {ℓ}
@@ -72,29 +72,18 @@ private
 \end{code}
 
 %<*νδ-codomain>
-{\mathindent0ex
-\ifacm
-\small
-\fi
-\hfill
-\begin{minipage}{18em}
 \AgdaTarget{νpureᵀ, νmapᵀ, νmapᵀ₂}
 \begin{code}
 νpureᵀ  : ν (pureᵀ  x)      ≡ x
 νmapᵀ   : ν (mapᵀ   g P)    ≡ g  (ν P)
 νmapᵀ₂  : ν (mapᵀ₂  h P Q)  ≡ h  (ν P) (ν Q)
 \end{code}
-\end{minipage}
-\hfill
-\begin{minipage}{22em}
 \AgdaTarget{δpureᵀ, δmapᵀ, δmapᵀ₂}
 \begin{code}
 δpureᵀ  : δ (pureᵀ  x)      a ≡ pureᵀ  x
 δmapᵀ   : δ (mapᵀ   g P)    a ≡ mapᵀ   g (δ P a)
 δmapᵀ₂  : δ (mapᵀ₂  h P Q)  a ≡ mapᵀ₂  h (δ P a) (δ Q a)
 \end{code}
-\end{minipage}
-\hfill\;}
 \begin{code}[hide]
 νpureᵀ = refl
 δpureᵀ = refl
@@ -225,3 +214,48 @@ private
    invʳ (suc☆ ((.a ∷ u , v) , refl , (Pa∷u , P☆v))) = refl
 
 \end{code}
+
+
+Clarify the relationship with automatic differentiation:
+
+\begin{code}
+𝒟 : (A ✶ → B) → A ✶ → (A ✶ → B)
+𝒟 f u v = f (u ++ v)
+\end{code}
+
+\begin{code}
+private
+  variable
+    f : A ✶ → B
+    u v w : A ✶
+\end{code}
+\begin{code}
+𝒟foldl : 𝒟 f ≗ foldl δ f
+𝒟foldl []        = refl
+𝒟foldl (a ∷ as)  = 𝒟foldl as
+
+𝒟[_] : δ f a ≡ 𝒟 f [ a ]
+𝒟[_] = refl
+\end{code}
+
+Now enhance \AF 𝒟:
+\begin{code}
+𝒟′ : (A ✶ → B) → A ✶ → B × (A ✶ → B)
+𝒟′ f u = f u , 𝒟 f u
+\end{code}
+
+\begin{code}
+ʻ𝒟 : (A ✶ → B) → A ✶ → B × (A ✶ → B)
+ʻ𝒟 f u = ν f′ , f′ where f′ = foldl δ f u
+-- ʻ𝒟 f u = let f′ = foldl δ f u in ν f′ , f′
+\end{code}
+
+\begin{code}
+-- 𝒟′foldl : ∀ u → 𝒟′ f u ≡ let f′ = foldl δ f u in ν f′ , f′
+𝒟′foldl : 𝒟′ f ≗ ʻ𝒟 f
+𝒟′foldl [] = refl
+𝒟′foldl (a ∷ as) = 𝒟′foldl as
+\end{code}
+
+\note{There's probably a way to \AK{rewrite} with \AB{𝒟foldl} and \AB{𝒟′foldl} to eliminate the induction here.}
+
