@@ -1,5 +1,8 @@
 ## To do
 
+*   Maybe "proof relevance" is a better to talk about the proof isomorphism aspect of this paper.
+    For languages, proof relevance means we care about the proofs, and we do care, since the parsing information is in the proof.
+    "Proof-relevant languages".
 *   Conclusions and future work.
 *   Check footnotes composition carefully.
     Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
