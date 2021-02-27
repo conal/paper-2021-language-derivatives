@@ -58,7 +58,9 @@ open Lang
 \end{code}
 \end{minipage}
 \hfill\;
+\ifacm\else
 \vspace{-3.5ex}
+\fi
 \begin{center}
 \begin{code}
 ∅    : Lang i ◇.∅

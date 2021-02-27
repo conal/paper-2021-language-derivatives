@@ -141,6 +141,7 @@
 %% \newunicodechar{𝓥}{\ensuremath{\mathcal{V}}}
 %% \newunicodechar{𝓦}{\ensuremath{\mathcal{W}}}
 
+\newunicodechar{𝒟}{\ensuremath{\mathscr{D}}}
 
 %% Above I copied from gallais's TyDe'19 paper.
 %% Below are my additions.
@@ -162,7 +163,12 @@
 
 \newunicodechar{𝟏}{\ensuremath{\mathbf{1}}}
 
-\newcommand\smallOp[2]{\ensuremath{\mathbin{\mbox{\raisebox{#1}{\scriptsize $#2$}}}}}
+\ifacm
+\newcommand\smallOpSize{\small}
+\else
+\newcommand\smallOpSize{\scriptsize}
+\fi
+\newcommand\smallOp[2]{\ensuremath{\mathbin{\mbox{\raisebox{#1}{\smallOpSize $#2$}}}}}
 \newcommand\append{\smallOp{0.5pt}{+\!\!+}}
 
 \newunicodechar{⊙}{\ensuremath{\append}}

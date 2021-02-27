@@ -1,7 +1,7 @@
 ## To do
 
+*   Restore some of the removed "powerful perspectives" text in the calculus section.
 *   Conclusions and future work.
-*   Clarify tries as "automatic differentiation".
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
 
@@ -59,6 +59,7 @@ From old paper version to-do:
 
 ## Did
 
+*   Clarify tries as "automatic differentiation".
 *   Mention the *non-idempotence* of this notion of languages, due to choice of equivalence relation.
 *   Maybe mention logical equivalence vs proof isomorphism again in the Related Work section.
 *   Wouter's paper

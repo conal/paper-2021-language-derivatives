@@ -49,7 +49,9 @@ data Lang : ◇.Lang → Set (suc ℓ) where
   _◂_  : (Q ⟷ P) → Lang P → Lang Q
 \end{code}
 \end{center}
+\ifacm\else
 \vspace{-5ex}
+\fi
 \hfill
 \begin{minipage}[t]{33ex}
 \begin{code}

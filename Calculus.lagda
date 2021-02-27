@@ -9,6 +9,7 @@ module Calculus {ℓ} (A : Set ℓ) where
 open import Data.Sum
 open import Data.Product
 open import Data.List
+open import Data.List.Properties using (++-identityʳ)
 open import Function using (id; _∘_; _↔_; mk↔′)
 open import Relation.Binary.PropositionalEquality hiding ([_])
 
@@ -26,20 +27,42 @@ private
     B : Set b
     X : Set b
     P Q : Lang
-
+    f : A ✶ → B
+    u v w : A ✶
 \end{code}
 
-%<*νδ>
+%<*ν𝒟>
 \AgdaTarget{ν, δ}
 \begin{code}
-ν : (A ✶ → B) → B              -- “nullable”
+ν : (A ✶ → B) → B                -- “nullable”
 ν f = f []
 
-δ : (A ✶ → B) → A → (A ✶ → B)  -- “derivative”
-δ f a = f ∘ (a ∷_)
+𝒟 : (A ✶ → B) → A ✶ → (A ✶ → B)  -- “derivative”
+𝒟 f u v = f (u ⊙ v)
 \end{code}
-%% δ f a as = f (a ∷ as)
-%</νδ>
+%% 𝒟 f u = f ∘ (u ⊙_)
+%</ν𝒟>
+
+%<*δ>
+\begin{code}
+δ : (A ✶ → B) → A → (A ✶ → B)
+δ f a = 𝒟 f [ a ]
+\end{code}
+%</δ>
+
+%<*𝒟[]⊙>
+\begin{code}
+𝒟[] : 𝒟 f [] ≡ f
+
+𝒟⊙ : 𝒟 f (u ⊙ v) ≡ 𝒟 (𝒟 f u) v
+\end{code}
+\begin{code}[hide]
+𝒟[] = refl
+
+𝒟⊙ {u = []} = refl
+𝒟⊙ {f = f} {u = a ∷ u} = 𝒟⊙ {f = δ f a} {u = u}
+\end{code}
+%</𝒟[]⊙>
 
 %<*foldl>
 \begin{code}[hide]
@@ -53,11 +76,36 @@ private
 \end{code}
 %</foldl>
 
+%<*ν∘𝒟>
+\begin{code}
+ν∘𝒟 : ∀ (f : A ✶ → B) → ν ∘ 𝒟 f ≗ f
+\end{code}
+\begin{code}[hide]
+ν∘𝒟 f u rewrite (++-identityʳ u) = refl
+
+-- ν∘𝒟 f u = cong f (++-identityʳ u)
+
+-- ν∘𝒟 f []       = refl
+-- ν∘𝒟 f (a ∷ as) = ν∘𝒟 (δ f a) as
+\end{code}
+%</ν∘𝒟>
+
+%<*𝒟foldl>
+\begin{code}
+𝒟foldl : 𝒟 f ≗ foldl δ f
+\end{code}
+\begin{code}[hide]
+𝒟foldl []        = refl
+𝒟foldl (a ∷ as)  = 𝒟foldl as
+\end{code}
+%</𝒟foldl>
+
+%% Phasing out. Still used in talk.tex.
 %<*ν∘foldlδ>
 \AgdaTarget{ν∘foldlδ}
 %% ν∘foldlδ : ∀ w → P w ≡ ν (foldl δ P w)
 \begin{code}
-ν∘foldlδ : ν ∘ foldl δ P ≗ P
+ν∘foldlδ : ν ∘ foldl δ f ≗ f
 ν∘foldlδ []        = refl
 ν∘foldlδ (a ∷ as)  = ν∘foldlδ as
 \end{code}
@@ -175,41 +223,41 @@ private
   (λ { (([] , .(a ∷ w)) , refl , νP , Qaw) → refl
      ; ((.a ∷ u , v) , refl , Pu , Qv) → refl })
 
-ν☆ {P = P} = mk↔′ f f⁻¹ invˡ invʳ
+ν☆ {P = P} = mk↔′ k k⁻¹ invˡ invʳ
  where
-   f : ν (P ☆) → (ν P) ✶
-   f zero☆ = []
-   f (suc☆ (([] , []) , refl , (νP , νP☆))) = νP ∷ f νP☆
+   k : ν (P ☆) → (ν P) ✶
+   k zero☆ = []
+   k (suc☆ (([] , []) , refl , (νP , νP☆))) = νP ∷ k νP☆
 
-   f⁻¹ : (ν P) ✶ → ν (P ☆)
-   f⁻¹ [] = zero☆
-   f⁻¹ (νP ∷ νP✶) = suc☆ (([] , []) , refl , (νP , f⁻¹ νP✶))
+   k⁻¹ : (ν P) ✶ → ν (P ☆)
+   k⁻¹ [] = zero☆
+   k⁻¹ (νP ∷ νP✶) = suc☆ (([] , []) , refl , (νP , k⁻¹ νP✶))
 
-   invˡ : ∀ (νP✶ : (ν P) ✶) → f (f⁻¹ νP✶) ≡ νP✶
+   invˡ : ∀ (νP✶ : (ν P) ✶) → k (k⁻¹ νP✶) ≡ νP✶
    invˡ [] = refl
    invˡ (νP ∷ νP✶) rewrite invˡ νP✶ = refl
 
-   invʳ : ∀ (νP☆ : ν (P ☆)) → f⁻¹ (f νP☆) ≡ νP☆
+   invʳ : ∀ (νP☆ : ν (P ☆)) → k⁻¹ (k νP☆) ≡ νP☆
    invʳ zero☆ = refl
    invʳ (suc☆ (([] , []) , refl , (νP , νP☆))) rewrite invʳ νP☆ = refl
 
-δ☆ {P}{a} {w} = mk↔′ f f⁻¹ invˡ invʳ
+δ☆ {P}{a} {w} = mk↔′ k k⁻¹ invˡ invʳ
  where
-   f : δ (P ☆) a w → ((ν P) ✶ · (δ P a ⋆ P ☆)) w
-   f (suc☆ (([] , .(a ∷ w)) , refl , (νP , P☆a∷w))) with f P☆a∷w
+   k : δ (P ☆) a w → ((ν P) ✶ · (δ P a ⋆ P ☆)) w
+   k (suc☆ (([] , .(a ∷ w)) , refl , (νP , P☆a∷w))) with k P☆a∷w
    ... |            νP✶  , etc
        = νP ∷ νP✶ , etc
-   f (suc☆ ((.a ∷ u , v) , refl , (Pa∷u , P☆v))) = [] , (u , v) , refl , (Pa∷u , P☆v)
+   k (suc☆ ((.a ∷ u , v) , refl , (Pa∷u , P☆v))) = [] , (u , v) , refl , (Pa∷u , P☆v)
 
-   f⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ☆)) w → δ (P ☆) a w
-   f⁻¹ ([] , (u , v) , refl , (Pa∷u , P☆v)) = (suc☆ ((a ∷ u , v) , refl , (Pa∷u , P☆v)))
-   f⁻¹ (νP ∷ νP✶ , etc) = (suc☆ (([] , a ∷ w) , refl , (νP , f⁻¹ (νP✶ , etc))))
+   k⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ☆)) w → δ (P ☆) a w
+   k⁻¹ ([] , (u , v) , refl , (Pa∷u , P☆v)) = (suc☆ ((a ∷ u , v) , refl , (Pa∷u , P☆v)))
+   k⁻¹ (νP ∷ νP✶ , etc) = (suc☆ (([] , a ∷ w) , refl , (νP , k⁻¹ (νP✶ , etc))))
 
-   invˡ : (s : ((ν P) ✶ · (δ P a ⋆ P ☆)) w) → f (f⁻¹ s) ≡ s
+   invˡ : (s : ((ν P) ✶ · (δ P a ⋆ P ☆)) w) → k (k⁻¹ s) ≡ s
    invˡ ([] , (u , v) , refl , (Pa∷u , P☆v)) = refl
    invˡ (νP ∷ νP✶ , etc) rewrite invˡ (νP✶ , etc) = refl
 
-   invʳ : (s : δ (P ☆) a w) → f⁻¹ (f s) ≡ s
+   invʳ : (s : δ (P ☆) a w) → k⁻¹ (k s) ≡ s
    invʳ (suc☆ (([] , .(a ∷ w)) , refl , (νP , P☆a∷w))) rewrite invʳ P☆a∷w = refl
    invʳ (suc☆ ((.a ∷ u , v) , refl , (Pa∷u , P☆v))) = refl
 
@@ -218,44 +266,30 @@ private
 
 Clarify the relationship with automatic differentiation:
 
-\begin{code}
-𝒟 : (A ✶ → B) → A ✶ → (A ✶ → B)
-𝒟 f u v = f (u ++ v)
-\end{code}
-
-\begin{code}
-private
-  variable
-    f : A ✶ → B
-    u v w : A ✶
-\end{code}
-\begin{code}
-𝒟foldl : 𝒟 f ≗ foldl δ f
-𝒟foldl []        = refl
-𝒟foldl (a ∷ as)  = 𝒟foldl as
-
-𝒟[_] : δ f a ≡ 𝒟 f [ a ]
-𝒟[_] = refl
-\end{code}
-
 Now enhance \AF 𝒟:
+%<*𝒟′>
 \begin{code}
 𝒟′ : (A ✶ → B) → A ✶ → B × (A ✶ → B)
 𝒟′ f u = f u , 𝒟 f u
 \end{code}
+%</𝒟′>
 
+%<*ʻ𝒟>
 \begin{code}
 ʻ𝒟 : (A ✶ → B) → A ✶ → B × (A ✶ → B)
 ʻ𝒟 f u = ν f′ , f′ where f′ = foldl δ f u
--- ʻ𝒟 f u = let f′ = foldl δ f u in ν f′ , f′
 \end{code}
+%% ʻ𝒟 f u = let f′ = foldl δ f u in ν f′ , f′
+%</ʻ𝒟>
 
+%<*𝒟′≡ʻ𝒟>
 \begin{code}
--- 𝒟′foldl : ∀ u → 𝒟′ f u ≡ let f′ = foldl δ f u in ν f′ , f′
-𝒟′foldl : 𝒟′ f ≗ ʻ𝒟 f
-𝒟′foldl [] = refl
-𝒟′foldl (a ∷ as) = 𝒟′foldl as
+𝒟′≡ʻ𝒟 : 𝒟′ f ≗ ʻ𝒟 f
 \end{code}
+\begin{code}[hide]
+𝒟′≡ʻ𝒟 [] = refl
+𝒟′≡ʻ𝒟 (a ∷ as) = 𝒟′≡ʻ𝒟 as
+\end{code}
+%</𝒟′≡ʻ𝒟>
 
 \note{There's probably a way to \AK{rewrite} with \AB{𝒟foldl} and \AB{𝒟′foldl} to eliminate the induction here.}
-
