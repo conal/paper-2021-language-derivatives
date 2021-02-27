@@ -1,9 +1,9 @@
 \newif\ifacm
 
-%% \acmtrue
+\acmtrue
 
 \ifacm
-\documentclass[acmsmall,screen,anonymous,timestamp]{acmart}
+\documentclass[acmsmall,screen,anonymous,timestamp,review]{acmart}
 \else
 \documentclass[hidelinks]{article}  % fleqn,12pt
 \usepackage[margin=1in]{geometry}  % 0.12in, 0.9in, 1in
@@ -34,6 +34,7 @@
 
 \ifacm
 \bibliographystyle{ACM-Reference-Format}
+\citestyle{acmauthoryear}
 \else
 \usepackage[round]{natbib} % [square]
 \bibliographystyle{plainnat}
@@ -338,8 +339,8 @@ Within the second category, \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_☆} apply to all
 \agda{domain-transformers}
 \end{minipage}
 \hfill\;
-} shows two parallel collections of predicate operations, each covariantly transforming the codomain (left) or domain (right).\footnote{The types of operations on the left can be further relaxed from \AF{Set⇂} to any codomain type, while keeping \AB{A} fixed, resulting in the usual covariant applicative functor of functions \emph{from} a fixed type \citep{McBride2008APE}.
-Dually, the operations on the right (in their current generality) form a covariant applicative functor of functions \emph{to} the type \AF{Set⇂}.}
+} shows two parallel collections of predicate operations, each covariantly transforming the codomain (left) or domain (right).\footnote{The types of operations on the left can be further relaxed from \AF{Set ℓ} to any codomain type, while keeping \AB{A} fixed, resulting in the usual covariant applicative functor of functions \emph{from} a fixed type \citep{McBride2008APE}.
+Dually, the operations on the right (in their current generality) form a covariant applicative functor of functions \emph{to} types.}
 These generalized operations then specialize to language operations as in \figrefdef{lang-via-pred}{Languages via predicate operations}{
 \mathindent0ex
 \begin{center}
@@ -380,9 +381,10 @@ The semiring abstraction has three aspects: (a) a commutative monoid providing `
 In the first predicate semiring, which is \emph{commutative} (i.e., multiplication commutes), zero and addition are \AF ∅ and \AF{\_∪\_}, while one and multiplication are \AF 𝒰 and \AF{\_∩\_}.
 Closure adds a star/closure operation \AF{\_✯} with \AF{starˡ} law: {\AB x \AF ✯ \AF ≈ 1 \AF + \AB x \AF ✲ \AB x \AF ✯}.
 
-Conveniently, booleans and types form commutative semirings with all necessary proofs already in the standard library.
-(The equivalence relation used for types is isomorphism rather than equality.)
-Both are also closed.
+Conveniently, booleans and types form commutative semirings with all necessary proofs already in the standard library.\footnote{The equivalence relation used for types is isomorphism rather than equality.
+The boolean semiring is idempotent, while the type semiring is not (in order to distinguish multiple parsings in ambiguous languages).
+The latter non-idempotence accounts for the difference between the \AF ν and \AF δ lemmas for {\AB P ⋆ \AB Q} and {\AB P ☆} in \figref{nu-delta-lemmas} and the corresponding rules in previous work, as mentioned in \secref{Related Work}.}
+They are both closed as well.
 For booleans, closure maps both \AIC{false} and \AIC{true} to \AIC{true}, with the \AF{starˡ} law holding definitionally.
 For types, the closure of \AB{A} is {\AB{A} ✶} (the usual inductive list type) with a simple, non-inductive proof of \AF{starˡ}.
 
@@ -514,6 +516,10 @@ Their regular expression matching function targets a free monad (later to be int
 
 Of the previous work involving language derivatives, none appear to have based their formal specification and proofs on the essential, non-inductive, nearly-trivial definition in terms of functions of lists from \secref{Decomposing Languages}, although \citet{Abel2016} did indeed mention this definition informally as motivation for the more complex, coinductively defined operations on tries.
 \citet{Brzozowski64} also made clear mention of the underlying meaning on sets of strings in his original work on regular expression derivatives.
+Moreover, none of these previous investigations appear to have addressed proof isomorphism (distinguishing multiple parsings/explanations), and correspondingly all use transformations based the less precise laws originally discovered by \citet{Brzozowski64}.
+Those laws were based on the assumption that union (``addition'' in both language semirings of \secref{Predicate Algebra}) is idempotent, which is not true for type-level language predicates related by proof isomorphism (rather than mere logical equivalence).
+The lack of idempotence is crucial for going beyond recognizers to parsers, in which we might want to extract more than one proof (parsing).
+The difference is mainly visible in the \AF ν and \AF δ lemmas for {\AB P ⋆ \AB Q} and {\AB P ☆} in \figref{nu-delta-lemmas}.
 
 \bibliography{bib}
 

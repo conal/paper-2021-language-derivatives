@@ -1,14 +1,13 @@
 ## To do
 
+*   Conclusions and future work.
 *   Check footnotes composition carefully.
     Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
 *   Clarify tries as "automatic differentiation".
-*   Maybe mention logical equivalence vs proof isomorphism again in the Related Work section.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
 *   `starʳ`
 *   Define language star via `mapⱽ` and `All`.
-*   Mention the *non-idempotence* of this notion of languages, due to choice of equivalence relation.
 *   Fix layout for `\\figref{nu-delta-codomain-lemmas}` in ACM version.
     It now uses horizontal layout, requiring `small` for ACM.
     I have plenty of room, so stack vertically instead.
@@ -55,6 +54,8 @@ From old paper version to-do:
 
 ## Did
 
+*   Mention the *non-idempotence* of this notion of languages, due to choice of equivalence relation.
+*   Maybe mention logical equivalence vs proof isomorphism again in the Related Work section.
 *   Wouter's paper
 *   Mention OstermannJabs2018.
 *   Maybe demote sections 4 (Reflections), 5 (Symbolic Differentiation), and 6 (Automatic Differentiation) into subsections of a new section called "From languages to parsing".

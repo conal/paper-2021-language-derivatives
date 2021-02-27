@@ -60,6 +60,11 @@ see: $(PAPER).see
 %.see: latex/%.pdf
 	${SHOWPDF} $<
 
+SOURCES=$(shell find . -name '*.*agda' | grep -v Junk | grep -v _build) 
+
+source.zip: $(SOURCES) ld.agda-lib
+	zip $@ $^
+
 clean:
 	rm -r latex
 
