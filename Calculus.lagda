@@ -38,8 +38,10 @@ private
 ν f = f []
 
 𝒟 : (A ✶ → B) → A ✶ → (A ✶ → B)  -- “derivative”
-𝒟 f u v = f (u ⊙ v)
+𝒟 f u = λ v → f (u ⊙ v)
 \end{code}
+%% 𝒟 f u v = f (u ⊙ v)
+%% 𝒟 f u = λ v → f (u ⊙ v)
 %% 𝒟 f u = f ∘ (u ⊙_)
 %</ν𝒟>
 
@@ -78,10 +80,10 @@ private
 
 %<*ν∘𝒟>
 \begin{code}
-ν∘𝒟 : ∀ (f : A ✶ → B) → ν ∘ 𝒟 f ≗ f
+ν∘𝒟 : ν ∘ 𝒟 f ≗ f
 \end{code}
 \begin{code}[hide]
-ν∘𝒟 f u rewrite (++-identityʳ u) = refl
+ν∘𝒟 u rewrite (++-identityʳ u) = refl
 
 -- ν∘𝒟 f u = cong f (++-identityʳ u)
 
