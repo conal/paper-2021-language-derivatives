@@ -171,9 +171,8 @@ Since {\AB{u} \AF ⊙ \AIC{[]} \AD ≡ \AB{u}}, it follows that\footnote{For fun
 \agda{ν∘𝒟}
 Moreover, the function \AF{𝒟} distributes over \AIC{[]} and \AF{\_⊙\_}:\footnote{In algebraic terms, argument-flipped \AF{𝒟} is a monoid homomorphism from lists to endofunctions.}
 \agda{𝒟[]⊙}
-These facts suggest that \AB{𝒟} can be computed one list element at a time via a more specialized operation, as is indeed the case:\footnote{Repeated \AF{δ} application is expressed here via a standard left fold\out{ \stdlibCitep{Data.List}}:
-\agda{foldl}\vspace{-2ex}
-In \AF{𝒟foldl}, {\AB{X} \AS = \AB{A} \AF ✶ \AS → \AB B}.
+These facts suggest that \AB{𝒟} can be computed one list element at a time via a more specialized operation, as is indeed the case:\footnote{Repeated \AF{δ} application is expressed here via a standard left fold (with {\AB{X} \AS = \AB{A} \AF ✶ \AS → \AB B} in \AF{𝒟foldl}):
+\agda{foldl}
 }
 \agda{δ}
 %\vspace{-4ex}
@@ -203,9 +202,9 @@ As with all lemmas in this paper shown with signatures only, full proofs are in 
 \sectionl{Decidability}
 \rnc\source{Decidability}
 
-For an effective implementation, we must bridge the gap between a type (of membership proofs) and its decidable inhabitation.
+For effective implementations, we must bridge the gap between a type (of membership proofs) and its decidable inhabitation.
 Fortunately, there is a convenient and compositional way to do so.
-For any type \AB{A}, the type {\AF{Dec} \AB{A}} contains proof of \AB{A} or a proof of {\AF ¬ \AB{A}} (defined as usual to mean {\AB{A} \AS → \AD{⊥}}):\footnote{This simple \AF{Dec} definition been superceded by a more efficient but more complex version \stdlibCitep{Relation.Nullary}.}
+For type \AB{A}, the type {\AF{Dec} \AB{A}} contains proof of \AB{A} or a proof of {\AF ¬ \AB{A}} (defined as usual to mean {\AB{A} \AS → \AD{⊥}}):\footnote{This simple \AF{Dec} definition been superceded by a more efficient but more complex version \stdlibCitep{Relation.Nullary}.}
 \agda{Dec}
 For compositionality, we will use a few operations that lift decidability of types to decidability of constructions on those types, as shown in \figrefdef{compositional-dec}{Compositional decidability}{\agda{compositional-dec}}.\footnote{%
 A few explanatory remarks:
