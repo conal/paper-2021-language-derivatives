@@ -56,6 +56,8 @@ From old paper version to-do:
 
 ## Did
 
+*   Maybe use acmsmall for the public/non-anonymous version of my paper, tweaking some features.
+    Reconsider each use of `\\ifacm`.
 *   Fix layout for `\\figref{nu-delta-codomain-lemmas}` in ACM version.
     It now uses horizontal layout, requiring `small` for ACM.
     I have plenty of room, so stack vertically instead.

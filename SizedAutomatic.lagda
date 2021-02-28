@@ -58,7 +58,7 @@ open Lang
 \end{code}
 \end{minipage}
 \hfill\;
-\ifacm\else
+\iftalk
 \vspace{-3.5ex}
 \fi
 \begin{center}
