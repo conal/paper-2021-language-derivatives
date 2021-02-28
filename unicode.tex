@@ -163,12 +163,7 @@
 
 \newunicodechar{𝟏}{\ensuremath{\mathbf{1}}}
 
-\ifacm
-\newcommand\smallOpSize{\small}
-\else
-\newcommand\smallOpSize{\scriptsize}
-\fi
-\newcommand\smallOp[2]{\ensuremath{\mathbin{\mbox{\raisebox{#1}{\smallOpSize $#2$}}}}}
+\newcommand\smallOp[2]{\ensuremath{\mathbin{\mbox{\raisebox{#1}{\small $#2$}}}}}
 \newcommand\append{\smallOp{0.5pt}{+\!\!+}}
 
 \newunicodechar{⊙}{\ensuremath{\append}}
