@@ -276,6 +276,7 @@ Now enhance \AF 𝒟:
 \end{code}
 %</𝒟′>
 
+%% The ʻ name trick (defined in unicode.tex) adds a hat to the name it precedes.
 %<*ʻ𝒟>
 \begin{code}
 ʻ𝒟 : (A ✶ → B) → A ✶ → B × (A ✶ → B)
