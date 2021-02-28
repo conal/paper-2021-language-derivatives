@@ -1,6 +1,6 @@
 \newif\ifacm
 
-%% \acmtrue
+\acmtrue
 
 \ifacm
 \documentclass[acmsmall,screen,anonymous,timestamp,review]{acmart}
@@ -169,13 +169,14 @@ In terms of languages, {\AF{𝒟} \AB{P} \AB{u}} comprises all strings \AB{v} su
 
 Since {\AB{u} \AF ⊙ \AIC{[]} \AD ≡ \AB{u}}, it follows that\footnote{For functions \AB{f} and \AB{g}, {\AB{f} \AF{≗} \AB{g}} is extensional equality, i.e., {\AS ∀ \AB x \AS → \AB{f} \AB{x} \AD{≡} \AB{g} \AB{x}}.}
 \agda{ν∘𝒟}
-Moreover, the function \AF{𝒟} distributes over \AIC{[]} and \AF{\_⊙\_}:\out{\footnote{In algebraic terms, argument-flipped \AF{𝒟} is a monoid homomorphism from lists to language endofunctions.}}
+Moreover, the function \AF{𝒟} distributes over \AIC{[]} and \AF{\_⊙\_}:\footnote{In algebraic terms, argument-flipped \AF{𝒟} is a monoid homomorphism from lists to endofunctions.}
 \agda{𝒟[]⊙}
-These facts suggest that \AB{𝒟} can be computed one list element at a time via a more specialized operation, as is indeed the case:\footnote{Repeated \AF{δ} application is expressed as a standard left fold\out{ \stdlibCitep{Data.List}}:
+These facts suggest that \AB{𝒟} can be computed one list element at a time via a more specialized operation, as is indeed the case:\footnote{Repeated \AF{δ} application is expressed here via a standard left fold\out{ \stdlibCitep{Data.List}}:
 \agda{foldl}\vspace{-2ex}
+In \AF{𝒟foldl}, {\AB{X} \AS = \AB{A} \AF ✶ \AS → \AB B}.
 }
 \agda{δ}
-\vspace{-4ex}
+%\vspace{-4ex}
 \agda{𝒟foldl}
 Each use of \AF{δ} thus takes us one step closer to reducing general language membership to nullability.
 %% In other words,%
@@ -260,7 +261,7 @@ The ``symbolic differentiation'' style reflects language-building vocabulary (\f
 For convenience, we can use the same names as in \secref{Specifying Languages} for these new counterparts, while referring to the original versions via the module prefix ``{◇.}\hspace{0.05em}''.
 The result is shown in \figrefdef{symbolic-api}{Regular expressions (inductive)}{\api} along with a function {\AF{⟦\_⟧}} that converts a symbolic language representation to a computable parser.
 
-Decidable parsing (via {\AF{⟦\_⟧}}) relies only on \AF{ν} and \AF{δ}, which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}, as systematically derived from the lemmas of \figref{nu-delta-lemmas}.\out{\notefoot{Describe this derivation.}}
+Decidable parsing relies only on \AF{ν} and \AF{δ} (via {\AF{⟦\_⟧}}), which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}, as systematically derived from the lemmas of \figref{nu-delta-lemmas}.\out{\notefoot{Describe this derivation.}}
 These definitions are meant to be read in ``column-major'' order, i.e., each column is one function definition.
 Correctness is guaranteed by the types of \AF{ν} and \AF{δ} and so is proved automatically by type-checking \figref{symbolic-defs}.
 (We could thus use \emph{any} definitions of \AF{ν} and \AF{δ} that type- and termination-check, although not many definitions would.)
