@@ -1,6 +1,5 @@
 ## To do
 
-*   Point to the GitHub repo in the non-ACM version of the paper.
 *   Rework abstract now that I've moved the predicate generalization toward the end of the paper.
 *   Maybe further highlight the specific differences between the ν-δ lemmas and Brzozowski's original versions (imitated AFAICT by related work).
 *   Conclusions and future work.
@@ -58,6 +57,7 @@ From old paper version to-do:
 
 ## Did
 
+*   Point to the GitHub repo in the non-ACM version of the paper.
 *   Maybe use acmsmall for the public/non-anonymous version of my paper, tweaking some features.
     Reconsider each use of `\\ifacm`.
 *   Fix layout for `\\figref{nu-delta-codomain-lemmas}` in ACM version.
