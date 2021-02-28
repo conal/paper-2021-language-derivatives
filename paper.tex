@@ -1,9 +1,11 @@
 \newif\ifacm
 
-%% \acmtrue
+\acmtrue
 
 \ifacm
 \documentclass[acmsmall,screen,anonymous,timestamp,review]{acmart}
+%% \documentclass[acmsmall,screen,timestamp,nonacm]{acmart}
+%% \authorsaddresses{}
 \else
 \documentclass[hidelinks]{article}  % fleqn,12pt
 \usepackage[margin=1.3in]{geometry}  % 0.12in, 0.9in, 1in
@@ -145,10 +147,10 @@ This paper makes the following specific contributions:
   Each implementation contains exactly the same code but in transposed forms.
   Both are corollaries of the semantic lemmas and are automatically proved correct by type-checking.
 \item
-  The theory and algorithms are specified in terms of proof isomorphism rather than mere logical equivalence.
-  As such, the differentiation lemmas for language concatenation and Kleene closure are more informative than in previous work, capturing \emph{all} parsings, including closure of languages containing the empty string.
+  The theory and algorithms are specified in terms of proof isomorphism rather than the usual, coarser relation of logical equivalence.
+  As such, the lemmas for language concatenation and Kleene closure are more informative than in previous work, capturing \emph{all} parsings distinctly, including closure of languages containing the empty string.
 \item
-  The vocabulary of languages is generalized to predicates over arbitrary types, and then re-specialized to the usual vocabulary (\secref{Predicate Algebra}).
+  The vocabulary of languages is generalized from predicates on lists to predicates on arbitrary types, and then re-specialized to the usual vocabulary (\secref{Predicate Algebra}).
   This generalization consists of two useful covariant applicative functors on functions (the usual one on functions-from-\AF{X} and another on functions-to-\APT{Set}).
   % Properties are proved in terms of this more general vocabulary.
 \item
