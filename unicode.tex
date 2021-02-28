@@ -163,8 +163,12 @@
 
 \newunicodechar{𝟏}{\ensuremath{\mathbf{1}}}
 
-\newcommand\smallOp[2]{\ensuremath{\mathbin{\mbox{\raisebox{#1}{\small $#2$}}}}}
+\newcommand\smallOp[2]{\ensuremath{\mathbin{\mbox{\raisebox{#1}{\scriptsize $#2$}}}}}
+\iftalk
 \newcommand\append{\smallOp{0.5pt}{+\!\!+}}
+\else
+\newcommand\append{\mathbin{+\!\!+}}
+\fi
 
 \newunicodechar{⊙}{\ensuremath{\append}}
 

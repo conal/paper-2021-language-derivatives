@@ -1,5 +1,7 @@
 ## To do
 
+*   Point to the GitHub repo in the non-ACM version of the paper.
+*   Rework abstract now that I've moved the predicate generalization toward the end of the paper.
 *   Maybe further highlight the specific differences between the ν-δ lemmas and Brzozowski's original versions (imitated AFAICT by related work).
 *   Conclusions and future work.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
