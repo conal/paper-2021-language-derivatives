@@ -1,6 +1,6 @@
 ## To do
 
-*   Restore some of the removed "powerful perspectives" text in the calculus section.
+*   Maybe further highlight the specific differences between the ν-δ lemmas and Brzozowski's original versions (imitated AFAICT by related work).
 *   Conclusions and future work.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
@@ -13,9 +13,6 @@
     The ACM layout does better than my own.
 *   `starʳ`
 *   Define language star via `mapⱽ` and `All`.
-*   Fix layout for `\\figref{nu-delta-codomain-lemmas}` in ACM version.
-    It now uses horizontal layout, requiring `small` for ACM.
-    I have plenty of room, so stack vertically instead.
 *   Generalize from lists.
     Other types have their own deltas.
 
@@ -59,6 +56,10 @@ From old paper version to-do:
 
 ## Did
 
+*   Fix layout for `\\figref{nu-delta-codomain-lemmas}` in ACM version.
+    It now uses horizontal layout, requiring `small` for ACM.
+    I have plenty of room, so stack vertically instead.
+*   Automata perspective.
 *   Clarify tries as "automatic differentiation".
 *   Mention the *non-idempotence* of this notion of languages, due to choice of equivalence relation.
 *   Maybe mention logical equivalence vs proof isomorphism again in the Related Work section.
