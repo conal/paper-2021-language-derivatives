@@ -3,6 +3,7 @@
 *   Rework abstract now that I've moved the predicate generalization toward the end of the paper.
 *   Maybe further highlight the specific differences between the ν-δ lemmas and Brzozowski's original versions (imitated AFAICT by related work).
 *   Conclusions and future work.
+*   Mention optimizations for regular expressions and tries.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
 
@@ -27,15 +28,10 @@ Less important:
     *   Could I automate the transition from lemmas to implementation via rewrite rules?
         I'd have to suppress normalization, which would seem to break many proofs.
     *   DFA and/or NFA implementations from the same specification and in the same style, i.e., indexed by type-level languages.
-    *   Optimizations for regular expressions and tries.
 
 From old paper version to-do:
 
 *   Maybe switch to semiring and module notation starting in *Predicate Algebra*.
-*   Scour ICFP proceedings for papers done in dependently typed languages, especially Agda.
-    What can I learn?
-    Must I tone down the Agda-ness for ICFP?
-    Maybe ask colleagues for advice, e.g., Wouter Swierstra.
 *   Explore the idea that Brzozowski's technique uses symbolic differentiation, but automatic differentiation has the usual advantages.
     What dimension do our domain and codomain have?
     Do forward, reverse, and mixed modes have anything to say?
