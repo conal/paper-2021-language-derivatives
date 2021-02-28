@@ -56,7 +56,7 @@ private
 
 infixr 2 _↦_
 _↦_ : A → Set ℓ → Pred A
-(a ↦ b) w = w ≡ a × b
+(a ↦ b) w = (w ≡ a) × b
 
 infixr 2 _⤇_   -- or ⇰
 _⤇_ : (B → A) → (B → Set ℓ) → B → Pred A
