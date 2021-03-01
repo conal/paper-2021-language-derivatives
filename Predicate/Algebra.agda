@@ -78,18 +78,18 @@ open MonoidSemiringProperties isMonoid-M
 
 open import Closed ; open Closed.Types {ℓ}
 
-⋆-∪-isClosedSemiring : IsClosedSemiring _⟷_ _∪_ _⋆_ ∅ 𝟏  _☆
+⋆-∪-isClosedSemiring : IsClosedSemiring _⟷_ _∪_ _⋆_ ∅ 𝟏  _✪
 ⋆-∪-isClosedSemiring = record { isSemiring = ⋆-∪-isSemiring
-                              ; starˡ = λ _ → ☆-starˡ
-                              -- ; starʳ = λ _ → ☆-starʳ
+                              ; starˡ = λ _ → ✪-starˡ
+                              -- ; starʳ = λ _ → ✪-starʳ
                               }
 
 ⋆-∪-isClosedCommutativeSemiring :
-  Commutative _≡_ _∙_ → IsClosedCommutativeSemiring _⟷_ _∪_ _⋆_ ∅ 𝟏 _☆
+  Commutative _≡_ _∙_ → IsClosedCommutativeSemiring _⟷_ _∪_ _⋆_ ∅ 𝟏 _✪
 ⋆-∪-isClosedCommutativeSemiring ∙-comm = record
   { isCommutativeSemiring = ⋆-∪-isCommutativeSemiring ∙-comm
-  ; starˡ = λ _ → ☆-starˡ
-  -- ; starʳ = λ _ → ☆-starʳ
+  ; starˡ = λ _ → ✪-starˡ
+  -- ; starʳ = λ _ → ✪-starʳ
   }
 
 ⋆-∪-closedSemiring : ClosedSemiring _ _

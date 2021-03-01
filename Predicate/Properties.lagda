@@ -654,13 +654,13 @@ module MonoidSemiringProperties {M : Set ℓ} {_∙_ : Op₂ M} {ε : M}
   --   {!!}
   --   {!!}
 
-  ---- Closure
-  ☆-starˡ : P ☆ ⟷ 𝟏 ∪ P ⋆ P ☆
-  ☆-starˡ = mk↔′
-    (λ { zero☆ → inj₁ refl≡ ; (suc☆ w∈P⋆P☆) → inj₂ w∈P⋆P☆ })
-    (λ { (inj₁ refl≡) → zero☆ ; (inj₂ w∈P⋆P☆) → suc☆ w∈P⋆P☆ })
-    (λ { (inj₁ refl≡) → refl≡ ; (inj₂ w∈P⋆P☆) → refl≡ })
-    (λ { zero☆ → refl≡ ; (suc☆ w∈P⋆P☆) → refl≡ })
+  -- ---- Closure
+  -- ☆-starˡ : P ☆ ⟷ 𝟏 ∪ P ⋆ P ☆
+  -- ☆-starˡ = mk↔′
+  --   (λ { zero☆ → inj₁ refl≡ ; (suc☆ w∈P⋆P☆) → inj₂ w∈P⋆P☆ })
+  --   (λ { (inj₁ refl≡) → zero☆ ; (inj₂ w∈P⋆P☆) → suc☆ w∈P⋆P☆ })
+  --   (λ { (inj₁ refl≡) → refl≡ ; (inj₂ w∈P⋆P☆) → refl≡ })
+  --   (λ { zero☆ → refl≡ ; (suc☆ w∈P⋆P☆) → refl≡ })
 
   -- ☆-starʳ : P ☆ ⟷ 𝟏 ∪ P ☆ ⋆ P
   -- ☆-starʳ = mk↔′
@@ -674,8 +674,6 @@ module MonoidSemiringProperties {M : Set ℓ} {_∙_ : Op₂ M} {ε : M}
     -- (λ { (inj₁ refl≡) → refl≡ ; (inj₂ w∈P⋆P☆) → refl≡ })
     -- (λ { zero☆ → refl≡ ; (suc☆ w∈P⋆P☆) → refl≡ })
 
-  ---- Alternative closure
-  open AltStar _∙_ ε
   open import Data.List
   open import Data.List.Relation.Unary.All
 

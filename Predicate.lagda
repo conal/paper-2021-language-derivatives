@@ -9,6 +9,8 @@ open import Algebra.Core
 open import Data.Sum
 open import Data.Product
 open import Relation.Binary.PropositionalEquality hiding ([_])
+open import Data.List
+open import Data.List.Relation.Unary.All
 
 open import Misc {ℓ}
 \end{code}
@@ -101,40 +103,40 @@ Note that {\AF{mapⱽ} \AB{g} \AB{P}} is the image of the subset \AB{P} under th
 
 These domain transformations generalize concatenation and its identity to arbitrary binary operations or even operations of any arity.
 Rather than specialize all the way back to lists at this point, it will be useful to generalize to a binary operation \AB{\_∙\_} and an element \AB{ε}, which will form a monoid:
-% \AgdaTarget{MonoidOps, 𝟏, _⋆_, ⋆, \_☆, ☆, zero☆, suc☆}
+% \AgdaTarget{MonoidOps, 𝟏, _⋆_, ⋆, \_✪, ✪, zero☆, suc☆}
 \begin{code}[hide]
 module MonoidOps {M : Set ℓ} (_∙_ : Op₂ M) (ε : M) where
   𝟏 : Pred M
   infixl 7 _⋆_
   _⋆_ : Op₂ (Pred M)
-  infixl 10 _☆
 
-  data _☆ (P : Pred M) : Pred M
+  infixl 10 _✪
+  _✪ : Op₁ (Pred M)
 
-  data _☆ʳ (P : Pred M) : Pred M
-
+  -- _☆ʳ : Op₁ (Pred M)
 \end{code}
 %<*domain-ops>
 \begin{code}
   𝟏 = pureⱽ ε
 
   _⋆_ = mapⱽ₂ _∙_
-
-  data _☆ P where
-    zero☆  : (P ☆) ε
-    suc☆   : ∀ {w} → (P ⋆ P ☆) w → (P ☆) w
+\end{code}
+\vspace{-2.25ex}
+\begin{code}
+  P ✪ = mapⱽ (foldr _∙_ ε) (All P)
 \end{code}
 %</domain-ops>
+
 \begin{code}
-  data _☆ʳ P where
-    zero☆ʳ  : (P ☆ʳ) ε
-    suc☆ʳ   : ∀ {w} → (P ☆ʳ ⋆ P) w → (P ☆ʳ) w
+  infixl 10 _☆
+  data _☆ (P : Pred M) : Pred M where
+    zero☆  : (P ☆) ε
+    suc☆   : ∀ {w} → (P ⋆ P ☆) w → (P ☆) w
 \end{code}
 
 Further specialize to lists:
 \begin{code}[hide]
 module ListOps (A : Set ℓ) where
-  open import Data.List
   open MonoidOps {M = A ✶} _⊙_ [] public
 
   Lang : Set (suc ℓ)
@@ -153,14 +155,8 @@ module ListOps (A : Set ℓ) where
 \end{code}
 %</list-ops>
 
-\note{Experiment}
-\begin{code}
-module AltStar {M : Set ℓ} (_∙_ : Op₂ M) (ε : M) where
-  open import Data.List
-  open import Data.List.Relation.Unary.All
-
-  infixl 10 _✪
-  _✪ : Op₁ (Pred M)
-  P ✪ = mapⱽ (foldr _∙_ ε) (All P)
-\end{code}
-%% (P ✪) w = ∃ λ ps → w ≡ foldr _∙_ ε ps × All P ps
+%% \begin{code}
+%%   data _☆ʳ P where
+%%     zero☆ʳ  : (P ☆ʳ) ε
+%%     suc☆ʳ   : ∀ {w} → (P ☆ʳ ⋆ P) w → (P ☆ʳ) w
+%% \end{code}

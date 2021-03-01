@@ -158,7 +158,7 @@ private
 ν·  : ν (s · P) ≡ (s × ν P)
 ν𝟏  : ν 𝟏 ↔ ⊤
 ν⋆  : ν (P ⋆ Q) ↔ (ν P × ν Q)
-ν☆  : ν (P ☆) ↔ (ν P) ✶
+ν✪  : ν (P ✪) ↔ (ν P) ✶
 ν`  : ν (` c) ↔ ⊥
 \end{code}
 \end{minipage}
@@ -172,13 +172,18 @@ private
 δ·  : δ (s · P) a ≡ s · δ P a
 δ𝟏  : δ 𝟏 a ⟷ ∅
 δ⋆  : δ (P ⋆ Q) a ⟷ ν P · δ Q a ∪ δ P a ⋆ Q
-δ☆  : δ (P ☆) a ⟷ (ν P) ✶ · (δ P a ⋆ P ☆)
+δ✪  : δ (P ✪) a ⟷ (ν P) ✶ · (δ P a ⋆ P ✪)
 δ`  : δ (` c) a ⟷ (a ≡ c) · 𝟏
 \end{code}
 \end{minipage}
 \hfill\;
 }
 %</νδ-lemmas>
+
+\begin{code}
+ν☆  : ν (P ☆) ↔ (ν P) ✶
+δ☆  : δ (P ☆) a ⟷ (ν P) ✶ · (δ P a ⋆ P ☆)
+\end{code}
 
 \begin{code}[hide]
 
@@ -300,7 +305,6 @@ Now enhance \AF 𝒟:
 
 Experiment with alternative star:
 \begin{code}
-open AltStar {M = A ✶} _⊙_ []
 open import Data.List.Relation.Unary.All
 open import Data.List.Properties
 open import Data.Sum.Algebra
@@ -339,7 +343,6 @@ open import Closed.Instances ; open Types {ℓ}
   --   (ν P × δ (P ✪) a w ⊎ (δ P a ⋆ P ✪) w)
   ∎ where open ↔R
 
-ν✪  : ν (P ✪) ↔ (ν P) ✶
 ν✪ {P = P} =
   begin
     ν (P ✪)
@@ -349,7 +352,6 @@ open import Closed.Instances ; open Types {ℓ}
     (ν P) ✶
   ∎ where open ↔R
 
-δ✪  : δ (P ✪) a ⟷ (ν P) ✶ · (δ P a ⋆ P ✪)
 δ✪ {P = P}{a} {w} =
   begin
     δ (P ✪) a w

@@ -16,7 +16,7 @@ module ◇ where
   open import Predicate public ; open ListOps A public
   open import Calculus A public
 
-open ◇ using (ν⋆; δ⋆; ν☆; δ☆; ν𝟏; δ𝟏; ν`; δ`)
+open ◇ using (ν⋆; δ⋆; ν✪; δ✪; ν𝟏; δ𝟏; ν`; δ`)
 
 private
   variable
@@ -34,7 +34,7 @@ infixl  7 _∩_
 infixl  7 _⋆_
 infixr  7 _·_
 infix   9 _◂_
-infixl 10 _☆
+infixl 10 _✪
 \end{code}
 \begin{code}
 record Lang (P : ◇.Lang) : Set (suc ℓ) where
@@ -68,7 +68,7 @@ _∩_  : Lang  P  → Lang Q  → Lang (P  ◇.∩  Q)
 _·_  : Dec   s  → Lang P  → Lang (s  ◇.·  P)
 𝟏    : Lang (◇.𝟏)
 _⋆_  : Lang  P  → Lang Q  → Lang (P  ◇.⋆  Q)
-_☆   : Lang  P → Lang (P ◇.☆)
+_✪   : Lang  P → Lang (P ◇.✪)
 `    : (a : A) → Lang (◇.` a)
 _◂_  : (Q ⟷ P) → Lang P → Lang Q
 \end{code}
@@ -150,10 +150,10 @@ _◂_  : (Q ⟷ P) → Lang P → Lang Q
 \end{code}}
 
 \rules{\begin{code}
-ν (p ☆) = ν☆ ◃ (ν p ✶‽)
+ν (p ✪) = ν✪ ◃ (ν p ✶‽)
 \end{code}
 }{\begin{code}
-δ (p ☆) a = δ☆ ◂ (ν p ✶‽ · (δ p a ⋆ p ☆))
+δ (p ✪) a = δ✪ ◂ (ν p ✶‽ · (δ p a ⋆ p ✪))
 \end{code}}
 
 \rules{\begin{code}

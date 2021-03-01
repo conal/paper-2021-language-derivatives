@@ -103,6 +103,10 @@ These levels avoid logical inconsistencies\out{ resulting from {\APT{Set} \AS : 
 
 \end{itemize}
 
+In the definition of {\AB P \AF ☆}, \AB{concat} flattens a list of lists into a single list, defined as a right fold:
+
+\agda{foldr-concat}
+
 Note that for a language \AB{P} and string \AB{w}, {\AB{P} \AB{w}} is the type of \emph{proofs} that {\AB{w} \AF ∈ \AB{P}}, in other words \emph{explanations} of membership, or \emph{parsings}.
 (If the type {\AB{P} \AB{w}} is uninhabited, then {\AB{w} ∉ \AB{P}}.)
 For instance, every proof of {\AB{w} \AF ∈ \AB{P} \AF ∪ \AB{Q}} contains a proof of {\AB{w} \AF ∈ \AB{P}} or of {\AB{w} \AF ∈ \AB{Q}} \emph{and} the knowledge of which one was chosen (with different proofs reflecting different choices).
@@ -338,9 +342,11 @@ These generalized operations then specialize to language operations as in \figre
 \end{minipage}
 \hfill
 \begin{minipage}[c]{15em}
+\setstretch{1.3}
 %% (any monoid)
 \agda{domain-ops}
 %% (lists)
+\vspace{-2.25ex}
 \agda{list-ops}
 \end{minipage}
 \hfill\;
