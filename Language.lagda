@@ -85,23 +85,24 @@ module AltStar where
 \end{code}
 
 \begin{code}
-module Stuff where
-  private variable B X : Set ℓ
+private
+  module Stuff where
+    private variable B X : Set ℓ
 \end{code}
 
 %<*foldr-concat>
 \begin{minipage}{16em}
 \begin{code}
-  concat⇂ : (A ✶) ✶ → A ✶
-  concat⇂ = foldr _⊙_ []
+    concat⇂ : (A ✶) ✶ → A ✶
+    concat⇂ = foldr _⊙_ []
 \end{code}
 \end{minipage}
 %% where\hspace{3em}
 \begin{minipage}{18em}
 \begin{code}
-  foldr⇂ : (B → X → X) → X → B ✶ → X
-  foldr⇂ h x []        = x
-  foldr⇂ h x (b ∷ bs)  = h b (foldr⇂ h x bs)
+    foldr⇂ : (B → X → X) → X → B ✶ → X
+    foldr⇂ h x []        = x
+    foldr⇂ h x (b ∷ bs)  = h b (foldr⇂ h x bs)
 \end{code}
 \end{minipage}
 %</foldr-concat>

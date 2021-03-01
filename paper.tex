@@ -38,6 +38,8 @@
 \usepackage{libertine}  %% [tt=false]
 \usepackage{agda}% references
 
+%% I think acmart minimizes these two.
+
 %% Switching to \textsf for AgdaFunction messes up vertical alignment.
 %% \newcommand{\AgdaFontStyle}[1]{\textsf{#1}}
 
@@ -53,6 +55,11 @@
 \author{Conal Elliott}
 
 \begin{document}
+
+\setlength{\abovedisplayskip}{2ex}
+\setlength{\belowdisplayskip}{2ex}
+\setlength{\abovedisplayshortskip}{0ex}
+\setlength{\belowdisplayshortskip}{0ex}
 
 %% \nc\tit{Working Title}
 \nc\tit{%Functional Pearl:
@@ -153,8 +160,7 @@ Generalizing from languages to functions from lists to \emph{any} type, define
 \agda{ν𝒟}
 In terms of languages, {\AF{𝒟} \AB{P} \AB{u}} comprises all strings \AB{v} such that {\AB{u} \AF ⊙ \AB{v} \AF ∈ \AB{P}}, i.e., the \AB{u}-suffixes of strings in \AB{P}.
 
-Since {\AB{u} \AF ⊙ \AIC{[]} \AD ≡ \AB{u}}, it follows that\footnote{Agda variable names can contain most characters other than spaces and parentheses, e.g., ``\AB{ν∘𝒟}'' as declared here.
-For functions \AB{f} and \AB{g}, {\AB{f} \AF{≗} \AB{g}} is extensional equality, i.e., {\AS ∀ \AB x \AS → \AB{f} \AB{x} \AD{≡} \AB{g} \AB{x}}.}
+Since {\AB{u} \AF ⊙ \AIC{[]} \AD ≡ \AB{u}}, it follows that\footnote{Agda variable names can contain most characters other than spaces and parentheses, e.g., ``\AB{ν∘𝒟}'' as declared here.}\footnote{For functions \AB{f} and \AB{g}, {\AB{f} \AF{≗} \AB{g}} is extensional equality, i.e., {\AS ∀ \AB x \AS → \AB{f} \AB{x} \AD{≡} \AB{g} \AB{x}}.}
 \agda{ν∘𝒟}
 Moreover, the function \AF{𝒟} distributes over \AIC{[]} and \AF{\_⊙\_}:\footnote{In algebraic terms, argument-flipped \AF{𝒟} is a monoid homomorphism from lists to endofunctions.}
 \agda{𝒟[]⊙}
@@ -337,17 +343,12 @@ These generalized operations then specialize to language operations as in \figre
 \hfill
 \begin{minipage}[c]{11em}
 \setstretch{1.7}
-%% (any domain type)
 \agda{codomain-ops}
 \end{minipage}
 \hfill
 \begin{minipage}[c]{15em}
-\setstretch{1.3}
-%% (any monoid)
+\setstretch{2.5}
 \agda{domain-ops}
-%% (lists)
-\vspace{-2.25ex}
-\agda{list-ops}
 \end{minipage}
 \hfill\;
 }, which adds language complement (\AF ∁).
