@@ -90,7 +90,7 @@ In particular, despite the inductive and coinductive nature of regular expressio
 
 Languages are usually formalized either set-theoretically as sets of strings or operationally as parsers.
 Alternatively, one can use type theory, so that a language is a type-level predicate on ``strings'' (lists of an arbitrary type \AB{A} of ``characters'').
-The usual language operations are defined in \figrefdef{Lang-ops}{Languages as type-level predicates}{\agda{Lang-ops}}, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ✪}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
+The usual language operations are defined in \figrefdef{Lang-ops}{Languages as type-level predicates}{\agda{Lang-ops}}, including language union and intersection ({\AB{P} \AF ∪ \AB{Q}} and {\AB{P} \AF ∩ \AB{Q}}) with their identities (the empty language \AF ∅ and universal language \AF 𝒰), language concatenation ({\AB{P} \AF ⋆ \AB{Q}}) and its identity (\AF 𝟏, containing only the empty string), single-character languages ({\AF ` \AB{c}}), Kleene star ({\AB{P} \AF ☆}), and ``scalar multiplication'' (\mbox{\AB{s} \AF · \AB{P}}, which will prove useful later).
 
 The definitions in \figref{Lang-ops} reflect the logical interpretation of types under the Curry-Howard (``propositions as types'') isomorphism, in which types represent propositions and elements (values) of a type represent proofs of the corresponding proposition \citep{Wadler2015propositions}.
 The specific embodiment of Curry-Howard in \figref{Lang-ops} and throughout this paper is the language Agda \citep{Norell2008AFP, BoveEtAl2009Agda}, which is both programming language and proof assistant founded on Martin-Löf's intuitionistic type theory \citep{MartinLöf1984intuitionistic}.
@@ -110,7 +110,7 @@ These levels avoid logical inconsistencies\out{ resulting from {\APT{Set} \AS : 
 
 \end{itemize}
 
-In the definition of {\AB P \AF ✪}, \AF{concat} flattens a list of lists into a single list via a right fold.
+In the definition of {\AB P \AF ☆}, \AF{concat} flattens a list of lists into a single list via a right fold.
 The predicate {\AD{All} \AB P} holds of a list \AB{ws} when \AB{P} holds for every element of \AB{ws}:\footnote{The data type constructors \AIC{[]} and \AIC{\_∷\_} are overloaded here, referring to both lists (as indices) and \AD{All}.}\\
 \agda{foldr-concat}
 \vspace{-1ex}
@@ -312,9 +312,9 @@ The trie representation exploits this sharing potential by weaving \AF{ν} and \
 The language-building vocabulary defined in \secref{Specifying Languages} can be simplified and generalized.
 First note that there are two categories of operations.
 One category transforms the codomain (types): \AF{∅}, \AF 𝒰, \AF{\_∪\_}, and \AF{\_∩\_}.
-The other transforms the domain (lists): \AF{𝟏}, \AF{\_⋆\_}, \AF{\_✪}, and \AF{`}.
+The other transforms the domain (lists): \AF{𝟏}, \AF{\_⋆\_}, \AF{\_☆}, and \AF{`}.
 The first category applies to predicates over all types (not just over lists).
-Within the second category, \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_✪} can apply to any monoid, while \AF{`} is specific to lists.
+Within the second category, \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_☆} can apply to any monoid, while \AF{`} is specific to lists.
 
 \figrefdef{predicates}{Predicate operations}{
 \small
@@ -354,7 +354,7 @@ These generalized operations then specialize to language operations as in \figre
 \end{minipage}
 \hfill\;
 }, which adds language complement (\AF ∁).\footnote{The list-specific operations \AF{\_⊙\_}, \AIC{[]}, and \AF{concat} used in \figref{Lang-ops} have been generalized to monoid operations {\AF{\_∙\_} and \AF{ε}}.
-The \emph{definitions} of \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_✪} do not require the monoid properties, but their properties will (\secref{Predicate Algebra}).
+The \emph{definitions} of \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_☆} do not require the monoid properties, but their properties will (\secref{Predicate Algebra}).
 }
 
 \rnc\source{Calculus}
@@ -372,7 +372,7 @@ Closure adds a star/closure operation \AF{\_✯} with \AF{starˡ} law: {\AB x \A
 
 Conveniently, booleans and types form commutative semirings with all necessary proofs already in the standard library.\footnote{The equivalence relation used for types is isomorphism rather than equality.
 The boolean semiring is idempotent, while the type semiring is not (in order to distinguish multiple parsings in ambiguous languages).
-The latter non-idempotence accounts for the difference between the \AF ν and \AF δ lemmas for {\AB P ⋆ \AB Q} and {\AB P ✪} in \figref{nu-delta-lemmas} and the corresponding rules in previous work, as mentioned in \secref{Related Work}.}
+The latter non-idempotence accounts for the difference between the \AF ν and \AF δ lemmas for {\AB P ⋆ \AB Q} and {\AB P ☆} in \figref{nu-delta-lemmas} and the corresponding rules in previous work, as mentioned in \secref{Related Work}.}
 They are both closed as well.
 For booleans, closure maps both \AIC{false} and \AIC{true} to \AIC{true}, with the \AF{starˡ} law holding definitionally.
 For types, the closure of \AB{A} is {\AB{A} ✶} (the usual inductive list type) with a simple, non-inductive proof of \AF{starˡ}.
@@ -509,7 +509,7 @@ Of the previous work involving language derivatives, none appear to have based t
 Moreover, none of these previous investigations appear to have addressed proof isomorphism (distinguishing multiple parsings/explanations), and correspondingly all use transformations based the less precise laws originally discovered by \citet{Brzozowski64}.
 Those laws were based on the assumption that union (``addition'' in both language semirings of \secref{Predicate Algebra}) is idempotent, which is not true for type-level language predicates related by proof isomorphism (rather than mere logical equivalence).
 The lack of idempotence is crucial for going beyond recognizers to parsers (which are essentially \emph{proof-relevant} recognizers), in which we might want to extract more than one proof (parsing).
-The difference is mainly visible in the \AF ν and \AF δ lemmas for {\AB P ⋆ \AB Q} and {\AB P ✪} in \figref{nu-delta-lemmas}.
+The difference is mainly visible in the \AF ν and \AF δ lemmas for {\AB P ⋆ \AB Q} and {\AB P ☆} in \figref{nu-delta-lemmas}.
 
 \bibliography{bib}
 
