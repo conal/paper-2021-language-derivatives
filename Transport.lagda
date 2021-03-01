@@ -53,13 +53,13 @@ module Examples where
   symbolicCS₁ = mkCommutativeSemiring (∩-∪-commutativeSemiring _) Lang _∪_ _∩_ ∅ 𝒰
     where open Symbolic
 
-  symbolicCS₂ = mkClosedSemiring ⋆-∪-closedSemiring Lang _∪_ _⋆_ ∅ 𝟏 _✪
+  symbolicCS₂ = mkClosedSemiring ⋆-∪-closedSemiring Lang _∪_ _⋆_ ∅ 𝟏 _☆
     where open Symbolic
 
   automaticCS₁ = mkCommutativeSemiring (∩-∪-commutativeSemiring _) (Lang ∞) _∪_ _∩_ ∅ 𝒰
     where open Automatic
 
-  automaticCS₂ = mkClosedSemiring ⋆-∪-closedSemiring (Lang ∞) _∪_ _⋆_ ∅ 𝟏 _✪
+  automaticCS₂ = mkClosedSemiring ⋆-∪-closedSemiring (Lang ∞) _∪_ _⋆_ ∅ 𝟏 _☆
     where open Automatic
 \end{code}
 %</examples>
@@ -72,7 +72,7 @@ module Wrap where
   infixr 6 _∩_
   infixl 7 _·_
   infixl 7 _⋆_
-  infixl 10 _✪
+  infixl 10 _☆
 
   ∅ : Lang
   𝒰 : Lang
@@ -82,7 +82,7 @@ module Wrap where
   _⋆_ : Op₂ Lang
   _·_ : ∀ {s} → Dec s → Op₁ Lang
   ` : A → Lang
-  _✪ : Op₁ Lang
+  _☆ : Op₁ Lang
 
   Lang = ∃ □.Lang
 
@@ -94,7 +94,7 @@ module Wrap where
   _⋆_    = inj₂  □._⋆_
   _·_ s  = inj₁  (s □.·_)
   ` c    = inj   (□.` c)
-  _✪     = inj₁  □._✪
+  _☆     = inj₁  □._☆
 \end{code}
 
 \begin{code}

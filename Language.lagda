@@ -24,14 +24,14 @@ _∩_ : Op₂ Lang
 _·_ : Set ℓ → Op₁ Lang
 𝟏 : Lang
 _⋆_ : Op₂ Lang
-_✪ : Op₁ Lang
+_☆ : Op₁ Lang
 ` : A → Lang
 
 infixr 6 _∪_
 infixr 6 _∩_
 infixl 7 _·_
 infixl 7 _⋆_
-infixl 10 _✪
+infixl 10 _☆
 \end{code}
 
 %<*Lang-ops>
@@ -69,7 +69,7 @@ Lang = A ✶ → Set ℓ
 
 (P ⋆ Q) w = ∃⇃ λ (u ,  v) → (w ≡ u ⊙ v) × P u × Q v
 
-(P ✪) w = ∃ λ ws → (w ≡ concat ws) × All P ws
+(P ☆) w = ∃ λ ws → (w ≡ concat ws) × All P ws
 \end{code}
 \end{minipage}
 \hfill\;
@@ -78,10 +78,10 @@ Lang = A ✶ → Set ℓ
 
 \begin{code}
 module AltStar where
-  infixl 10 _☆
-  data _☆ (P : Lang) : Lang where
-    zero☆  : (P ☆) []
-    suc☆   : ∀ {w} → (P ⋆ P ☆) w → (P ☆) w
+  infixl 10 _✪
+  data _✪ (P : Lang) : Lang where
+    zero✪  : (P ✪) []
+    suc✪   : ∀ {w} → (P ⋆ P ✪) w → (P ✪) w
 \end{code}
 
 \begin{code}

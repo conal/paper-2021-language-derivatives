@@ -647,38 +647,38 @@ module MonoidSemiringProperties {M : Set ℓ} {_∙_ : Op₂ M} {ε : M}
   --  where open ↔R
   --  -- TODO: try again without w
 
-  -- ☆⟷☆ʳ : P ☆ ⟷ P ☆ʳ
-  -- ☆⟷☆ʳ = mk↔′
+  -- ✪⟷✪ʳ : P ✪ ⟷ P ✪ʳ
+  -- ✪⟷✪ʳ = mk↔′
   --   {!!}
   --   {!!}
   --   {!!}
   --   {!!}
 
   -- ---- Closure
-  -- ☆-starˡ : P ☆ ⟷ 𝟏 ∪ P ⋆ P ☆
-  -- ☆-starˡ = mk↔′
-  --   (λ { zero☆ → inj₁ refl≡ ; (suc☆ w∈P⋆P☆) → inj₂ w∈P⋆P☆ })
-  --   (λ { (inj₁ refl≡) → zero☆ ; (inj₂ w∈P⋆P☆) → suc☆ w∈P⋆P☆ })
-  --   (λ { (inj₁ refl≡) → refl≡ ; (inj₂ w∈P⋆P☆) → refl≡ })
-  --   (λ { zero☆ → refl≡ ; (suc☆ w∈P⋆P☆) → refl≡ })
+  -- ✪-starˡ : P ✪ ⟷ 𝟏 ∪ P ⋆ P ✪
+  -- ✪-starˡ = mk↔′
+  --   (λ { zero✪ → inj₁ refl≡ ; (suc✪ w∈P⋆P✪) → inj₂ w∈P⋆P✪ })
+  --   (λ { (inj₁ refl≡) → zero✪ ; (inj₂ w∈P⋆P✪) → suc✪ w∈P⋆P✪ })
+  --   (λ { (inj₁ refl≡) → refl≡ ; (inj₂ w∈P⋆P✪) → refl≡ })
+  --   (λ { zero✪ → refl≡ ; (suc✪ w∈P⋆P✪) → refl≡ })
 
-  -- ☆-starʳ : P ☆ ⟷ 𝟏 ∪ P ☆ ⋆ P
-  -- ☆-starʳ = mk↔′
-  --   (λ { zero☆ → inj₁ refl≡ ; (suc☆ w∈P⋆P☆) → inj₂ w∈P⋆P☆ })
+  -- ✪-starʳ : P ✪ ⟷ 𝟏 ∪ P ✪ ⋆ P
+  -- ✪-starʳ = mk↔′
+  --   (λ { zero✪ → inj₁ refl≡ ; (suc✪ w∈P⋆P✪) → inj₂ w∈P⋆P✪ })
   --   {!!}
   --   {!!}
   --   {!!}
 
-    -- (λ { zero☆ → inj₁ refl≡ ; (suc☆ w∈P⋆P☆) → inj₂ w∈P⋆P☆ })
-    -- (λ { (inj₁ refl≡) → zero☆ ; (inj₂ w∈P⋆P☆) → suc☆ w∈P⋆P☆ })
-    -- (λ { (inj₁ refl≡) → refl≡ ; (inj₂ w∈P⋆P☆) → refl≡ })
-    -- (λ { zero☆ → refl≡ ; (suc☆ w∈P⋆P☆) → refl≡ })
+    -- (λ { zero✪ → inj₁ refl≡ ; (suc✪ w∈P⋆P✪) → inj₂ w∈P⋆P✪ })
+    -- (λ { (inj₁ refl≡) → zero✪ ; (inj₂ w∈P⋆P✪) → suc✪ w∈P⋆P✪ })
+    -- (λ { (inj₁ refl≡) → refl≡ ; (inj₂ w∈P⋆P✪) → refl≡ })
+    -- (λ { zero✪ → refl≡ ; (suc✪ w∈P⋆P✪) → refl≡ })
 
   open import Data.List
   open import Data.List.Relation.Unary.All
 
-  ✪-starˡ : P ✪ ⟷ 𝟏 ∪ P ⋆ P ✪
-  ✪-starˡ {w = w} = mk↔′
+  ☆-starˡ : P ☆ ⟷ 𝟏 ∪ P ⋆ P ☆
+  ☆-starˡ {w = w} = mk↔′
     (λ { ([] , refl≡ , []) → inj₁ refl≡
        ; (p ∷ ps , refl≡ , Pp ∷ Pps) → inj₂ ((p , foldr _∙_ ε ps) , refl≡ , Pp , ps , refl≡ , Pps) })
     (λ { (inj₁ refl≡) → [] , refl≡ , []
@@ -688,26 +688,26 @@ module MonoidSemiringProperties {M : Set ℓ} {_∙_ : Op₂ M} {ε : M}
     (λ { ([] , refl≡ , []) → refl≡
        ; (p ∷ ps , refl≡ , Pp ∷ Pps) → refl≡ })
 
-  ☆↔✪ : P ☆ ⟷ P ✪
-  ☆↔✪ {P = P} = mk↔′ f f⁻¹ invˡ invʳ
+  ✪↔☆ : P ✪ ⟷ P ☆
+  ✪↔☆ {P = P} = mk↔′ f f⁻¹ invˡ invʳ
    where
-     f : ∀ {w} → (P ☆) w → (P ✪) w
-     f zero☆ = [] , refl≡ , []
-     f (suc☆ ((u , v) , refl≡ , Pu , P☆v)) with f P☆v
+     f : ∀ {w} → (P ✪) w → (P ☆) w
+     f zero✪ = [] , refl≡ , []
+     f (suc✪ ((u , v) , refl≡ , Pu , P✪v)) with f P✪v
      ... | us , refl≡ , Pus = u ∷ us , refl≡ , Pu ∷ Pus
 
-     f⁻¹ : ∀ {w} → (P ✪) w → (P ☆) w
-     f⁻¹ ([] , refl≡ , []) = zero☆
+     f⁻¹ : ∀ {w} → (P ☆) w → (P ✪) w
+     f⁻¹ ([] , refl≡ , []) = zero✪
      f⁻¹ (u ∷ us , refl≡ , Pu ∷ Pus) =
-       suc☆ ((u , foldr _∙_ ε us) , refl≡ , Pu , f⁻¹ (us , refl≡ , Pus))
+       suc✪ ((u , foldr _∙_ ε us) , refl≡ , Pu , f⁻¹ (us , refl≡ , Pus))
 
-     invˡ : ∀ {w} (z : (P ✪) w) → f (f⁻¹ z) ≡ z
+     invˡ : ∀ {w} (z : (P ☆) w) → f (f⁻¹ z) ≡ z
      invˡ ([] , refl≡ , []) = refl≡
      invˡ (u ∷ us , refl≡ , Pu ∷ Pus) rewrite invˡ (us , refl≡ , Pus) = refl≡
 
-     invʳ : ∀ {w} (z : (P ☆) w) → f⁻¹ (f z) ≡ z
-     invʳ zero☆ = refl≡
-     invʳ (suc☆ ((u , v) , refl≡ , Pu , P☆v)) with f P☆v | invʳ P☆v
+     invʳ : ∀ {w} (z : (P ✪) w) → f⁻¹ (f z) ≡ z
+     invʳ zero✪ = refl≡
+     invʳ (suc✪ ((u , v) , refl≡ , Pu , P✪v)) with f P✪v | invʳ P✪v
      ... | us , refl≡ , Pus | refl≡ = refl≡
 
 {-

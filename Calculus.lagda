@@ -149,7 +149,7 @@ private
 \hfill
 \setstretch{1.7}
 \begin{minipage}{28ex}
-\AgdaTarget{ν∅, ν∪, ν𝟏, ν⋆, ν☆, δ∅, δ∪, δ𝟏, δ⋆, δ☆}
+\AgdaTarget{ν∅, ν∪, ν𝟏, ν⋆, ν✪, δ∅, δ∪, δ𝟏, δ⋆, δ✪}
 \begin{code}
 ν∅  : ν ∅ ≡ ⊥
 ν𝒰  : ν 𝒰 ≡ ⊤
@@ -158,7 +158,7 @@ private
 ν·  : ν (s · P) ≡ (s × ν P)
 ν𝟏  : ν 𝟏 ↔ ⊤
 ν⋆  : ν (P ⋆ Q) ↔ (ν P × ν Q)
-ν✪  : ν (P ✪) ↔ (ν P) ✶
+ν☆  : ν (P ☆) ↔ (ν P) ✶
 ν`  : ν (` c) ↔ ⊥
 \end{code}
 \end{minipage}
@@ -172,7 +172,7 @@ private
 δ·  : δ (s · P) a ≡ s · δ P a
 δ𝟏  : δ 𝟏 a ⟷ ∅
 δ⋆  : δ (P ⋆ Q) a ⟷ ν P · δ Q a ∪ δ P a ⋆ Q
-δ✪  : δ (P ✪) a ⟷ (ν P) ✶ · (δ P a ⋆ P ✪)
+δ☆  : δ (P ☆) a ⟷ (ν P) ✶ · (δ P a ⋆ P ☆)
 δ`  : δ (` c) a ⟷ (a ≡ c) · 𝟏
 \end{code}
 \end{minipage}
@@ -181,8 +181,8 @@ private
 %</νδ-lemmas>
 
 \begin{code}
-ν☆  : ν (P ☆) ↔ (ν P) ✶
-δ☆  : δ (P ☆) a ⟷ (ν P) ✶ · (δ P a ⋆ P ☆)
+ν✪  : ν (P ✪) ↔ (ν P) ✶
+δ✪  : δ (P ✪) a ⟷ (ν P) ✶ · (δ P a ⋆ P ✪)
 \end{code}
 
 \begin{code}[hide]
@@ -230,43 +230,43 @@ private
   (λ { (([] , .(a ∷ w)) , refl , νP , Qaw) → refl
      ; ((.a ∷ u , v) , refl , Pu , Qv) → refl })
 
-ν☆ {P = P} = mk↔′ k k⁻¹ invˡ invʳ
+ν✪ {P = P} = mk↔′ k k⁻¹ invˡ invʳ
  where
-   k : ν (P ☆) → (ν P) ✶
-   k zero☆ = []
-   k (suc☆ (([] , []) , refl , (νP , νP☆))) = νP ∷ k νP☆
+   k : ν (P ✪) → (ν P) ✶
+   k zero✪ = []
+   k (suc✪ (([] , []) , refl , (νP , νP✪))) = νP ∷ k νP✪
 
-   k⁻¹ : (ν P) ✶ → ν (P ☆)
-   k⁻¹ [] = zero☆
-   k⁻¹ (νP ∷ νP✶) = suc☆ (([] , []) , refl , (νP , k⁻¹ νP✶))
+   k⁻¹ : (ν P) ✶ → ν (P ✪)
+   k⁻¹ [] = zero✪
+   k⁻¹ (νP ∷ νP✶) = suc✪ (([] , []) , refl , (νP , k⁻¹ νP✶))
 
    invˡ : ∀ (νP✶ : (ν P) ✶) → k (k⁻¹ νP✶) ≡ νP✶
    invˡ [] = refl
    invˡ (νP ∷ νP✶) rewrite invˡ νP✶ = refl
 
-   invʳ : ∀ (νP☆ : ν (P ☆)) → k⁻¹ (k νP☆) ≡ νP☆
-   invʳ zero☆ = refl
-   invʳ (suc☆ (([] , []) , refl , (νP , νP☆))) rewrite invʳ νP☆ = refl
+   invʳ : ∀ (νP✪ : ν (P ✪)) → k⁻¹ (k νP✪) ≡ νP✪
+   invʳ zero✪ = refl
+   invʳ (suc✪ (([] , []) , refl , (νP , νP✪))) rewrite invʳ νP✪ = refl
 
-δ☆ {P}{a} {w} = mk↔′ k k⁻¹ invˡ invʳ
+δ✪ {P}{a} {w} = mk↔′ k k⁻¹ invˡ invʳ
  where
-   k : δ (P ☆) a w → ((ν P) ✶ · (δ P a ⋆ P ☆)) w
-   k (suc☆ (([] , .(a ∷ w)) , refl , (νP , P☆a∷w))) with k P☆a∷w
+   k : δ (P ✪) a w → ((ν P) ✶ · (δ P a ⋆ P ✪)) w
+   k (suc✪ (([] , .(a ∷ w)) , refl , (νP , P✪a∷w))) with k P✪a∷w
    ... |            νP✶  , etc
        = νP ∷ νP✶ , etc
-   k (suc☆ ((.a ∷ u , v) , refl , (Pa∷u , P☆v))) = [] , (u , v) , refl , (Pa∷u , P☆v)
+   k (suc✪ ((.a ∷ u , v) , refl , (Pa∷u , P✪v))) = [] , (u , v) , refl , (Pa∷u , P✪v)
 
-   k⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ☆)) w → δ (P ☆) a w
-   k⁻¹ ([] , (u , v) , refl , (Pa∷u , P☆v)) = (suc☆ ((a ∷ u , v) , refl , (Pa∷u , P☆v)))
-   k⁻¹ (νP ∷ νP✶ , etc) = (suc☆ (([] , a ∷ w) , refl , (νP , k⁻¹ (νP✶ , etc))))
+   k⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ✪)) w → δ (P ✪) a w
+   k⁻¹ ([] , (u , v) , refl , (Pa∷u , P✪v)) = (suc✪ ((a ∷ u , v) , refl , (Pa∷u , P✪v)))
+   k⁻¹ (νP ∷ νP✶ , etc) = (suc✪ (([] , a ∷ w) , refl , (νP , k⁻¹ (νP✶ , etc))))
 
-   invˡ : (s : ((ν P) ✶ · (δ P a ⋆ P ☆)) w) → k (k⁻¹ s) ≡ s
-   invˡ ([] , (u , v) , refl , (Pa∷u , P☆v)) = refl
+   invˡ : (s : ((ν P) ✶ · (δ P a ⋆ P ✪)) w) → k (k⁻¹ s) ≡ s
+   invˡ ([] , (u , v) , refl , (Pa∷u , P✪v)) = refl
    invˡ (νP ∷ νP✶ , etc) rewrite invˡ (νP✶ , etc) = refl
 
-   invʳ : (s : δ (P ☆) a w) → k⁻¹ (k s) ≡ s
-   invʳ (suc☆ (([] , .(a ∷ w)) , refl , (νP , P☆a∷w))) rewrite invʳ P☆a∷w = refl
-   invʳ (suc☆ ((.a ∷ u , v) , refl , (Pa∷u , P☆v))) = refl
+   invʳ : (s : δ (P ✪) a w) → k⁻¹ (k s) ≡ s
+   invʳ (suc✪ (([] , .(a ∷ w)) , refl , (νP , P✪a∷w))) rewrite invʳ P✪a∷w = refl
+   invʳ (suc✪ ((.a ∷ u , v) , refl , (Pa∷u , P✪v))) = refl
 
 \end{code}
 
@@ -315,66 +315,66 @@ open import Closed.Instances ; open Types {ℓ}
 \end{code}
 
 \begin{code}
-νfix : ν (P ✪) ↔ (⊤ ⊎ ν P × ν (P ✪))
+νfix : ν (P ☆) ↔ (⊤ ⊎ ν P × ν (P ☆))
 νfix {P = P} =
   begin
-    ν (P ✪)
-  ≈⟨ ✪-starˡ ⟩
-    (𝟏 ∪ P ⋆ P ✪) []
+    ν (P ☆)
+  ≈⟨ ☆-starˡ ⟩
+    (𝟏 ∪ P ⋆ P ☆) []
   ≈⟨ ⊎-cong ν𝟏 ν⋆ ⟩
-    (⊤ ⊎ ν P × ν (P ✪))
+    (⊤ ⊎ ν P × ν (P ☆))
   ∎ where open ↔R
 
-δfix : δ (P ✪) a ⟷ (ν P · δ (P ✪) a ∪ δ P a ⋆ P ✪)
+δfix : δ (P ☆) a ⟷ (ν P · δ (P ☆) a ∪ δ P a ⋆ P ☆)
 δfix {P = P} {a = a} {w} =
   begin
-    δ (P ✪) a w
-  ≈⟨ ✪-starˡ ⟩
-    (𝟏 ∪ P ⋆ P ✪) (a ∷ w)
+    δ (P ☆) a w
+  ≈⟨ ☆-starˡ ⟩
+    (𝟏 ∪ P ⋆ P ☆) (a ∷ w)
   ≡⟨⟩
-    (𝟏 (a ∷ w) ⊎ (P ⋆ P ✪) (a ∷ w))
+    (𝟏 (a ∷ w) ⊎ (P ⋆ P ☆) (a ∷ w))
   ≡⟨⟩
-    (δ 𝟏 a w ⊎ δ (P ⋆ P ✪) a w)
+    (δ 𝟏 a w ⊎ δ (P ⋆ P ☆) a w)
   ≈⟨ ⊎-cong δ𝟏 δ⋆ ⟩
-    ( ⊥ ⊎ (ν P · δ (P ✪) a ∪ δ P a ⋆ P ✪) w  )
+    ( ⊥ ⊎ (ν P · δ (P ☆) a ∪ δ P a ⋆ P ☆) w  )
   ≈⟨ ⊎-identityˡ ℓ _ ⟩
-    (ν P · δ (P ✪) a ∪ δ P a ⋆ P ✪) w
+    (ν P · δ (P ☆) a ∪ δ P a ⋆ P ☆) w
   -- ≡⟨⟩
-  --   (ν P × δ (P ✪) a w ⊎ (δ P a ⋆ P ✪) w)
+  --   (ν P × δ (P ☆) a w ⊎ (δ P a ⋆ P ☆) w)
   ∎ where open ↔R
 
-ν✪ {P = P} =
+ν☆ {P = P} =
   begin
-    ν (P ✪)
-  ≈˘⟨ ☆↔✪ ⟩
     ν (P ☆)
-  ≈⟨ ν☆ ⟩
+  ≈˘⟨ ✪↔☆ ⟩
+    ν (P ✪)
+  ≈⟨ ν✪ ⟩
     (ν P) ✶
   ∎ where open ↔R
 
-δ✪ {P = P}{a} {w} =
+δ☆ {P = P}{a} {w} =
   begin
-    δ (P ✪) a w
-  ≈˘⟨ ☆↔✪ ⟩
     δ (P ☆) a w
-  ≈⟨ δ☆ ⟩
-    ((ν P) ✶ · (δ P a ⋆ P ☆)) w
-  ≈⟨ ×-congˡ (⋆-congˡ ☆↔✪) ⟩
+  ≈˘⟨ ✪↔☆ ⟩
+    δ (P ✪) a w
+  ≈⟨ δ✪ ⟩
     ((ν P) ✶ · (δ P a ⋆ P ✪)) w
+  ≈⟨ ×-congˡ (⋆-congˡ ✪↔☆) ⟩
+    ((ν P) ✶ · (δ P a ⋆ P ☆)) w
   ∎ where open ↔R
 
--- TODO: keep looking for direct proofs of ν✪ and δ✪ so I can abandon ☆.
+-- TODO: keep looking for direct proofs of ν☆ and δ☆ so I can abandon ✪.
 \end{code}
 
 
 {-
-ν✪ {P = P} = mk↔′ k k⁻¹ invˡ invʳ
+ν☆ {P = P} = mk↔′ k k⁻¹ invˡ invʳ
  where
-   k : ν (P ✪) → (ν P) ✶
+   k : ν (P ☆) → (ν P) ✶
    k (.[] , refl , []) = []
    k ([] ∷ ws , eq , νp ∷ pws) = νp ∷ k (ws , eq , pws)
 
-   k⁻¹ : (ν P) ✶ → ν (P ✪)
+   k⁻¹ : (ν P) ✶ → ν (P ☆)
    k⁻¹ [] = [] , refl , []
    k⁻¹ (νp ∷ νps) with k⁻¹ νps
    ... | ws , eq , pws = [] ∷ ws , eq , νp ∷ pws
@@ -383,35 +383,35 @@ open import Closed.Instances ; open Types {ℓ}
    invˡ [] = refl
    invˡ (νp ∷ νps) rewrite invˡ νps = refl
 
-   invʳ : ∀ (νP✪ : ν (P ✪)) → k⁻¹ (k νP✪) ≡ νP✪
+   invʳ : ∀ (νP☆ : ν (P ☆)) → k⁻¹ (k νP☆) ≡ νP☆
    invʳ ([] , refl , []) = refl
    invʳ ([] ∷ ws , eq , νp ∷ pws) rewrite invʳ (ws , eq , pws) = refl
 
-δ✪ {P}{a} {w} = mk↔′ k k⁻¹ invˡ invʳ
+δ☆ {P}{a} {w} = mk↔′ k k⁻¹ invˡ invʳ
  where
-   k : δ (P ✪) a w → ((ν P) ✶ · (δ P a ⋆ P ✪)) w
+   k : δ (P ☆) a w → ((ν P) ✶ · (δ P a ⋆ P ☆)) w
 
    k ([] ∷ us , eq , νp ∷ pus) with k (us , eq , pus)
    ... | νps , etc = νp ∷ νps , etc
    k ((.a ∷ u) ∷ us , refl , pau ∷ pus) =
      [] , (u , foldr _⊙_ [] us) , refl , pau , us , refl , pus
 
-   -- k⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ☆)) w → δ (P ☆) a w
-   -- k⁻¹ ([] , (u , v) , refl , (Pa∷u , P☆v)) = (suc☆ ((a ∷ u , v) , refl , (Pa∷u , P☆v)))
-   -- k⁻¹ (νP ∷ νP✶ , etc) = (suc☆ (([] , a ∷ w) , refl , (νP , k⁻¹ (νP✶ , etc))))
+   -- k⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ✪)) w → δ (P ✪) a w
+   -- k⁻¹ ([] , (u , v) , refl , (Pa∷u , P✪v)) = (suc✪ ((a ∷ u , v) , refl , (Pa∷u , P✪v)))
+   -- k⁻¹ (νP ∷ νP✶ , etc) = (suc✪ (([] , a ∷ w) , refl , (νP , k⁻¹ (νP✶ , etc))))
 
-   k⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ✪)) w → δ (P ✪) a w
+   k⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ☆)) w → δ (P ☆) a w
    k⁻¹ ([] , (u , v) , refl , pau , psv) = {!!} , {!!} , {!!}
    k⁻¹ (x ∷ u , snd) = {!!}
 
-   invˡ : (s : ((ν P) ✶ · (δ P a ⋆ P ✪)) w) → k (k⁻¹ s) ≡ s
+   invˡ : (s : ((ν P) ✶ · (δ P a ⋆ P ☆)) w) → k (k⁻¹ s) ≡ s
    invˡ z = {!!}
 
-   invʳ : (s : δ (P ✪) a w) → k⁻¹ (k s) ≡ s
+   invʳ : (s : δ (P ☆) a w) → k⁻¹ (k s) ≡ s
    invʳ z = {!!}
 
 
-   -- P ✪ = mapⱽ (foldr _∙_ ε) (All P)
+   -- P ☆ = mapⱽ (foldr _∙_ ε) (All P)
 -}
 
 \end{code}
