@@ -19,7 +19,7 @@ open import Algebra.Definitions
 open import Algebra.Bundles
 open import Algebra.Module.Bundles
 open import Relation.Binary.PropositionalEquality
-     using (_≡_; _≗_; cong) renaming (refl to refl≡; sym to sym≡)
+     using (_≡_; _≗_; cong; module ≡-Reasoning) renaming (refl to refl≡; sym to sym≡)
 open import Function using (id; _∘_; const; flip; _↔_; Inverse; mk↔′)
 open import Relation.Unary using (_⊢_)
 
@@ -632,6 +632,12 @@ module MonoidSemiringProperties {M : Set ℓ} {_∙_ : Op₂ M} {ε : M}
   ⋆-cong : P ⟷ R → Q ⟷ S → P ⋆ Q ⟷ R ⋆ S
   ⋆-cong = mapⱽ₂-congˡ
 
+  ⋆-congˡ : Q ⟷ S → P ⋆ Q ⟷ P ⋆ S
+  ⋆-congˡ {P = P} = ⋆-cong (⟷Eq.refl {x = P})
+
+  ⋆-congʳ : P ⟷ R → P ⋆ Q ⟷ R ⋆ Q
+  ⋆-congʳ {Q = Q} = flip ⋆-cong (⟷Eq.refl {x = Q})
+
   -- ⋆-cong {P}{R}{Q}{S} P⟷R Q⟷S {w} =
   --   begin
   --     (∃ λ (p , q) → w ≡ p ∙ q × P p × Q q)
@@ -683,6 +689,28 @@ module MonoidSemiringProperties {M : Set ℓ} {_∙_ : Op₂ M} {ε : M}
        ; (inj₂ ((p , .(foldr _∙_ ε ps)) , refl≡ , Pp , ps , refl≡ , Pps)) → refl≡ })
     (λ { ([] , refl≡ , []) → refl≡
        ; (p ∷ ps , refl≡ , Pp ∷ Pps) → refl≡ })
+
+  ☆↔✪ : P ☆ ⟷ P ✪
+  ☆↔✪ {P = P} = mk↔′ f f⁻¹ invˡ invʳ
+   where
+     f : ∀ {w} → (P ☆) w → (P ✪) w
+     f zero☆ = [] , refl≡ , []
+     f (suc☆ ((u , v) , refl≡ , Pu , P☆v)) with f P☆v
+     ... | us , refl≡ , Pus = u ∷ us , refl≡ , Pu ∷ Pus
+
+     f⁻¹ : ∀ {w} → (P ✪) w → (P ☆) w
+     f⁻¹ ([] , refl≡ , []) = zero☆
+     f⁻¹ (u ∷ us , refl≡ , Pu ∷ Pus) =
+       suc☆ ((u , foldr _∙_ ε us) , refl≡ , Pu , f⁻¹ (us , refl≡ , Pus))
+
+     invˡ : ∀ {w} (z : (P ✪) w) → f (f⁻¹ z) ≡ z
+     invˡ ([] , refl≡ , []) = refl≡
+     invˡ (u ∷ us , refl≡ , Pu ∷ Pus) rewrite invˡ (us , refl≡ , Pus) = refl≡
+
+     invʳ : ∀ {w} (z : (P ☆) w) → f⁻¹ (f z) ≡ z
+     invʳ zero☆ = refl≡
+     invʳ (suc☆ ((u , v) , refl≡ , Pu , P☆v)) with f P☆v | invʳ P☆v
+     ... | us , refl≡ , Pus | refl≡ = refl≡
 
 {-
 
