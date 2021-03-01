@@ -91,7 +91,7 @@ private
 \end{code}
 
 %<*foldr-concat>
-\begin{minipage}{16em}
+\begin{minipage}{18em}
 \begin{code}
     concat⇂ : (A ✶) ✶ → A ✶
     concat⇂ = foldr _⊙_ []
@@ -106,3 +106,14 @@ private
 \end{code}
 \end{minipage}
 %</foldr-concat>
+
+%<*All>
+\begin{code}[hide]
+    infixr 5 _∷_
+\end{code}
+\begin{code}
+    data All⇃ (P : B → Set ℓ) : B ✶ → Set ℓ where
+      []   : All⇃ P []
+      _∷_  : ∀ {b bs} → P b → All P bs → All⇃ P (b ∷ bs)
+\end{code}
+%</All>

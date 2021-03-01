@@ -53,6 +53,7 @@ From old paper version to-do:
 
 ## Did
 
+*   Check each use of `\\agda` to see if removing a preceding blank line improves indentation.
 *   Point to the GitHub repo in the non-ACM version of the paper.
 *   Maybe use acmsmall for the public/non-anonymous version of my paper, tweaking some features.
     Reconsider each use of `\\ifacm`.
