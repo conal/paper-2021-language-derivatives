@@ -476,8 +476,8 @@ They proved a consistency property about \AF{Î´}, but apparently not about \AF{Î
 \item \citet{DoczkalEtAl2013} formalized regular languages constructively in Coq, also in terms of a type-level membership predicate.
 They then proved several classic results about finite automata, including minimization and relationships to Nerode and Myhill partitions.
 
-\item \citet{FirsovUustalu2013} used Agda to formalize regular expressions with a corresponding inductive type of language membership proofs and then related regular expressions to nondeterministic finite automata (NFAs) represented as boolean matrices, as well as operations on that representation that correspond to those on regular expressions.
-They then proved soundness and completeness of the NFA representation with respect to regular language membership.
+\item \citet{FirsovUustalu2013} formalized regular expressions in Agda with a corresponding inductive type of language membership proofs and related regular expressions to nondeterministic finite automata (NFAs) represented as boolean matrices.
+They also defined operations on that representation corresponding to those on regular expressions and proved soundness and completeness of the NFA representation with respect to regular language membership.
 
 \item \citet{KorkutEtAl2016} defined a non-indexed algebraic data type of regular expressions together with an indexed inductive type of proofs of membership of strings in the language denoted by the regular expressions and a corresponding function that matches an implicitly concatenated stack of regular expressions.
 Special attention was paid to ensuring and proving termination, particularly in regard to languages that contain the empty string.
