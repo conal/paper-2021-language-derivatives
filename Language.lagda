@@ -75,3 +75,13 @@ data _☆ (P : Lang) : Lang where
 \hfill\;
 }
 %</Lang-ops>
+
+\begin{code}
+module AltStar where
+  open import Data.List
+  open import Data.List.Relation.Unary.All
+
+  infixl 10 _✪
+  _✪ : Op₁ Lang
+  (P ✪) w = ∃ λ ws → w ≡ foldr _⊙_ [] ws × All P ws
+\end{code}

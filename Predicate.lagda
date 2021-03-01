@@ -161,7 +161,6 @@ module AltStar {M : Set ℓ} (_∙_ : Op₂ M) (ε : M) where
 
   infixl 10 _✪
   _✪ : Op₁ (Pred M)
-  -- (P ✪) w = ∃ λ ps → w ≡ foldr _∙_ ε ps × All P ps
   P ✪ = mapⱽ (foldr _∙_ ε) (All P)
-  
 \end{code}
+%% (P ✪) w = ∃ λ ps → w ≡ foldr _∙_ ε ps × All P ps

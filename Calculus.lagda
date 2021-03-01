@@ -26,7 +26,7 @@ private
     b : Level
     B : Set b
     X : Set b
-    P Q : Lang
+    P Q R : Lang
     f : A ✶ → B
     u v w : A ✶
 \end{code}
@@ -296,3 +296,120 @@ Now enhance \AF 𝒟:
 %</𝒟′≡ʻ𝒟>
 
 \note{There's probably a way to \AK{rewrite} with \AB{𝒟foldl} and \AB{𝒟′foldl} to eliminate the induction here.}
+
+
+Experiment with alternative star:
+\begin{code}
+open AltStar {M = A ✶} _⊙_ []
+open import Data.List.Relation.Unary.All
+open import Data.List.Properties
+open import Data.Sum.Algebra
+open import Data.Product.Algebra using (×-cong)
+open import Predicate.Properties
+open MonoidSemiringProperties (++-isMonoid {A = A})
+open import Closed.Instances ; open Types {ℓ}
+\end{code}
+
+\begin{code}
+νfix : ν (P ✪) ↔ (⊤ ⊎ ν P × ν (P ✪))
+νfix {P = P} =
+  begin
+    ν (P ✪)
+  ≈⟨ ✪-starˡ ⟩
+    (𝟏 ∪ P ⋆ P ✪) []
+  ≈⟨ ⊎-cong ν𝟏 ν⋆ ⟩
+    (⊤ ⊎ ν P × ν (P ✪))
+  ∎ where open ↔R
+
+δfix : δ (P ✪) a ⟷ (ν P · δ (P ✪) a ∪ δ P a ⋆ P ✪)
+δfix {P = P} {a = a} {w} =
+  begin
+    δ (P ✪) a w
+  ≈⟨ ✪-starˡ ⟩
+    (𝟏 ∪ P ⋆ P ✪) (a ∷ w)
+  ≡⟨⟩
+    (𝟏 (a ∷ w) ⊎ (P ⋆ P ✪) (a ∷ w))
+  ≡⟨⟩
+    (δ 𝟏 a w ⊎ δ (P ⋆ P ✪) a w)
+  ≈⟨ ⊎-cong δ𝟏 δ⋆ ⟩
+    ( ⊥ ⊎ (ν P · δ (P ✪) a ∪ δ P a ⋆ P ✪) w  )
+  ≈⟨ ⊎-identityˡ ℓ _ ⟩
+    (ν P · δ (P ✪) a ∪ δ P a ⋆ P ✪) w
+  -- ≡⟨⟩
+  --   (ν P × δ (P ✪) a w ⊎ (δ P a ⋆ P ✪) w)
+  ∎ where open ↔R
+
+ν✪  : ν (P ✪) ↔ (ν P) ✶
+ν✪ {P = P} =
+  begin
+    ν (P ✪)
+  ≈˘⟨ ☆↔✪ ⟩
+    ν (P ☆)
+  ≈⟨ ν☆ ⟩
+    (ν P) ✶
+  ∎ where open ↔R
+
+δ✪  : δ (P ✪) a ⟷ (ν P) ✶ · (δ P a ⋆ P ✪)
+δ✪ {P = P}{a} {w} =
+  begin
+    δ (P ✪) a w
+  ≈˘⟨ ☆↔✪ ⟩
+    δ (P ☆) a w
+  ≈⟨ δ☆ ⟩
+    ((ν P) ✶ · (δ P a ⋆ P ☆)) w
+  ≈⟨ ×-congˡ (⋆-congˡ ☆↔✪) ⟩
+    ((ν P) ✶ · (δ P a ⋆ P ✪)) w
+  ∎ where open ↔R
+
+-- TODO: keep looking for direct proofs of ν✪ and δ✪ so I can abandon ☆.
+\end{code}
+
+
+{-
+ν✪ {P = P} = mk↔′ k k⁻¹ invˡ invʳ
+ where
+   k : ν (P ✪) → (ν P) ✶
+   k (.[] , refl , []) = []
+   k ([] ∷ ws , eq , νp ∷ pws) = νp ∷ k (ws , eq , pws)
+
+   k⁻¹ : (ν P) ✶ → ν (P ✪)
+   k⁻¹ [] = [] , refl , []
+   k⁻¹ (νp ∷ νps) with k⁻¹ νps
+   ... | ws , eq , pws = [] ∷ ws , eq , νp ∷ pws
+
+   invˡ : ∀ (νP✶ : (ν P) ✶) → k (k⁻¹ νP✶) ≡ νP✶
+   invˡ [] = refl
+   invˡ (νp ∷ νps) rewrite invˡ νps = refl
+
+   invʳ : ∀ (νP✪ : ν (P ✪)) → k⁻¹ (k νP✪) ≡ νP✪
+   invʳ ([] , refl , []) = refl
+   invʳ ([] ∷ ws , eq , νp ∷ pws) rewrite invʳ (ws , eq , pws) = refl
+
+δ✪ {P}{a} {w} = mk↔′ k k⁻¹ invˡ invʳ
+ where
+   k : δ (P ✪) a w → ((ν P) ✶ · (δ P a ⋆ P ✪)) w
+
+   k ([] ∷ us , eq , νp ∷ pus) with k (us , eq , pus)
+   ... | νps , etc = νp ∷ νps , etc
+   k ((.a ∷ u) ∷ us , refl , pau ∷ pus) =
+     [] , (u , foldr _⊙_ [] us) , refl , pau , us , refl , pus
+
+   -- k⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ☆)) w → δ (P ☆) a w
+   -- k⁻¹ ([] , (u , v) , refl , (Pa∷u , P☆v)) = (suc☆ ((a ∷ u , v) , refl , (Pa∷u , P☆v)))
+   -- k⁻¹ (νP ∷ νP✶ , etc) = (suc☆ (([] , a ∷ w) , refl , (νP , k⁻¹ (νP✶ , etc))))
+
+   k⁻¹ : ((ν P) ✶ · (δ P a ⋆ P ✪)) w → δ (P ✪) a w
+   k⁻¹ ([] , (u , v) , refl , pau , psv) = {!!} , {!!} , {!!}
+   k⁻¹ (x ∷ u , snd) = {!!}
+
+   invˡ : (s : ((ν P) ✶ · (δ P a ⋆ P ✪)) w) → k (k⁻¹ s) ≡ s
+   invˡ z = {!!}
+
+   invʳ : (s : δ (P ✪) a w) → k⁻¹ (k s) ≡ s
+   invʳ z = {!!}
+
+
+   -- P ✪ = mapⱽ (foldr _∙_ ε) (All P)
+-}
+
+\end{code}
