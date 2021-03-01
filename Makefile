@@ -68,7 +68,7 @@ source.zip: $(SOURCES) ld.agda-lib
 clean:
 	rm -r latex
 
-tags: $(LAGDAS) paper.tex talk.tex
+tags: $(SOURCES) paper.tex talk.tex
 	etags $^
 
 web: .paper-token .talk-token
