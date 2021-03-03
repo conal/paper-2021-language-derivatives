@@ -108,7 +108,7 @@ module ManualWrap where
 %<*wrapped-union>
 \begin{code}
   _∪_ : Lang → Lang → Lang
-  (P , p) ∪ (Q , q) = (P ◇.∪ Q , p □.∪ q)
+  (P , p) ∪ (Q , q) = P ◇.∪ Q , p □.∪ q
 \end{code}
 %  (_ , p) ∪ (_ , q) = (_ , p □.∪ q)
 
