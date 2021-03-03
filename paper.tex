@@ -285,7 +285,7 @@ Note that the clauses in \figref{automatic-defs} are syntactically identical to 
 The correctness proof is \emph{almost} accomplished by type- and termination-checking, but a technical problem arises.
 The {\AF{δ} (\AB{p} \AF ⋆ \AB{q})} clause does not satisfy Agda's termination checker, which cannot see that the argument {\AF{δ} \AB{p} \AB{a}} in the recursive use of \AF{\_⋆\_} is in some sense smaller than \AB{p}.
 (\figref{automatic-defs} compiles only due to suppressing termination checking for the problematic clause with a compiler pragma.)
-Fortunately, this issue was already identified and solved by Andreas \citet{Abel2016}---also in the setting of trie-based language recognition---by using \emph{sized types} \citep{Abel2008, AbelPientka2016}.
+Fortunately, this issue was already identified and solved by \citet{Abel2016}---also in the setting of trie-based language recognition---by using \emph{sized types} \citep{Abel2008, AbelPientka2016}.
 \rnc\source{SizedAutomatic}
 This solution only requires giving \AF{Lang} (now tries) an index {\AB{i} \AK : \APT{Size}} corresponding to the maximum depth to which a trie can be searched, or equivalently the longest string that can be matched\out{ (via {\AF{⟦\_⟧}})}.
 In practice, we will work with arbitrarily deep tries, i.e., ones having index \APo{∞}, as in the type of {\AF{⟦\_⟧}}.
@@ -368,14 +368,14 @@ Since the decidable language implementations in \secref{From Languages to Parsin
 The basic building blocks of type-level predicates---and languages in particular---form the vocabulary of a \emph{closed semiring} in two different ways\out{, as reflected in the structure of regular expressions \needcite{}}.
 The semiring abstraction has three aspects: (a) a commutative monoid providing ``zero'' and ``addition'', (b) a (possibly non-commutative) monoid providing ``one'' and ``multiplication'', and (c) the relationship between them, namely that multiplication distributes over addition and zero.\footnote{Distribution of multiplication over zero is also known as ``annihilation''.}
 In the first predicate semiring, which is \emph{commutative} (i.e., multiplication commutes), zero and addition are \AF ∅ and \AF{\_∪\_}, while one and multiplication are \AF 𝒰 and \AF{\_∩\_}.
-Closure adds a star/closure operation \AF{\_✯} with \AF{starˡ} law: {\AB x \AF ✯ \AF ≈ 1 \AF + \AB x \AF ✲ \AB x \AF ✯}.
+Closure adds a star/closure operation \AF{\_✯} with \AF{star} law: {\AB x \AF ✯ \AF ≈ 1 \AF + \AB x \AF ✲ \AB x \AF ✯}.
 
 Conveniently, booleans and types form commutative semirings with all necessary proofs already in the standard library.\footnote{The equivalence relation used for types is isomorphism rather than equality.
 The boolean semiring is idempotent, while the type semiring is not (in order to distinguish multiple parsings in ambiguous languages).
 The latter non-idempotence accounts for the difference between the \AF ν and \AF δ lemmas for {\AB P ⋆ \AB Q} and {\AB P ☆} in \figref{nu-delta-lemmas} and the corresponding rules in previous work, as mentioned in \secref{Related Work}.}
 They are both closed as well.
-For booleans, closure maps both \AIC{false} and \AIC{true} to \AIC{true}, with the \AF{starˡ} law holding definitionally.
-For types, the closure of \AB{A} is {\AB{A} ✶} (the usual inductive list type) with a simple, non-inductive proof of \AF{starˡ}.
+For booleans, closure maps both \AIC{false} and \AIC{true} to \AIC{true}, with the \AF{star} law holding definitionally.
+For types, the closure of \AB{A} is {\AB{A} ✶} (the usual inductive list type) with a simple, non-inductive proof of \AF{star}.
 
 This first closed semiring for predicates follows from a much more general pattern.
 Given any two types \AB{A} and \AB{B}, if \AB{B} is a monoid then {\AB A \AS → \AB B} is as well.
