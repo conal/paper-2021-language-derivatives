@@ -2,7 +2,7 @@
 
 Paper draft: *Symbolic and Automatic Differentiation of Languages*.
 
-[See PDF here.](http://conal.net/papers/language-derivatives/paper.pdf)
+[See PDF here.](http://conal.net/papers/language-derivatives)
 Comments appreciated as GitHub issues and pull requests or email (firstname@firstname.net).
 
 There is also [an accompanying talk](http://conal.net/talks/language-derivatives.pdf).
