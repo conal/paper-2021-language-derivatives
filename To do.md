@@ -1,11 +1,11 @@
 ## To do
 
-*   Rework abstract now that I've moved the predicate generalization toward the end of the paper.
-*   Maybe further highlight the specific differences between the ν-δ lemmas and Brzozowski's original versions (imitated AFAICT by related work).
 *   Conclusions and future work.
 *   Mention optimizations for regular expressions and tries.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
+*   Rework abstract now that I've moved the predicate generalization toward the end of the paper.
+*   Maybe further highlight the specific differences between the ν-δ lemmas and Brzozowski's original versions (imitated AFAICT by related work).
 
 *   Maybe "proof relevance" is a better to talk about the proof isomorphism aspect of this paper.
     For languages, proof relevance means we care about the proofs, and we do care, since the parsing information is in the proof.
@@ -14,7 +14,6 @@
     Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
     The ACM layout does better than my own.
 *   `starʳ`
-*   Define language star via `mapⱽ` and `All`.
 *   Generalize from lists.
     Other types have their own deltas.
 
@@ -53,6 +52,7 @@ From old paper version to-do:
 
 ## Did
 
+*   Define language star via `mapⱽ` and `All`.
 *   Check each use of `\\agda` to see if removing a preceding blank line improves indentation.
 *   Point to the GitHub repo in the non-ACM version of the paper.
 *   Maybe use acmsmall for the public/non-anonymous version of my paper, tweaking some features.
