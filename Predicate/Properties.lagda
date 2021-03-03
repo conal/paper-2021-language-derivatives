@@ -647,13 +647,6 @@ module MonoidSemiringProperties {M : Set ℓ} {_∙_ : Op₂ M} {ε : M}
   --  where open ↔R
   --  -- TODO: try again without w
 
-  -- ✪⟷✪ʳ : P ✪ ⟷ P ✪ʳ
-  -- ✪⟷✪ʳ = mk↔′
-  --   {!!}
-  --   {!!}
-  --   {!!}
-  --   {!!}
-
   -- ---- Closure
   -- ✪-starˡ : P ✪ ⟷ 𝟏 ∪ P ⋆ P ✪
   -- ✪-starˡ = mk↔′
