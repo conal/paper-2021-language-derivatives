@@ -124,8 +124,7 @@ closedSemiring M = record
   { _✯ = λ f a → f a ✯
   ; isClosedSemiring = record
     { isSemiring = Semiring.isSemiring (semiring semiring-M)
-    ; starˡ = λ f {x} → starˡ (f x)
-    -- ; starʳ = λ f {x} → starʳ (f x)
+    ; star = λ f {x} → star (f x)
     }
   } where open ClosedSemiring M renaming (semiring to semiring-M)
 
@@ -135,8 +134,7 @@ closedCommutativeSemiring M = record
   { isClosedCommutativeSemiring = record
     { isCommutativeSemiring = CommutativeSemiring.isCommutativeSemiring
                                (commutativeSemiring commutativeSemiring-M)
-    ; starˡ = λ f {x} → starˡ (f x)
-    -- ; starʳ = λ f {x} → starʳ (f x)
+    ; star = λ f {x} → star (f x)
     }
   } where open ClosedCommutativeSemiring M renaming
                  (commutativeSemiring to commutativeSemiring-M)

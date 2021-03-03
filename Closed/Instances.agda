@@ -30,8 +30,7 @@ module _ where
     IsClosedCommutativeSemiring _≡_ _∨_ _∧_ false true _✦
   ∨-∧-isClosedCommutativeSemiring = record
     {  isCommutativeSemiring = ∨-∧-isCommutativeSemiring
-    ;  starˡ = λ _ → refl
-    -- ;  starʳ = λ _ → refl
+    ;  star = λ _ → refl
     }
 
   ∨-∧-closedCommutativeSemiring : ClosedCommutativeSemiring zero zero
@@ -50,27 +49,18 @@ module Types {ℓ : Level} where
   open import Data.List renaming (List to _✶)
 
   -- A ✶ ↔ ⊤ ⊎ A × A ✶
-  ✶-starˡ : Starˡ {ℓ = ℓ} _↔_ _⊎_ _×_ ⊥ ⊤ _✶
-  ✶-starˡ _ = mk↔′
+  ✶-star : Star {ℓ = ℓ} _↔_ _⊎_ _×_ ⊥ ⊤ _✶
+  ✶-star _ = mk↔′
     (λ {[] → inj₁ tt ; (x ∷ xs) → inj₂ (x , xs)})
     (λ {(inj₁ _) → [] ; (inj₂ (x , xs)) → x ∷ xs})
     (λ {(inj₁ _) → refl ; (inj₂ (x , xs)) → refl})
     (λ {[] → refl ; (x ∷ xs) → refl})
 
-  -- -- A ✶ ↔ ⊤ ⊎ A ✶ × A
-  -- ✶-starʳ : Starʳ {ℓ = ℓ} _↔_ _⊎_ _×_ ⊥ ⊤ _✶
-  -- ✶-starʳ _ = mk↔′
-  --   (λ {[] → inj₁ tt ; (x ∷ xs) → inj₂ (xs , x)})
-  --   (λ {(inj₁ _) → [] ; (inj₂ (xs , x)) → x ∷ xs})
-  --   (λ {(inj₁ _) → refl ; (inj₂ (xs , x)) → refl})
-  --   (λ {[] → refl ; (x ∷ xs) → refl})
-
   ⊎-×-isClosedCommutativeSemiring :
     IsClosedCommutativeSemiring {ℓ = ℓ} _↔_ _⊎_ _×_ ⊥ ⊤ _✶
   ⊎-×-isClosedCommutativeSemiring = record
     {  isCommutativeSemiring = ⊎-×-isCommutativeSemiring ℓ
-    ;  starˡ = ✶-starˡ
-    -- ;  starʳ = ✶-starʳ
+    ;  star = ✶-star
     }
 
   ×-⊎-closedCommutativeSemiring : ClosedCommutativeSemiring (suc ℓ) ℓ

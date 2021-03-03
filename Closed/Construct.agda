@@ -20,8 +20,7 @@ module _ (r : ClosedSemiring c ℓ) (f : ClosedSemiring.Carrier r → Set b) whe
     { _✯ =  inj₁ _✯′
     ; isClosedSemiring = record
         { isSemiring = isSemiring
-        ; starˡ = prop₁ starˡ
-        -- ; starʳ = prop₁ starʳ
+        ; star = prop₁ star
         }
     } where open Semiring (mkSemiring semiring f _+′_ _*′_ 0#′ 1#′)
 
@@ -34,8 +33,7 @@ module _ (r : ClosedCommutativeSemiring c ℓ)
     { _✯ =  inj₁ _✯′
     ; isClosedCommutativeSemiring = record
         { isCommutativeSemiring = isCommutativeSemiring
-        ; starˡ = prop₁ starˡ
-        -- ; starʳ = prop₁ starʳ
+        ; star = prop₁ star
         }
     } where open CommutativeSemiring
               (mkCommutativeSemiring commutativeSemiring f _+′_ _*′_ 0#′ 1#′)

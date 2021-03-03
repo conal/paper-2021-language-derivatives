@@ -80,16 +80,14 @@ open import Closed ; open Closed.Types {ℓ}
 
 ⋆-∪-isClosedSemiring : IsClosedSemiring _⟷_ _∪_ _⋆_ ∅ 𝟏  _☆
 ⋆-∪-isClosedSemiring = record { isSemiring = ⋆-∪-isSemiring
-                              ; starˡ = λ _ → ☆-starˡ
-                              -- ; starʳ = λ _ → ☆-starʳ
+                              ; star = λ _ → ☆-star
                               }
 
 ⋆-∪-isClosedCommutativeSemiring :
   Commutative _≡_ _∙_ → IsClosedCommutativeSemiring _⟷_ _∪_ _⋆_ ∅ 𝟏 _☆
 ⋆-∪-isClosedCommutativeSemiring ∙-comm = record
   { isCommutativeSemiring = ⋆-∪-isCommutativeSemiring ∙-comm
-  ; starˡ = λ _ → ☆-starˡ
-  -- ; starʳ = λ _ → ☆-starʳ
+  ; star = λ _ → ☆-star
   }
 
 ⋆-∪-closedSemiring : ClosedSemiring _ _

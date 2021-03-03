@@ -319,7 +319,7 @@ open import Closed.Instances ; open Types {ℓ}
 νfix {P = P} =
   begin
     ν (P ☆)
-  ≈⟨ ☆-starˡ ⟩
+  ≈⟨ ☆-star ⟩
     (𝟏 ∪ P ⋆ P ☆) []
   ≈⟨ ⊎-cong ν𝟏 ν⋆ ⟩
     (⊤ ⊎ ν P × ν (P ☆))
@@ -329,7 +329,7 @@ open import Closed.Instances ; open Types {ℓ}
 δfix {P = P} {a = a} {w} =
   begin
     δ (P ☆) a w
-  ≈⟨ ☆-starˡ ⟩
+  ≈⟨ ☆-star ⟩
     (𝟏 ∪ P ⋆ P ☆) (a ∷ w)
   ≡⟨⟩
     (𝟏 (a ∷ w) ⊎ (P ⋆ P ☆) (a ∷ w))

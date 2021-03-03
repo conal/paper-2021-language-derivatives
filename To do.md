@@ -13,7 +13,6 @@
 *   Check footnotes composition carefully.
     Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
     The ACM layout does better than my own.
-*   `starʳ`
 *   Generalize from lists.
     Other types have their own deltas.
 

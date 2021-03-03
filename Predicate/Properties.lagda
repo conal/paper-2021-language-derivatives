@@ -647,31 +647,11 @@ module MonoidSemiringProperties {M : Set ℓ} {_∙_ : Op₂ M} {ε : M}
   --  where open ↔R
   --  -- TODO: try again without w
 
-  -- ---- Closure
-  -- ✪-starˡ : P ✪ ⟷ 𝟏 ∪ P ⋆ P ✪
-  -- ✪-starˡ = mk↔′
-  --   (λ { zero✪ → inj₁ refl≡ ; (suc✪ w∈P⋆P✪) → inj₂ w∈P⋆P✪ })
-  --   (λ { (inj₁ refl≡) → zero✪ ; (inj₂ w∈P⋆P✪) → suc✪ w∈P⋆P✪ })
-  --   (λ { (inj₁ refl≡) → refl≡ ; (inj₂ w∈P⋆P✪) → refl≡ })
-  --   (λ { zero✪ → refl≡ ; (suc✪ w∈P⋆P✪) → refl≡ })
-
-  -- ✪-starʳ : P ✪ ⟷ 𝟏 ∪ P ✪ ⋆ P
-  -- ✪-starʳ = mk↔′
-  --   (λ { zero✪ → inj₁ refl≡ ; (suc✪ w∈P⋆P✪) → inj₂ w∈P⋆P✪ })
-  --   {!!}
-  --   {!!}
-  --   {!!}
-
-    -- (λ { zero✪ → inj₁ refl≡ ; (suc✪ w∈P⋆P✪) → inj₂ w∈P⋆P✪ })
-    -- (λ { (inj₁ refl≡) → zero✪ ; (inj₂ w∈P⋆P✪) → suc✪ w∈P⋆P✪ })
-    -- (λ { (inj₁ refl≡) → refl≡ ; (inj₂ w∈P⋆P✪) → refl≡ })
-    -- (λ { zero✪ → refl≡ ; (suc✪ w∈P⋆P✪) → refl≡ })
-
   open import Data.List
   open import Data.List.Relation.Unary.All
 
-  ☆-starˡ : P ☆ ⟷ 𝟏 ∪ P ⋆ P ☆
-  ☆-starˡ {w = w} = mk↔′
+  ☆-star : P ☆ ⟷ 𝟏 ∪ P ⋆ P ☆
+  ☆-star {w = w} = mk↔′
     (λ { ([] , refl≡ , []) → inj₁ refl≡
        ; (p ∷ ps , refl≡ , Pp ∷ Pps) → inj₂ ((p , foldr _∙_ ε ps) , refl≡ , Pp , ps , refl≡ , Pps) })
     (λ { (inj₁ refl≡) → [] , refl≡ , []
