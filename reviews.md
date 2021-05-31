@@ -208,3 +208,15 @@ The title of this paper could be made more explicit about its content:   more co
 * Line 638: Is the pattern matching in the type valid Agda syntax? Again, I don't think these liftings really add anything to the paper.
 
 * Fig. 14: I don't think the examples of opening various algebraic structures from the standard library adds anything to this paper, and if anything makes it more confusing. Neither the referred algebraic structures, nor the modules Symbolic and Automatic were define in this paper. I think removing this figure is probably preferable over adding explanations of the various structures.
+
+* * * * * * * * * * * * * * * * * * * *
+
+Comment @A1 by Reviewer A
+---------------------------------------------------------------------------
+The reviewers want to thank the author for this interesting submission and are happy to accept it with the understanding that the author will make all of the following changes:
+
+1. Clarify what's new in the context of proof mechanization or type theory, what's new in the context of parsing, and what's new in the context of formal languages & automata. In particular, some contributions do not seem to be novel in the last context. The author did not respond to Reviewer C's comment about the work of Lombardy and Sakarovitch, but their work seems to be similar to the derivative operations in the paper and the author should pay attention to it (in addition to other related works).
+2. Explain the Agda syntax more for the readers who are not familiar with Agda. For example, add concrete examples showing how operators in Fig. 1 apply to concrete regular expressions and words, including the fully expanded types and values (as witnesses of the membership). The current draft has only 16 pages so space should not be an issue.
+3. Clarify the difference between data and codata: both generally and in terms of difference it makes for main results of this paper.
+4. Consider explaining how to recover the ordinary setting where a language is a set of words and language union is idempotent. For example, explain how the current work can be used to prove the classical theorem for the ordinary setting that the set of derivatives of a regular expression is finite modulo associativity, commutativity and idempotence of union (although the derivative defined here might require more).
+5. Fix typos and other issues that have already been discussed in the reviews and the response.

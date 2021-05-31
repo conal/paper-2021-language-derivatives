@@ -4,7 +4,7 @@
 \acmtrue
 
 \ifacm
-\documentclass[acmsmall,screen,timestamp,anonymous,review]{acmart}
+\documentclass[acmsmall,screen,timestamp]{acmart}  % ,anonymous,review
 \else
 \documentclass[acmsmall,screen,timestamp,nonacm]{acmart}
 \fi
@@ -102,7 +102,7 @@ These levels avoid logical inconsistencies\out{ resulting from {\APT{Set} \AS : 
 
 \item The types \AD ⊥ and \ARe ⊤ represent falsity and truth respectively, with \AD ⊥ having no elements (i.e., uninhabited) and \ARe ⊤ having a single element \AFi{tt}.
 
-\item The types {\AB A \AD ⊎ \AB B} and {\AB A \ARe × \AB B} represent disjunction and conjunction respectively as non-dependent sum and products.
+\item For types (propositions) \AB A and \AB B, the types {\AB A \AD ⊎ \AB B} and {\AB A \ARe × \AB B} represent disjunction and conjunction respectively as non-dependent sum and products.
 
 \item For a function {\AB F \AS : \AB A \AS → \APT{Set} \AB{ℓ}}, the types {\AF ∃ \AB F}  and {\AF ∀ \AB x \AS → \AB F \AB x} represent existential and universal quantification as \emph{dependent} product and function types.
 
@@ -121,8 +121,32 @@ Note that for a language \AB{P} and string \AB{w}, {\AB{P} \AB{w}} is the type o
 (If the type {\AB{P} \AB{w}} is uninhabited, then {\AB{w} ∉ \AB{P}}.)
 For instance, every proof of {\AB{w} \AF ∈ \AB{P} \AF ∪ \AB{Q}} contains a proof of {\AB{w} \AF ∈ \AB{P}} or of {\AB{w} \AF ∈ \AB{Q}} \emph{and} the knowledge of which one was chosen (with different proofs reflecting different choices).
 Likewise, a proof of {w \AF ∈ \AB{P} \AF ⋆ \AB{Q}}\out{ (language concatenation)} includes the choice of strings \AB{u} and \AB{v}, a proof that {\AB{w} \AD ≡ \AB{u} \AF ⊙ \AB{v}}, and proofs that {\AB{u} \AF ∈ \AB{P}} and {\AB{v} \AF ∈ \AB{Q}}.
+\rnc\source{Examples}
+\figrefdef{language-examples}{Language examples}{\agda{examples}} contains some examples of languages (left) and corresponding membership proofs (right).%
+\footnote{Some explanatory comments:
+\begin{itemize}
 
-The use of type-level predicates makes for simple, direct specification, including the use of existential quantification.
+\item Agda variable names can contain most characters other than spaces and parentheses, e.g., ``\AB{a∪b☆}''.
+
+\item The alphabet type (\AB A in \figref{Lang-ops}) used for these examples is \AF{Char}, i.e., characters.
+
+\item Single-item lists are notated with square brackets.
+
+\item Variables defined but not used can be replaced by the anonymous pattern ``\AK{\_}'' (as in proofs on the right).
+
+\item The \AF{inj₁} and \AF{inj₂} functions are left and right injections into a sum type, corresponding to the left and right introduction forms for logical disjunction.
+
+%% \item The \AF{inj₁} and \AF{inj₂} functions are left and right injections/introductions into a sum/disjunction type.
+
+\item Pairing\out{ (indicated by the infix comma operator)} is right-associative.
+      Since the second and third examples are existential propositions, their inhabiting proofs are dependent pairs.
+      Each comprises a division into substrings and a proof that the substrings concatenate to the given test string (the language's argument), along with language membership proofs for each substring.
+
+\item Equality proofs in these examples are by normalization and hence given by \AIC{refl}.
+\vspace{-2ex}% Avoid bogus blank footnote line spilling to next page
+\end{itemize}}
+
+The use of type-level predicates makes for simple, direct specification, including the use of existential quantification (as in \figref{Lang-ops}).
 As described in \secref{Properties}, it is also fairly easy to prove algebraic properties of predicates\out{, including the semimodule and semiring laws for both predicate semirings}.
 These definitions do not give us decidable parsing, because general type inhabitation amounts to theorem proving.
 As shown in the rest of this paper, however, type-level predicates serve as a simple, precise, and non-operational basis for specification and reasoning, with correct and computable parsing implementations following systematically as corollaries.
@@ -144,7 +168,7 @@ This paper makes the following specific contributions:
   % Properties are proved in terms of this more general vocabulary.
 \item
   Properties are stated first at the level of predicates, making them easy to understand and prove, thanks to elimination of operational details.
-  These properties are then transported to the computable parsing implementations (\secref{Transporting Properties}) with no additional proofs needed.
+  These properties are then transported to the computable parsing implementations (\secref{Transporting Properties from Specification to Implementations}) with no additional proofs needed.
 \end{itemize}
 Although many proofs are elided below, the source code for this paper is freely available and contains fully verified Agda code with no postulates.%
 \ifacm\else
@@ -163,12 +187,13 @@ Generalizing from languages to functions from lists to \emph{any} type, define
 \agda{ν𝒟}
 For languages, {\AF{𝒟} \AB{P} \AB{u}} is the set of \AB{u}-suffixes from \AB{P}, i.e., the strings \AB{v} such that {\AB{u} \AF ⊙ \AB{v} \AF ∈ \AB{P}}.
 
-Since {\AB{u} \AF ⊙ \AIC{[]} \AD ≡ \AB{u}}, it follows that\footnote{Agda variable names can contain most characters other than spaces and parentheses, e.g., ``\AB{ν∘𝒟}'' as declared here.}\footnote{For functions \AB{f} and \AB{g}, {\AB{f} \AF{≗} \AB{g}} is extensional equality, i.e., {\AS ∀ \AB x \AS → \AB{f} \AB{x} \AD{≡} \AB{g} \AB{x}}.}
+Since {\AB{u} \AF ⊙ \AIC{[]} \AD ≡ \AB{u}}, it follows that\footnote{Recall that Agda variable names can contain most characters other than spaces and parentheses, e.g., ``\AB{ν∘𝒟}'' as declared here.}\footnote{For functions \AB{f} and \AB{g}, {\AB{f} \AF{≗} \AB{g}} is extensional equality, i.e., {\AS ∀ \AB x \AS → \AB{f} \AB{x} \AD{≡} \AB{g} \AB{x}}.}
 \agda{ν∘𝒟}
 Moreover, the function \AF{𝒟} distributes over \AIC{[]} and \AF{\_⊙\_}:\footnote{In algebraic terms, argument-flipped \AF{𝒟} is a monoid homomorphism from lists to endofunctions.}
 \agda{𝒟[]⊙}
 These facts suggest that \AB{𝒟} can be computed one list element at a time via a more specialized operation, as is indeed the case:\footnote{Repeated \AF{δ} application is expressed here via a standard left fold (with {\AB{X} \AS = \AB{A} \AF ✶ \AS → \AB B} for \AF{𝒟foldl}):
 \agda{foldl}
+\vspace{-5ex}
 }
 \agda{δ}
 %\vspace{-4ex}
@@ -208,7 +233,7 @@ A few explanatory remarks:
 
 \item {\AS λ \AS{()}} is the unique function from \AD ⊥ to any type (here also {\AD ⊥}),  sometimes called ``\AF{absurd}'' or ``\AF{⊥-elim}''.
 
-\item \AF{inj₁} and \AF{inj₂} are left and right injections into a sum type.
+\item Recall that \AF{inj₁} and \AF{inj₂} are left and right injections into a sum type.
 
 \item \AF{proj₁} and \AF{proj₂} are left and right projections out of a product type.
 
@@ -216,13 +241,12 @@ A few explanatory remarks:
 % In this use, {\AB C} is \AD ⊥, since we are proving a negation.
 
 \item \AF{\_✶‽} reflects the fact that the empty list exists for every element type (even \AF ⊥).
-
 \end{itemize}
-
+\vspace{-2ex}
 }
 Moreover, decidability lifts naturally from types to predicates:
 \agda{Decidable}
-With these definitions, we can formulate the problem of decidable language recognition: given a language \AB{P}, construct a term of type {\AF{Decidable} \AB{P}}.
+With these definitions, we can succinctly formulate the problem of decidable language recognition: given a language \AB{P}, construct a term of type {\AF{Decidable} \AB{P}}.
 To accomplish this transformation, we will look for decidable building blocks that mirror the predicate vocabulary defined in \secref{Specifying Languages}.
 
 Type isomorphisms (such as those in \figref{nu-delta-lemmas}) play an important role in decidability, namely that isomorphic types or predicates are equivalently decidable:
@@ -235,7 +259,7 @@ In fact, logical \emph{equivalence} suffices for the results in this paper, but 
 \subsectionl{Reflections}
 
 The lemmas in \figref{nu-delta-lemmas} tell us how to decompose languages defined in terms of the vocabulary from \figref{Lang-ops}, while the definitions in \figref{compositional-dec} tell us how compute inhabitation of the resulting types, resulting in decidable parsing.
-These lemmas and definitions cannot be applied \emph{automatically} in their present form, however, because languages are functions, as are \AF{ν} and \AF{δ}, and so are not subject to pattern-matching.
+These lemmas and definitions cannot be applied \emph{automatically} in their present form, however, because languages are functions, as are \AF{ν} and \AF{δ}, and so are not subject to structural inspection.
 An automatic solution would need some form of \emph{reflection} of language-constructing operations or of \AF{ν} and \AF{δ} as inspectable data.
 
 This situation is exactly as in differential calculus, since differentiation in that setting is also defined on functions rather than on symbolic representations.
@@ -244,7 +268,7 @@ In the former, functions are represented symbolically in some suitable vocabular
 The latter solution involves re-interpreting the function-building vocabulary to construct not just the usual functions, but also their derivatives \citep{Griewank89onAD, GriewankWalther2008EvalDerivs, Elliott-2018-ad-icfp}.
 This latter option is often much more efficient than the former, since it easily avoids a good deal of work duplicated between a function and its derivative.
 
-\secreftwo{Symbolic Differentiation}{Automatic Differentiation} applies the symbolic and automatic strategies respectively to languages.
+\secreftwo{Symbolic Differentiation}{Automatic Differentiation} apply the symbolic and automatic strategies respectively to languages.
 Both algorithms are corollaries of the lemmas in \figref{nu-delta-lemmas} and are automatically proved correct by type checking.
 
 \subsectionl{Symbolic Differentiation}
@@ -253,13 +277,16 @@ Both algorithms are corollaries of the lemmas in \figref{nu-delta-lemmas} and ar
 \nc\api{\setstretch{1.1}\agda{api}}
 
 The ``symbolic differentiation'' style reflects language-building vocabulary (\figref{Lang-ops}) into an inductive data type (of modestly extended regular expressions), while \AF{ν} and \AF{δ} become functions defined by pattern-matching on that data type.
-For convenience, we can use the same names as in \secref{Specifying Languages} for these new counterparts, while referring to the original versions via the module prefix ``{◇.}\hspace{0.05em}''.
-The result is shown in \figrefdef{symbolic-api}{Regular expressions (inductive)}{\api} along with a function {\AF{⟦\_⟧}} that converts a symbolic language representation to a computable parser.
+For convenience, use the same names as in \secref{Specifying Languages} for these new counterparts, while referring to the original versions via the module prefix ``{◇.}\hspace{0.05em}''.
+The result is shown in \figrefdef{symbolic-api}{Regular expressions (inductive)}{\api} along with a trivial semantic function {\AF{⟦\_⟧}} (mapping any representation of type {\AF{Lang} \AB P} to the corresponding type-level language \AB{P}) and a less trivial, computable function  {\AF{⟦\_⟧‽}} that converts a symbolic language representation to a computable parser.
+Note that the \AF{\_◂\_} operation from \secref{Decidability} has been reified as a new constructor alongside the more conventional language operators.
+The reason \AF{\_◂\_} must be part of the inductive representation is the same as the other constructors, namely so that the core lemmas (\figref{nu-delta-lemmas}) translate into an implementation in terms of that representation.
 
-Decidable parsing relies only on \AF{ν} and \AF{δ} (via {\AF{⟦\_⟧}}), which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}, as systematically derived from the lemmas of \figref{nu-delta-lemmas}.\out{\notefoot{Describe this derivation.}}
+Decidable parsing relies only on \AF{ν} and \AF{δ} (via {\AF{⟦\_⟧‽}}), which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}, as systematically derived from the lemmas of \figref{nu-delta-lemmas}.\out{\notefoot{Describe this derivation.}}
 These clauses are meant to be read in ``column-major'' order, i.e., each column is a complete definition.
 Correctness is guaranteed by the types of \AF{ν} and \AF{δ} and so is proved automatically by type-checking \figref{symbolic-defs}.
-(We could thus use \emph{any} definitions of \AF{ν} and \AF{δ} that type- and termination-check, although not many definitions would do so.)
+(Recall from \secref{Decidability} that correctness is defined as constructing a term of type {\AF{Decidable} \AF{P}} for a given language \AB{P}, as satisfied by the type of {\AF{⟦\_⟧‽}}.)
+We could thus use \emph{any} definitions of \AF{ν} and \AF{δ} that type- and termination-check, although not many definitions would do so.
 
 In \figref{symbolic-defs}, note the role of the isomorphisms from \figref{nu-delta-lemmas}.
 Since those isomorphisms relate \AF{ν} and \AF{δ} on the language-building operations to types and languages expressed in that \emph{same} vocabulary, we end up with a recursive algorithm.
@@ -272,7 +299,14 @@ Since those isomorphisms relate \AF{ν} and \AF{δ} on the language-building ope
 
 \secref{Symbolic Differentiation} embodies one choice of reflecting functions into a data representation.
 Now consider the dual strategy of ``automatic differentiation''.
-This time, reflect \AF{ν} and \AF{δ} into a \emph{coinductive} data type of tries\footnote{The classic trie (``prefix tree'') data structure was introduced by \citet{Thue1912Gegenseitige} to represent sets of strings \citep[Section 6.3]{Knuth1998ACP3}, later generalized to arbitrary non-nested algebraic data types \citep{Connelly1995GenTrie}, and then from sets to functions \citep{Hinze2000GGT}.}, while redefining the language-building vocabulary as functions on that data type defined by \emph{copatterns} \citep{AbelPientka2016}.
+This time, reflect \AF{ν} and \AF{δ} into a \emph{coinductive} data type of tries\footnote{The classic trie (``prefix tree'') data structure was introduced by \citet{Thue1912Gegenseitige} to represent sets of strings \citep[Section 6.3]{Knuth1998ACP3}, later generalized to arbitrary non-nested algebraic data types \citep{Connelly1995GenTrie}, and then from sets to functions \citep{Hinze2000GGT}.}, while redefining the language-building vocabulary as functions on that data type defined by \emph{copatterns} \citep{AbelPientka2016}.\footnote{Inductive types (``data'') describe finitely large values and are processed recursively (as least fixed points) by pattern-matching clauses that decompose arguments.
+Dually, coinductive types (``codata'') describe infinitely large values and are processed recursively (as greatest fixed points) by copattern-matching clauses that compose results.
+Programs on inductive types are often proved by induction, while programs on coinductive types are often proved by coinduction\out{ and specifically bisumulation}.
+(As we will see in \secref{Transporting Properties from Specification to Implementations}, however, the simple relationship to the specification in \secref{Decomposing Languages} allows many trivial correctness proofs, needing neither introduction or coinduction.)
+See \citet{Gordon1995:coinduction} for a tutorial on theory and techniques of coinduction.
+
+Tries in general represent functions, with each trie datum corresponding to domain value.
+Even when each domain value is finitely large, there are often infinitely many of them (e.g., lists), so tries will naturally be infinite and thus more amenable to coinductive than inductive analysis.}
 (This program duality pattern has been noted and investigated by \citet{OstermannJabs2018}.)
 Again, we will use the same names as in \secref{Specifying Languages}, referring to the original versions via the module prefix ``{◇.}\hspace{0.05em}''.
 The result is shown in \figrefdef{automatic-api}{Tries (coinductive)}{\api}.
@@ -282,20 +316,20 @@ These clauses are meant to be read in ``row-major'' order, i.e., each row is a c
 Note that the clauses in \figref{automatic-defs} are syntactically identical to those in \figref{symbolic-defs} but are organized dually.
 (The compiler-generated syntax coloring differs to reflect the changed interpretation of the definitions.)
 
-The correctness proof is \emph{almost} accomplished by type- and termination-checking, but a technical problem arises.
+The proof of correctness (defined by {\AF{⟦\_⟧}} and {\AF{⟦\_⟧‽}}, defined as before) is \emph{almost} accomplished by type- and termination-checking, but a technical problem arises.
 The {\AF{δ} (\AB{p} \AF ⋆ \AB{q})} clause does not satisfy Agda's termination checker, which cannot see that the argument {\AF{δ} \AB{p} \AB{a}} in the recursive use of \AF{\_⋆\_} is in some sense smaller than \AB{p}.
 (\figref{automatic-defs} compiles only due to suppressing termination checking for the problematic clause with a compiler pragma.)
 Fortunately, this issue was already identified and solved by \citet{Abel2016}---also in the setting of trie-based language recognition---by using \emph{sized types} \citep{Abel2008, AbelPientka2016}.
 \rnc\source{SizedAutomatic}
-This solution only requires giving \AF{Lang} (now tries) an index {\AB{i} \AK : \APT{Size}} corresponding to the maximum depth to which a trie can be searched, or equivalently the longest string that can be matched\out{ (via {\AF{⟦\_⟧}})}.
-In practice, we will work with arbitrarily deep tries, i.e., ones having index \APo{∞}, as in the type of {\AF{⟦\_⟧}}.
+This solution only requires giving \AF{Lang} (now tries) an index {\AB{i} \AK : \APT{Size}} corresponding to the maximum depth to which a trie can be searched, or equivalently the longest string that can be matched\out{ (via {\AF{⟦\_⟧‽}})}.
+In practice, we will work with arbitrarily deep tries, i.e., ones having index \APo{∞}, as in the type of {\AF{⟦\_⟧‽}}.
 The modified representation is shown in \figrefdef{sized-automatic-api}{Sized tries (coinductive)}{\api}.
 Decidable recognition is defined exactly as with unsized tries (\figref{automatic-defs}), with the sole exception of removing the compiler pragma that suppressed termination checking.
 This time the compiler successfully proves \emph{total} correctness (including termination).
 
 \rnc\source{Calculus}
 
-To more clearly see the parallel with automatic differentiation (AD), note that AD implementations sample a function \emph{and} its derivative together to exploit the fact that these two computations typically share much common work.
+To see the parallel with automatic differentiation (AD) more clearly, note that AD implementations sample a function \emph{and} its derivative together to exploit the fact that these two computations typically share much common work.
 This work sharing also applies when differentiating languages.
 Without this optimization we have
 \agda{𝒟′}
@@ -403,11 +437,11 @@ The proofs of these properties, while reasonably straightforward, are beyond the
 Not only do types form a closed semiring, the \emph{only} properties needed from types in the monoid semiring come from the laws of closed semirings.
 One can thus apply the ideas in this paper to many other useful semirings, including natural numbers (e.g., number of parses), probability distributions, and the tropical semirings (max/plus and min/plus) for optimization.
 \out{We will explore this generality in \secref{Beyond Predicates}.}
-When the domain monoid commutes (multiplicatively)---e.g., for functions of space and time rather than languages---the monoid semiring does as well.
+When the domain monoid commutes (multiplicatively)---e.g., for functions of space and time\out{ rather than languages}---the monoid semiring does as well.
 Applications include power series (univariate and multivariate) and image processing \citep{Elliott2019-convolution}.
 Research on semirings in parsing began with \citet{Chomsky1959CFL} and was further explored by \citet{Goodman1998PIO, Goodman1999SP} and by \citet{Liu2004}.
 
-\subsectionl{Transporting Properties}
+\subsectionl{Transporting Properties from Specification to Implementations}
 
 \rnc\source{Transport}
 
@@ -438,9 +472,10 @@ For instance, consider language union from \figref{symbolic-api}:
 \>[39]\AgdaOperator{\AgdaFunction{◇.∪}}%
 \>[44]\AgdaGeneralizable{Q}\AgdaSymbol{)}\<%
 \end{code}
-Referring to the type and operations of \figreftwo{Lang-ops}{symbolic-api} via the module prefixes ``{◇.}\hspace{0.05em}'' and ``{□.}\hspace{0.05em}'' respectively, define \agda{wrapped-Lang}
+Referring to the type and operations of \figreftwo{Lang-ops}{symbolic-api} (for the inductive language representation) via the module prefixes ``{◇.}\hspace{0.05em}'' and ``{□.}\hspace{0.05em}'' respectively, define \agda{wrapped-Lang}
 Then wrap union as follows:
 \agda{wrapped-union}
+Likewise for the coinductive language representation in \figref{sized-automatic-api}.
 The type-level language components of the arguments and result are given explicitly here but could instead be inferred by the compiler.
 \rnc\source{Existential}
 Indexed operations of all arities\out{ for a type family \AB{F}} can be systematically wrapped in this style, as shown in
@@ -449,10 +484,10 @@ Wrapped union can then be defined simply as {\AF{\_∪\_} \AS = \AF{inj₂} \AIC
 
 In addition to transporting types and operations as just described, we also need to transport \emph{properties}.
 A crucial question is the choice of equivalence relation for the new properties.
-If we choose equivalence on these dependent pairs to be equivalence of \emph{first} projections (type \emph{indices}), then all algebraic properties of those indices will hold for the existentially wrapped versions as well.
+If we choose equivalence on these dependent pairs to be \emph{semantic}---i.e., equivalence of \emph{first} projections (type \emph{indices})---then all algebraic properties of those indices will hold for the existentially wrapped versions as well.
 This choice may at first seem like cheating, since the entire operational aspect of the representation is ignored.
 The correctness of that aspect, however, is guaranteed by its dependent typing, which anchors its meaning (no matter how cleverly implemented) to the non-operational type index.
-For the language implementations of \secref{From Languages to Parsing}, this anchoring is guaranteed by the type of \AF{⟦\_⟧} in \figreftwo{symbolic-api}{sized-automatic-api}.
+For the language implementations of \secref{From Languages to Parsing}, this anchoring is guaranteed by the types of \AF{⟦\_⟧} and \AF{⟦\_⟧‽} in \figreftwo{symbolic-api}{sized-automatic-api}.
 (Similarly, for the decidable type constructors in \figref{compositional-dec}, correctness is guaranteed by the types of the \AIC{yes} and \AIC{no} constructors in the definition of ‌\ARe{Dec} in \secref{Decidability}.)
 Given this choice of equivalence, properties of index types easily lift to properties of existential types, as shown in \figrefdef{prop}{Liftings of index properties to existential types}{\mathindent0ex\agda{prop}}.
 (These definitions are partially inferable as well, e.g., from \agda{prop₃′}.)
@@ -463,10 +498,14 @@ As examples, we can lift the commutative semiring of types to wrappings of the d
 
 \sectionl{Related Work}
 
+The shift from languages as sets of strings to type-level predicates (i.e., proof relevance or ``parsing'') is akin to weighted automata \citep{Schutzenberger1961, DrosteKuske2019} and more generally to semiring-based parsing \citep{Chomsky1959CFL, Goodman1998PIO, Goodman1999SP, Liu2004}, noting that types (``\APT{Set}'' in Agda) form a (commutative) semiring (up to isomorphism).
+In particular, \citet{Lombardy2005} investigated Brzozowski-style derivatives is this more general setting, formalizing and generalizing the work of \citet{Antimirov1996}, who decomposed derivatives into simpler components (``partial derivatives'') that sum to the full derivative and lead to efficient recognizers in the form of nondeterministic automata.
+
 Most work on formal languages in functional programming has been in parsing, particularly via parsing combinators \citep{Hutton1996monadic, Leijen2001parsec, Swierstra2008combinator}.
 Such work typically concentrates on usability, composability, and sometimes efficiency, rather than on simple semantic specification and verifiable correctness.
 
-There has also been some work using type theory to capture languages as type-level predicates much as in \secref{Specifying Languages}:
+The main contributions of this paper are to formalization and mechanization of language recognition and parsing.
+There has been some work using type theory to capture languages as type-level predicates much as in \secref{Specifying Languages}:
 \begin{itemize}
 
 \item \citet{AgularMannaa2009} also defined a non-indexed algebraic type of regular expressions.
@@ -506,10 +545,13 @@ Their regular expression matching function targets a free monad (later to be int
 Of the previous work involving language derivatives, none appear to have based their formal specification and proofs on the essential, non-inductive, nearly-trivial definition in terms of functions of lists from \secref{Decomposing Languages}.
 \citet{Abel2016} mentioned this definition informally as motivation for the more complex, coinductively defined operations on tries.
 \citet{Brzozowski64} also made clear mention of the underlying meaning on sets of strings in his original work on regular expression derivatives.
-Moreover, none of these previous investigations appear to have addressed proof isomorphism (distinguishing multiple parsings/explanations), and correspondingly all use transformations based the less precise laws originally discovered by \citet{Brzozowski64}.
+Moreover, none of these previous investigations appear to have addressed proof isomorphism (distinguishing multiple parsings/explanations), and correspondingly all use transformations based on the less precise laws originally discovered by \citet{Brzozowski64}.
 Those laws were based on the assumption that union (``addition'' in both language semirings of \secref{Predicate Algebra}) is idempotent, which is not true for type-level language predicates related by proof isomorphism (rather than mere logical equivalence).
 The lack of idempotence is crucial for going beyond recognizers to parsers (which are essentially \emph{proof-relevant} recognizers), in which we might want to extract more than one proof (parsing).
 The difference is mainly visible in the \AF ν and \AF δ lemmas for {\AB P ⋆ \AB Q} and {\AB P ☆} in \figref{nu-delta-lemmas}.
+As mentioned at the end of \secref{Decidability}, one can simplify the development above somewhat by replacing proof isomorphism with the coarser notion of logical equivalence.
+Doing so restores union idempotence (modulo equivalence), losing proof relevance and thus replacing parsing by recognition.
+One might then also prove that the set of derivatives of a regular language is finite (again, modulo equivalence).
 
 \bibliography{bib}
 

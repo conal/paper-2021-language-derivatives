@@ -5,6 +5,7 @@ all: latex/$(PAPER).pdf latex/$(TALK).pdf
 
 MODULES:= \
   Language \
+  Examples \
   Inverses \
   Calculus \
   Decidability \

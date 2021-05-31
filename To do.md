@@ -1,5 +1,27 @@
 ## To do
 
+*   From reviews:
+    *   Note versions of Agda and its standard library.
+    *   "line 283: I think it would be good to also say what is the correctness condition (in addition to the fact that it is guaranteed by types)."
+       The condition is stated on line 228 and is captured in the type of `⟦_⟧` on line 310, namely that `⟦_⟧` is both computable and converts a language into a decidable recognizer/parser.
+       Add a reminder at line 283.
+    *   "line 308: This left triangle looks like a map operation. Maybe a comment about why this has to be part of the syntax."
+
+        Indeed, the left triangle does reify a map operation.
+        The reason it must be part of the inductive representation is the same as the other constructors, namely so that the core lemmas (figure 2) translate into an implementation.
+        Add a clarifying comment.
+
+    *   "Figures 4 and 5: there is no definition of the language (A* -> Set) denoted by an expression and thus no formal statement that it indeed denotes the language in its type."
+
+        This missing semantic function maps every `p : Lang P` to `P`, regardless of the specifics of `p`.
+        Add it.
+
+        "line 623: By a choice of an equivalence relation we are quotienting the (encapsulated) representation. It would be good to give a bit more intuition here (which quotient is this)."
+
+        This comment is closely related to the previous one about the denotation of the decidable language representations and has the same answer.
+        Equivalence of representations is *semantic* equivalence, which is to say equivalence of the indices (type-level languages) that capture the semantics.
+        Add this clarification.
+
 *   Conclusions and future work.
 *   Mention optimizations for regular expressions and tries.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.

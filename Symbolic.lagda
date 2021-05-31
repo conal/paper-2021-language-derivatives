@@ -53,19 +53,21 @@ data Lang : ◇.Lang → Set (suc ℓ) where
 \vspace{-5ex}
 \fi
 \hfill
-\begin{minipage}[t]{33ex}
+\begin{minipage}[c]{33ex}
 \begin{code}
-
 ν  : Lang P → Dec (◇.ν P)
 δ  : Lang P → (a : A) → Lang (◇.δ P a)
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}[t]{25ex}
+\begin{minipage}[c]{25ex}
 \begin{code}
-⟦_⟧ : Lang P → Decidable P
-⟦ p ⟧     []    = ν p
-⟦ p ⟧ (a  ∷ w)  = ⟦ δ p a ⟧ w
+⟦_⟧ : Lang P → ◇.Lang
+⟦_⟧ {P} _ = P
+
+⟦_⟧‽ : Lang P → Decidable P
+⟦ p ⟧‽     []    = ν p
+⟦ p ⟧‽ (a  ∷ w)  = ⟦ δ p a ⟧‽ w
 \end{code}
 \end{minipage}
 \hfill\;

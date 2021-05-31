@@ -29,7 +29,7 @@ private
 %<*api>
 {\mathindent0ex
 \hfill
-\begin{minipage}[b]{52ex}
+\begin{minipage}[t]{52ex}
 \begin{code}[hide]
 infixr  6 _∪_
 infixl  7 _∩_
@@ -50,11 +50,14 @@ open Lang
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}[b]{27ex}
+\begin{minipage}[t]{27ex}
 \begin{code}
-⟦_⟧ : Lang ∞ P → Decidable P
-⟦ p ⟧     []    = ν p
-⟦ p ⟧ (a  ∷ w)  = ⟦ δ p a ⟧ w
+⟦_⟧ : Lang ∞ P → ◇.Lang
+⟦_⟧ {P} _ = P
+
+⟦_⟧‽ : Lang ∞ P → Decidable P
+⟦ p ⟧‽     []    = ν p
+⟦ p ⟧‽ (a  ∷ w)  = ⟦ δ p a ⟧‽ w
 \end{code}
 \end{minipage}
 \hfill\;

@@ -7,6 +7,8 @@ Comments appreciated as GitHub issues and pull requests or email (firstname@firs
 
 There is also [an accompanying talk](http://conal.net/talks/language-derivatives.pdf).
 
+[Reviews](reviews.md) and [my responses](response-to-reviews.md) are included in the repository.
+
 **Abstract:**
 
 > Formal languages are usually defined in terms of set theory. Choosing type theory instead gives us languages as type-level predicates over strings. Applying a language to a string yields a type whose elements are language membership proofs describing *how* a string parses in the language. The usual building blocks of languages (including union, concatenation, and Kleene closure) have precise and compelling specifications uncomplicated by operational strategies and are easily generalized to a few general domain-transforming and codomain-transforming operations on predicates.
