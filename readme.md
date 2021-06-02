@@ -1,13 +1,15 @@
-*Warning:* I will probably submit this paper to ICFP 2021 and maybe TyDe 2021, so if you are on the program committee of either, please don't read below.
-
 Paper: *Symbolic and Automatic Differentiation of Languages*.
+To appear at ICFP 2021.
 
-[See PDF here.](http://conal.net/papers/language-derivatives/paper.pdf)
+[See latest PDF here.](http://conal.net/papers/language-derivatives/paper.pdf)
 Comments appreciated as GitHub issues and pull requests or email (firstname@firstname.net).
 
 There is also [an accompanying talk](http://conal.net/talks/language-derivatives.pdf).
 
-[Reviews](reviews.md) and [my responses](response-to-reviews.md) are included in the repository, along with the submitted version to which the reviews & responses refer.
+[Reviews](reviews.md) and [my responses](response-to-reviews.md) are included in the repository, along with the [submitted version](icfp21-submitted.pdf) to which the reviews & responses refer.
+
+Run "make" to compile the sources and typeset the paper.
+The Agda code should work at least with [Agda](https://github.com/agda/agda) 2.6.1.3 and [agda-stdlib](https://github.com/agda/agda-stdlib) version 1.5.
 
 **Abstract:**
 
