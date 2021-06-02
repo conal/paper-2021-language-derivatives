@@ -2,10 +2,6 @@
 
 ***Note:** I say "we" instead of "I" in these responses, because the blind review process was still in effect when I wrote them.*
 
-> The authors’ response should address reviewer concerns, answer reviewer questions, and correct misunderstandings. Reviewers are not required to read past the 500 word limit, so please focus your response there. You may provide additional (e.g. point-by-point, per-reviewer) response beyond the limit if it may help the reviewers.
-
-***Oops. I read this clarification late in the game. To do: reorganize the following remarks accordingly.***
-
 
 ## Review A
 
@@ -235,12 +231,11 @@ The reviewers want to thank the author for this interesting submission and are h
 5. Fix typos and other issues that have already been discussed in the reviews and the response.
 </blockquote>
 
-*My response:*
+My response:
 
 1.  I added the following paragraph to the beginning of section 7 (Related Work):
 
-    > The shift from languages as sets of strings to type-level predicates (i.e., proof relevance or ``parsing'') is akin to weighted automata \citep{Schutzenberger1961, DrosteKuske2019} and more generally to semiring-based parsing \citep{Chomsky1959CFL, Goodman1998PIO, Goodman1999SP, Liu2004}, noting that types (``\APT{Set}'' in Agda) form a (commutative) semiring (up to isomorphism).
-    > In particular, \citet{Lombardy2005} investigated Brzozowski-style derivatives is this more general setting, formalizing and generalizing the work of \citet{Antimirov1996}, who decomposed derivatives into simpler components (``partial derivatives'') that sum to the full derivative and lead to efficient recognizers in the form of nondeterministic automata.
+    > The shift from languages as sets of strings to type-level predicates (i.e., proof relevance or “parsing”) is akin to weighted automata [Schützenberger 1961; Droste and Kuske 2019] and more generally to semiring-based parsing [Chomsky and Schützenberger 1959; Goodman 1998, 1999; Liu 2004], noting that types (“Set” in Agda) form a (commutative) semiring (up to isomorphism). In particular, Lombardy and Sakarovitch [2005] investigated Brzozowski-style derivatives in this more general setting, formalizing and generalizing the work of Antimirov [1996], who decomposed derivatives into simpler components (“partial derivatives”) that sum to the full derivative and lead to efficient recognizers in the form of nondeterministic automata.
 
     Also an initial sentence to the (now) third paragraph of that section:
     
@@ -248,12 +243,14 @@ The reviewers want to thank the author for this interesting submission and are h
 
 2.  I added a new figure 2 with examples of languages and membership proofs, along with a new footnote 2 giving some detailed explanations.
 
-3.  I added a new footnote 10.
+3.  I added a new footnote 10:
+
+    > Inductive types (“data”) describe finitely large values and are processed recursively (as least fixed points) by pattern- matching clauses that decompose arguments. Dually, coinductive types (“codata”) describe infinitely large values and are processed corecursively (as greatest fixed points) by copattern-matching clauses that compose results. Programs on inductive types are often proved by induction, while programs on coinductive types are often proved by coinduction. (As we will see in Section 6.2, however, the simple relationship to the specification in Section 2 allows many trivial correctness proofs, needing neither induction or coinduction.) See Gordon [1995] for a tutorial on theory and techniques of coinduction.
+    > 
+    > Tries in general represent functions, with each trie datum corresponding to a domain value. Even when each domain value is finitely large, there are often infinitely many of them (e.g., lists), so tries will naturally be infinite and thus more amenable to coinductive than inductive analysis.
 
 4.  Appended to the final paragraph of section 7:
 
-    > As mentioned at the end of \secref{Decidability}, one can simplify the development above somewhat by replacing proof isomorphism with the coarser notion of logical equivalence.
-    > Doing so restores union idempotence (modulo equivalence), losing proof relevance and thus replacing parsing by recognition.
-    > One might then also prove that the set of derivatives of a regular language is finite (again, modulo equivalence).
+    > As mentioned at the end of Section 3, one can simplify the development above somewhat by replacing proof isomorphism with the coarser notion of logical equivalence. Doing so restores union idempotence (modulo equivalence), losing proof relevance and thus re- placing parsing by recognition. One might then also prove that the set of derivatives of a regular language is finite (again, modulo equivalence).
 
 5.  Done!

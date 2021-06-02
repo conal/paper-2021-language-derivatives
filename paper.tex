@@ -278,7 +278,7 @@ Both algorithms are corollaries of the lemmas in \figref{nu-delta-lemmas} and ar
 
 The ``symbolic differentiation'' style reflects language-building vocabulary (\figref{Lang-ops}) into an inductive data type (of modestly extended regular expressions), while \AF{ν} and \AF{δ} become functions defined by pattern-matching on that data type.
 For convenience, use the same names as in \secref{Specifying Languages} for these new counterparts, while referring to the original versions via the module prefix ``{◇.}\hspace{0.05em}''.
-The result is shown in \figrefdef{symbolic-api}{Regular expressions (inductive)}{\api} along with a trivial semantic function {\AF{⟦\_⟧}} (mapping any representation of type {\AF{Lang} \AB P} to the corresponding type-level language \AB{P}) and a less trivial, computable function  {\AF{⟦\_⟧‽}} that converts a symbolic language representation to a computable parser.
+The result is shown in \figrefdef{symbolic-api}{Regular expressions (inductive)}{\api} along with a trivially defined semantic function {\AF{⟦\_⟧}} (mapping any representation of type {\AF{Lang} \AB P} to the corresponding type-level language \AB{P}) and a less trivial, computable function  {\AF{⟦\_⟧‽}} that converts a symbolic language representation to a computable parser.
 Note that the \AF{\_◂\_} operation from \secref{Decidability} has been reified as a new constructor alongside the more conventional language operators.
 The reason \AF{\_◂\_} must be part of the inductive representation is the same as the other constructors, namely so that the core lemmas (\figref{nu-delta-lemmas}) translate into an implementation in terms of that representation.
 
@@ -300,12 +300,12 @@ Since those isomorphisms relate \AF{ν} and \AF{δ} on the language-building ope
 \secref{Symbolic Differentiation} embodies one choice of reflecting functions into a data representation.
 Now consider the dual strategy of ``automatic differentiation''.
 This time, reflect \AF{ν} and \AF{δ} into a \emph{coinductive} data type of tries\footnote{The classic trie (``prefix tree'') data structure was introduced by \citet{Thue1912Gegenseitige} to represent sets of strings \citep[Section 6.3]{Knuth1998ACP3}, later generalized to arbitrary non-nested algebraic data types \citep{Connelly1995GenTrie}, and then from sets to functions \citep{Hinze2000GGT}.}, while redefining the language-building vocabulary as functions on that data type defined by \emph{copatterns} \citep{AbelPientka2016}.\footnote{Inductive types (``data'') describe finitely large values and are processed recursively (as least fixed points) by pattern-matching clauses that decompose arguments.
-Dually, coinductive types (``codata'') describe infinitely large values and are processed recursively (as greatest fixed points) by copattern-matching clauses that compose results.
+Dually, coinductive types (``codata'') describe infinitely large values and are processed corecursively (as greatest fixed points) by copattern-matching clauses that compose results.
 Programs on inductive types are often proved by induction, while programs on coinductive types are often proved by coinduction\out{ and specifically bisumulation}.
-(As we will see in \secref{Transporting Properties from Specification to Implementations}, however, the simple relationship to the specification in \secref{Decomposing Languages} allows many trivial correctness proofs, needing neither introduction or coinduction.)
+(As we will see in \secref{Transporting Properties from Specification to Implementations}, however, the simple relationship to the specification in \secref{Decomposing Languages} allows many trivial correctness proofs, needing neither induction or coinduction.)
 See \citet{Gordon1995:coinduction} for a tutorial on theory and techniques of coinduction.
 
-Tries in general represent functions, with each trie datum corresponding to domain value.
+Tries in general represent functions, with each trie datum corresponding to a domain value.
 Even when each domain value is finitely large, there are often infinitely many of them (e.g., lists), so tries will naturally be infinite and thus more amenable to coinductive than inductive analysis.}
 (This program duality pattern has been noted and investigated by \citet{OstermannJabs2018}.)
 Again, we will use the same names as in \secref{Specifying Languages}, referring to the original versions via the module prefix ``{◇.}\hspace{0.05em}''.
@@ -499,7 +499,7 @@ As examples, we can lift the commutative semiring of types to wrappings of the d
 \sectionl{Related Work}
 
 The shift from languages as sets of strings to type-level predicates (i.e., proof relevance or ``parsing'') is akin to weighted automata \citep{Schutzenberger1961, DrosteKuske2019} and more generally to semiring-based parsing \citep{Chomsky1959CFL, Goodman1998PIO, Goodman1999SP, Liu2004}, noting that types (``\APT{Set}'' in Agda) form a (commutative) semiring (up to isomorphism).
-In particular, \citet{Lombardy2005} investigated Brzozowski-style derivatives is this more general setting, formalizing and generalizing the work of \citet{Antimirov1996}, who decomposed derivatives into simpler components (``partial derivatives'') that sum to the full derivative and lead to efficient recognizers in the form of nondeterministic automata.
+In particular, \citet{Lombardy2005} investigated Brzozowski-style derivatives in this more general setting, formalizing and generalizing the work of \citet{Antimirov1996}, who decomposed derivatives into simpler components (``partial derivatives'') that sum to the full derivative and lead to efficient recognizers in the form of nondeterministic automata.
 
 Most work on formal languages in functional programming has been in parsing, particularly via parsing combinators \citep{Hutton1996monadic, Leijen2001parsec, Swierstra2008combinator}.
 Such work typically concentrates on usability, composability, and sometimes efficiency, rather than on simple semantic specification and verifiable correctness.

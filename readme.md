@@ -1,13 +1,13 @@
 *Warning:* I will probably submit this paper to ICFP 2021 and maybe TyDe 2021, so if you are on the program committee of either, please don't read below.
 
-Paper draft: *Symbolic and Automatic Differentiation of Languages*.
+Paper: *Symbolic and Automatic Differentiation of Languages*.
 
 [See PDF here.](http://conal.net/papers/language-derivatives/paper.pdf)
 Comments appreciated as GitHub issues and pull requests or email (firstname@firstname.net).
 
 There is also [an accompanying talk](http://conal.net/talks/language-derivatives.pdf).
 
-[Reviews](reviews.md) and [my responses](response-to-reviews.md) are included in the repository.
+[Reviews](reviews.md) and [my responses](response-to-reviews.md) are included in the repository, along with the submitted version to which the reviews & responses refer.
 
 **Abstract:**
 
