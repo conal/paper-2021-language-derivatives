@@ -243,7 +243,7 @@ My response:
 
 2.  I added a new figure 2 with examples of languages and membership proofs, along with a new footnote 2 giving some detailed explanations.
 
-3.  I added a new footnote 10:
+3.  I added a new footnote 11:
 
     > Inductive types (“data”) describe finitely large values and are processed recursively (as least fixed points) by pattern- matching clauses that decompose arguments. Dually, coinductive types (“codata”) describe infinitely large values and are processed corecursively (as greatest fixed points) by copattern-matching clauses that compose results. Programs on inductive types are often proved by induction, while programs on coinductive types are often proved by coinduction. (As we will see in Section 6.2, however, the simple relationship to the specification in Section 2 allows many trivial correctness proofs, needing neither induction or coinduction.) See Gordon [1995] for a tutorial on theory and techniques of coinduction.
     > 

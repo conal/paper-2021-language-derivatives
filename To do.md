@@ -1,40 +1,19 @@
 ## To do
 
-*   From reviews:
-    *   Note versions of Agda and its standard library.
-    *   "line 283: I think it would be good to also say what is the correctness condition (in addition to the fact that it is guaranteed by types)."
-       The condition is stated on line 228 and is captured in the type of `⟦_⟧` on line 310, namely that `⟦_⟧` is both computable and converts a language into a decidable recognizer/parser.
-       Add a reminder at line 283.
-    *   "line 308: This left triangle looks like a map operation. Maybe a comment about why this has to be part of the syntax."
-
-        Indeed, the left triangle does reify a map operation.
-        The reason it must be part of the inductive representation is the same as the other constructors, namely so that the core lemmas (figure 2) translate into an implementation.
-        Add a clarifying comment.
-
-    *   "Figures 4 and 5: there is no definition of the language (A* -> Set) denoted by an expression and thus no formal statement that it indeed denotes the language in its type."
-
-        This missing semantic function maps every `p : Lang P` to `P`, regardless of the specifics of `p`.
-        Add it.
-
-        "line 623: By a choice of an equivalence relation we are quotienting the (encapsulated) representation. It would be good to give a bit more intuition here (which quotient is this)."
-
-        This comment is closely related to the previous one about the denotation of the decidable language representations and has the same answer.
-        Equivalence of representations is *semantic* equivalence, which is to say equivalence of the indices (type-level languages) that capture the semantics.
-        Add this clarification.
-
 *   Conclusions and future work.
+*   Check footnotes composition carefully.
+    Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
+    The ACM layout does better than my own.
+
 *   Mention optimizations for regular expressions and tries.
 *   Read over `Predicate.Properties` and see what might be worth mentioning.
     For instance, distributivity of concatenation over union generalizes to mapping.
 *   Rework abstract now that I've moved the predicate generalization toward the end of the paper.
 *   Maybe further highlight the specific differences between the ν-δ lemmas and Brzozowski's original versions (imitated AFAICT by related work).
 
-*   Maybe "proof relevance" is a better to talk about the proof isomorphism aspect of this paper.
+*   Maybe "proof relevance" is a better term for the proof isomorphism aspect of this paper.
     For languages, proof relevance means we care about the proofs, and we do care, since the parsing information is in the proof.
     "Proof-relevant languages".
-*   Check footnotes composition carefully.
-    Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
-    The ACM layout does better than my own.
 *   Generalize from lists.
     Other types have their own deltas.
 
@@ -72,6 +51,29 @@ From old paper version to-do:
     I have something similar with decidability, though `Dec` instead of `Set`.
 
 ## Did
+
+*   Link to repo, and say what versions of Agda and agda-stdlib.
+*   From reviews:
+    *   Note versions of Agda and its standard library.
+    *   "line 283: I think it would be good to also say what is the correctness condition (in addition to the fact that it is guaranteed by types)."
+       The condition is stated on line 228 and is captured in the type of `⟦_⟧` on line 310, namely that `⟦_⟧` is both computable and converts a language into a decidable recognizer/parser.
+       Add a reminder at line 283.
+    *   "line 308: This left triangle looks like a map operation. Maybe a comment about why this has to be part of the syntax."
+
+        Indeed, the left triangle does reify a map operation.
+        The reason it must be part of the inductive representation is the same as the other constructors, namely so that the core lemmas (figure 2) translate into an implementation.
+        Add a clarifying comment.
+
+    *   "Figures 4 and 5: there is no definition of the language (A* -> Set) denoted by an expression and thus no formal statement that it indeed denotes the language in its type."
+
+        This missing semantic function maps every `p : Lang P` to `P`, regardless of the specifics of `p`.
+        Add it.
+
+        "line 623: By a choice of an equivalence relation we are quotienting the (encapsulated) representation. It would be good to give a bit more intuition here (which quotient is this)."
+
+        This comment is closely related to the previous one about the denotation of the decidable language representations and has the same answer.
+        Equivalence of representations is *semantic* equivalence, which is to say equivalence of the indices (type-level languages) that capture the semantics.
+        Add this clarification.
 
 *   Define language star via `mapⱽ` and `All`.
 *   Check each use of `\\agda` to see if removing a preceding blank line improves indentation.
