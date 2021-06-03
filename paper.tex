@@ -276,11 +276,11 @@ The result is shown in \figrefdef{symbolic-api}{Regular expressions (inductive)}
 Note that the \AF{\_◂\_} operation from \secref{Decidability} has been reified as a new constructor alongside the more conventional language operators.
 The reason \AF{\_◂\_} must be part of the inductive representation is the same as the other constructors, namely so that the core lemmas (\figref{nu-delta-lemmas}) translate into an implementation in terms of that representation.
 
-The meaning of any {\AB r \AK{:} \AF{Lang} \AB P} is defined simply as \AB{P}, ignoring the representation \AB{r} itself\out{ (beyond its type)}:
+The \emph{meaning} of any {\AB r \AK{:} \AF{Lang} \AB P} is defined simply as \AB{P}, ignoring the representation \AB{r} itself\out{ (beyond its type)}:
 \agda{semantics}
 
 Decidable parsing relies only on \AF{ν} and \AF{δ} (via {\AF{⟦\_⟧‽}}), which are defined in \figrefdef{symbolic-defs}{Symbolic differentiation (column-major/patterns)}{\agda{defs}}, as systematically derived from the lemmas of \figref{nu-delta-lemmas}.\out{\notefoot{Describe this derivation.}}
-These clauses are meant to be read in column-major order, i.e., each column is a complete definition.
+These clauses are meant to be read in column-major order, i.e., each column is a complete definition (two definitions of ten pattern-matching clauses each).
 Correctness is guaranteed by the types of \AF{ν} and \AF{δ} and so is proved automatically by type-checking \figref{symbolic-defs}.
 (Recall from \secref{Decidability} that correctness is defined as constructing a term of type {\AF{Decidable} \AF{P}} for a given language \AB{P}, as satisfied by the type of {\AF{⟦\_⟧‽}}.)
 We could thus use \emph{any} definitions of \AF{ν} and \AF{δ} that type- and termination-check, although not many definitions would do so.
@@ -296,20 +296,20 @@ Since those isomorphisms relate \AF{ν} and \AF{δ} on the language-building ope
 
 \secref{Symbolic Differentiation} embodies one choice of reflecting functions into a data representation.
 Now consider the dual strategy of ``automatic differentiation''.
-This time, reflect \AF{ν} and \AF{δ} into a \emph{coinductive} data type of tries\footnote{The classic trie (``prefix tree'') data structure was introduced by \citet{Thue1912Gegenseitige} to represent sets of strings \citep[Section 6.3]{Knuth1998ACP3}, later generalized to arbitrary non-nested algebraic data types \citep{Connelly1995GenTrie}, and then from sets to functions \citep{Hinze2000GGT}.}, while redefining the language-building vocabulary as functions on that data type defined by \emph{copatterns} \citep{AbelPientka2016}.\footnote{Inductive types (``data'') describe finitely large values and are processed recursively (as least fixed points) by pattern-matching clauses that decompose arguments.
+This time, reflect \AF{ν} and \AF{δ} into a \emph{coinductive} data type of tries\footnote{The classic trie (``prefix tree'') data structure was introduced by \citet{Thue1912Gegenseitige} to represent sets of strings \citep[Section 6.3]{Knuth1998ACP3}, later generalized to arbitrary non-nested algebraic data types \citep{Connelly1995GenTrie}, and then from sets to functions \citep{Hinze2000GGT}.}, while redefining the language-building vocabulary as functions on that data type defined by \emph{copatterns} \citep{AbelEtAl12013, AbelPientka2016}.\footnote{Inductive types (``data'') describe finitely large values and are processed recursively (as least fixed points) by pattern-matching clauses that decompose arguments.
 Dually, coinductive types (``codata'') describe infinitely large values and are processed corecursively (as greatest fixed points) by copattern-matching clauses that compose results.
 Programs on inductive types are often proved by induction, while programs on coinductive types are often proved by coinduction\out{ and specifically bisumulation}.
 (As we will see in \secref{Transporting Properties from Specification to Implementations}, however, the simple relationship to the specification in \secref{Decomposing Languages} allows many trivial correctness proofs, needing neither induction or coinduction.)
 See \citet{Gordon1995:coinduction} for a tutorial on theory and techniques of coinduction.
 
-Tries in general represent functions, with each trie datum corresponding to a domain value.
+Tries in general represent functions, with each trie datum position corresponding to a domain value.
 Even when each domain value is finitely large, there are often infinitely many of them (e.g., lists), so tries will naturally be infinite and thus more amenable to coinductive than inductive analysis.}
 (This program duality pattern has been noted and investigated by \citet{OstermannJabs2018}.)
 Again, we will use the same names as in \secref{Specifying Languages}, referring to the original versions via the module prefix ``{◇.}\hspace{0.05em}''.
 The result is shown in \figrefdef{automatic-api}{Tries (coinductive)}{\api}.
 
 Decidable recognition again relies only on \AF{ν} and \AF{δ}, which are defined for each language operation in \figrefdef{automatic-defs}{Automatic differentiation (row-major/copatterns)}{\agda{defs}} (though with a problem to be noted and fixed in the next paragraph).
-These clauses are meant to be read in row-major order, i.e., each row is a complete definition.
+These clauses are meant to be read in row-major order, i.e., each row is a complete definition (ten definitions of two copattern-matching clauses each).
 Note that the clauses in \figref{automatic-defs} are syntactically identical to those in \figref{symbolic-defs} but are organized dually.
 (The compiler-generated syntax coloring differs to reflect the changed interpretation of the definitions.)
 
