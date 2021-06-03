@@ -50,7 +50,7 @@ data Lang : ◇.Lang → Set (suc ℓ) where
 \end{code}
 \end{center}
 \iftalk
-\vspace{-5ex}
+\vspace{-3.5ex}
 \fi
 \hfill
 \begin{minipage}[c]{33ex}
@@ -62,9 +62,6 @@ data Lang : ◇.Lang → Set (suc ℓ) where
 \hfill
 \begin{minipage}[c]{25ex}
 \begin{code}
-⟦_⟧ : Lang P → ◇.Lang
-⟦_⟧ {P} _ = P
-
 ⟦_⟧‽ : Lang P → Decidable P
 ⟦ p ⟧‽     []    = ν p
 ⟦ p ⟧‽ (a  ∷ w)  = ⟦ δ p a ⟧‽ w
@@ -73,6 +70,13 @@ data Lang : ◇.Lang → Set (suc ℓ) where
 \hfill\;
 }
 %</api>
+
+%<*semantics>
+\begin{code}
+⟦_⟧ : Lang P → ◇.Lang
+⟦_⟧ {P} r = P
+\end{code}
+%</semantics>
 
 %<*defs>
 {\mathindent0ex

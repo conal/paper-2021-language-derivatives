@@ -27,7 +27,7 @@ private
 %<*api>
 {\mathindent0ex
 \hfill
-\begin{minipage}[t]{37ex}
+\begin{minipage}[c]{37ex}
 \begin{code}[hide]
 infixr  6 _∪_
 infixl  7 _∩_
@@ -48,11 +48,8 @@ open Lang
 \end{code}
 \end{minipage}
 \hfill
-\begin{minipage}[t]{25ex}
+\begin{minipage}[c]{25ex}
 \begin{code}
-⟦_⟧ : Lang P → ◇.Lang
-⟦_⟧ {P} _ = P
-
 ⟦_⟧‽ : Lang P → Decidable P
 ⟦ p ⟧‽     []    = ν p
 ⟦ p ⟧‽ (a  ∷ w)  = ⟦ δ p a ⟧‽ w
@@ -60,7 +57,7 @@ open Lang
 \end{minipage}
 \hfill\;
 \iftalk
-\vspace{-3.5ex}
+\vspace{-3ex}
 \fi
 \begin{center}
 \begin{code}
@@ -78,6 +75,13 @@ _◂_  : (Q ⟷ P) → Lang P → Lang Q
 \end{center}
 }
 %</api>
+
+%<*semantics>
+\begin{code}
+⟦_⟧ : Lang P → ◇.Lang
+⟦_⟧ {P} _ = P
+\end{code}
+%</semantics>
 
 %<*rules>
 \newcommand\rulesSep{-4.57ex}
