@@ -1,6 +1,7 @@
 ## To do
 
-*   Conclusions and future work.
+*   Conclusions and future work:
+    *   Sharing work and finite-state property
 *   Check footnotes composition carefully.
     Sometimes there are terrible splits across pages or even a figure appearing beneath a footnote.
     The ACM layout does better than my own.
