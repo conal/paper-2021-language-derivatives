@@ -163,8 +163,10 @@ Note that for a language \AB{P} and string \AB{w}, {\AB{P} \AB{w}} is the type o
 For instance, every proof of {\AB{w} \AF ∈ \AB{P} \AF ∪ \AB{Q}} contains a proof of {\AB{w} \AF ∈ \AB{P}} or of {\AB{w} \AF ∈ \AB{Q}} \emph{and} the knowledge of which one was chosen (with different proofs reflecting different choices).
 Likewise, a proof of {w \AF ∈ \AB{P} \AF ⋆ \AB{Q}}\out{ (language concatenation)} includes the choice of strings \AB{u} and \AB{v}, a proof that {\AB{w} \AD ≡ \AB{u} \AF ⊙ \AB{v}}, and proofs that {\AB{u} \AF ∈ \AB{P}} and {\AB{v} \AF ∈ \AB{Q}}.
 \rnc\source{Examples}
-\figrefdef{language-examples}{Language examples}{\agda{examples}} contains some examples of languages (left) and corresponding membership proofs (right).%
-\footnotemark
+\figrefdef{language-examples}{Language examples\protect\footnotemark}{\agda{examples}} contains some examples of languages (left) and corresponding membership proofs (right).
+
+%% I split the footnote mark & text and delayed the latter so the text would
+%% go on the same page as the figure and stay on one page.
 
 The use of type-level predicates makes for simple, direct specification, including the use of existential quantification (as in \figref{Lang-ops}).
 As described in \secref{Properties}, it is also fairly easy to prove algebraic properties of predicates\out{, including the semimodule and semiring laws for both predicate semirings}.
@@ -264,7 +266,14 @@ For effective implementations, we must bridge the gap between a type (of members
 Fortunately, there is a convenient and compositional way to do so.
 For type \AB{A}, the type {\AD{Dec} \AB{A}} contains proof of \AB{A} or a proof of {\AF ¬ \AB{A}} (defined as usual to mean {\AB{A} \AS → \AD{⊥}}):\footnote{The Agda standard library contains a more efficient version of \AD{Dec} \stdlibCitep{Relation.Nullary}.}
 \agda{Dec}
-For compositionality, we will use a few operations that lift decidability of types to decidability of constructions on those types, as shown in \figrefdef{compositional-dec}{Compositional decidability}{\agda{compositional-dec}}.\footnote{%
+For compositionality, we will use a few operations that lift decidability of types to decidability of constructions on those types, as shown in \figrefdef{compositional-dec}{Compositional decidability\protect\footnotemark}{\agda{compositional-dec}}.
+Moreover, decidability lifts naturally from types to predicates:
+\agda{Decidable}
+
+With these definitions, we can succinctly formulate the problem of decidable language recognition: \emph{given a language \AB{P}, construct a term of type {\AF{Decidable} \AB{P}}.}
+To accomplish this transformation, we will look for decidable building blocks that mirror the predicate vocabulary defined in \secref{Specifying Languages}.
+
+\footnotetext{%
 A few explanatory remarks:
 \begin{itemize}
 
@@ -281,10 +290,6 @@ A few explanatory remarks:
 \end{itemize}
 \vspace{-2ex}
 }
-Moreover, decidability lifts naturally from types to predicates:
-\agda{Decidable}
-With these definitions, we can succinctly formulate the problem of decidable language recognition: given a language \AB{P}, construct a term of type {\AF{Decidable} \AB{P}}.
-To accomplish this transformation, we will look for decidable building blocks that mirror the predicate vocabulary defined in \secref{Specifying Languages}.
 
 Type isomorphisms (such as those in \figref{nu-delta-lemmas}) play an important role in decidability, namely that isomorphic types or predicates are equivalently decidable:
 \agda{isomorphisms}
@@ -363,9 +368,12 @@ Fortunately, this issue was already identified and solved by \citet{Abel2016}---
 \rnc\source{SizedAutomatic}
 This solution only requires giving \AF{Lang} (now tries) an index {\AB{i} \AK : \APT{Size}} corresponding to the maximum depth to which a trie can be searched, or equivalently the longest string that can be matched\out{ (via {\AF{⟦\_⟧‽}})}.
 In practice, we will work with arbitrarily deep tries, i.e., ones having index \APo{∞}, as in the type of {\AF{⟦\_⟧‽}}.
+
 The modified representation is shown in \figrefdef{sized-automatic-api}{Sized tries (coinductive)}{\api}.
 Decidable recognition is defined exactly as with unsized tries (\figref{automatic-defs}), with the sole exception of removing the compiler pragma that suppressed termination checking.
 This time the compiler successfully proves \emph{total} correctness (including termination).
+
+\vspace{3ex}
 
 \rnc\source{Calculus}
 
@@ -373,9 +381,11 @@ To see the parallel with automatic differentiation (AD) more clearly, note that 
 This work sharing also applies when differentiating languages.
 Without this optimization we have
 \agda{𝒟′}
-The potential work-sharing version:
+\begin{samepage}
+The potential work-sharing version exploits the close relationship between \AB{f} and {\AF{𝒟} \AB{f}}:
 \agda{ʻ𝒟}
-Equivalence follows from lemmas \AF{ν∘𝒟} and \AF{𝒟foldl} of \secref{Decomposing Languages}:
+\end{samepage}
+Equivalence follows from a simple inductive argument, thanks to lemmas \AF{ν∘𝒟} and \AF{𝒟foldl} of \secref{Decomposing Languages}:
 \agda{𝒟′≡ʻ𝒟}
 The trie representation exploits this sharing potential by weaving \AF{ν} and \AF{δ} into a single structure based on common prefixes.
 
@@ -435,9 +445,11 @@ The \emph{definitions} of \AF{𝟏}, \AF{\_⋆\_}, and \AF{\_☆} do not require
 The \AF{ν} and \AF{δ} lemmas in \figref{nu-delta-lemmas} for codomain (but not domain) operations are easily generalized as shown in \figrefdef{nu-delta-codomain-lemmas}{Properties of \AF{ν} and \AF{δ} for predicate codomain operations}{\setstretch{1.5}\agda{νδ-codomain}}, all proved automatically by normalization.
 Since the decidable language implementations in \secref{From Languages to Parsing} are corollaries of \AF{ν} and \AF{δ} lemmas, those implementations adapt easily to the generalized codomain operations (\AF{pureᵀ}, \AF{mapᵀ}, and \AF{mapᵀ₂}), resulting in a somewhat smaller implementation and broader coverage.
 
+\begin{samepage}
 \sectionl{Properties}
 
 \subsectionl{Predicate Algebra}
+\end{samepage}
 
 The basic building blocks of type-level predicates---and languages in particular---form the vocabulary of a \emph{closed semiring} in two different ways\out{, as reflected in the structure of regular expressions \needcite{}}.
 The semiring abstraction has three aspects: (a) a commutative monoid providing ``zero'' and ``addition'', (b) a (possibly non-commutative) monoid providing ``one'' and ``multiplication'', and (c) the relationship between them, namely that multiplication distributes over addition and zero.\footnote{Distribution of multiplication over zero is also known as ``annihilation''.}
@@ -481,6 +493,7 @@ When the domain monoid commutes (multiplicatively)---e.g., for functions of spac
 Applications include power series (univariate and multivariate) and image processing \citep{Elliott2019-convolution}.
 Research on semirings in parsing began with \citet{Chomsky1959CFL} and was further explored by \citet{Goodman1998PIO, Goodman1999SP} and by \citet{Liu2004}.
 
+\vspace{2.5ex}
 \subsectionl{Transporting Properties from Specification to Implementations}
 
 \rnc\source{Transport}
