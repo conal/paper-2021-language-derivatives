@@ -1,7 +1,8 @@
 PAPER=paper
 TALK=talk
 
-all: latex/$(PAPER).pdf latex/$(TALK).pdf
+all: latex/$(PAPER).pdf
+# latex/$(TALK).pdf
 
 MODULES:= \
   Language \
@@ -63,7 +64,10 @@ see: $(PAPER).see
 
 SOURCES=$(shell find . -name '*.*agda' | grep -v Junk | grep -v _build) 
 
-source.zip: $(SOURCES) ld.agda-lib
+code.zip: $(SOURCES) ld.agda-lib
+	zip $@ $^
+
+paper.zip: latex/*.tex latex/*.bbl latex/*.sty
 	zip $@ $^
 
 clean:
