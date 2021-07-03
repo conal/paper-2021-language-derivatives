@@ -285,18 +285,17 @@ Now enhance \AF 𝒟:
 %<*ʻ𝒟>
 \begin{code}
 ʻ𝒟 : (A ✶ → B) → A ✶ → B × (A ✶ → B)
-ʻ𝒟 f u = ν f′ , f′ where f′ = foldl δ f u
+ʻ𝒟 f u = let f″ = foldl δ f u in ν f″ , f″
 \end{code}
-%% ʻ𝒟 f u = let f′ = foldl δ f u in ν f′ , f′
+%% ʻ𝒟 f u = ν f″ , f″ where f″ = foldl δ f u
 %</ʻ𝒟>
+%% Oddly, variables introduced in "where" don't look like variables
 
 %<*𝒟′≡ʻ𝒟>
 \begin{code}
 𝒟′≡ʻ𝒟 : 𝒟′ f ≗ ʻ𝒟 f
-\end{code}
-\begin{code}[hide]
-𝒟′≡ʻ𝒟 [] = refl
-𝒟′≡ʻ𝒟 (a ∷ as) = 𝒟′≡ʻ𝒟 as
+𝒟′≡ʻ𝒟     []     = refl
+𝒟′≡ʻ𝒟 (a  ∷ as)  = 𝒟′≡ʻ𝒟 as
 \end{code}
 %</𝒟′≡ʻ𝒟>
 
