@@ -1,0 +1,1248 @@
+1
+00:00:00,799 --> 00:00:06,399
+Languages are often formalized as
+
+2
+00:00:03,120 --> 00:00:08,400
+sets of strings. Alternatively we can
+
+3
+00:00:06,399 --> 00:00:09,519
+consider a language to be a type-level
+
+4
+00:00:08,400 --> 00:00:11,920
+predicate,
+
+5
+00:00:09,519 --> 00:00:13,759
+that is, a function that maps any string
+
+6
+00:00:11,920 --> 00:00:16,800
+to a type of proofs that the string
+
+7
+00:00:13,759 --> 00:00:18,160
+belongs to the language. Each inhabitant
+
+8
+00:00:16,800 --> 00:00:21,279
+of such a membership type
+
+9
+00:00:18,160 --> 00:00:22,880
+is an explanation, or parsing. If there
+
+10
+00:00:21,279 --> 00:00:25,199
+are no inhabitants, then the string is
+
+11
+00:00:22,880 --> 00:00:27,519
+not in the language.
+
+12
+00:00:25,199 --> 00:00:29,279
+With this simple idea, we can easily
+
+13
+00:00:27,519 --> 00:00:31,359
+define the usual building blocks of
+
+14
+00:00:29,279 --> 00:00:34,000
+languages.
+
+15
+00:00:31,359 --> 00:00:35,040
+For instance, a string is in the union of
+
+16
+00:00:34,000 --> 00:00:38,800
+P and Q
+
+17
+00:00:35,040 --> 00:00:40,879
+when it is in P or in Q, so memberships
+
+18
+00:00:38,800 --> 00:00:43,120
+are sum types, corresponding to logical
+
+19
+00:00:40,879 --> 00:00:45,440
+disjunction.
+
+20
+00:00:43,120 --> 00:00:46,399
+Likewise, membership proofs for language
+
+21
+00:00:45,440 --> 00:00:48,399
+intersections
+
+22
+00:00:46,399 --> 00:00:51,120
+are product types, corresponding to
+
+23
+00:00:48,399 --> 00:00:54,079
+logical conjunction.
+
+24
+00:00:51,120 --> 00:00:56,079
+As a more interesting example, a string w
+
+25
+00:00:54,079 --> 00:00:58,559
+is in the concatenation of languages P
+
+26
+00:00:56,079 --> 00:01:02,320
+and Q exactly when there are strings in
+
+27
+00:00:58,559 --> 00:01:04,400
+P and Q that concatenate to w.
+
+28
+00:01:02,320 --> 00:01:06,159
+While precise and elegant, this
+
+29
+00:01:04,400 --> 00:01:07,680
+definition does not tell us how to
+
+30
+00:01:06,159 --> 00:01:09,040
+recognize or parse language
+
+31
+00:01:07,680 --> 00:01:11,119
+concatenations,
+
+32
+00:01:09,040 --> 00:01:14,080
+since the existential quantification is
+
+33
+00:01:11,119 --> 00:01:15,920
+over infinitely many string pairs.
+
+34
+00:01:14,080 --> 00:01:18,080
+Now in case you're not used to Agda, let
+
+35
+00:01:15,920 --> 00:01:20,159
+me point out a few things.
+
+36
+00:01:18,080 --> 00:01:21,759
+Bottom and top are the empty and
+
+37
+00:01:20,159 --> 00:01:23,759
+singleton types.
+
+38
+00:01:21,759 --> 00:01:25,360
+Logically, they correspond to falsity and
+
+39
+00:01:23,759 --> 00:01:27,600
+truth.
+
+40
+00:01:25,360 --> 00:01:28,400
+The type x equals y has a single
+
+41
+00:01:27,600 --> 00:01:31,119
+inhabitant
+
+42
+00:01:28,400 --> 00:01:32,720
+when indeed x does equal y and otherwise
+
+43
+00:01:31,119 --> 00:01:35,360
+is empty.
+
+44
+00:01:32,720 --> 00:01:37,040
+Sum types are written with the disjoint
+
+45
+00:01:35,360 --> 00:01:38,799
+union symbol.
+
+46
+00:01:37,040 --> 00:01:41,040
+Non-dependent product types are written
+
+47
+00:01:38,799 --> 00:01:42,799
+with the cross symbol.
+
+48
+00:01:41,040 --> 00:01:45,920
+Dependent product types are written with
+
+49
+00:01:42,799 --> 00:01:45,920
+the exists symbol.
+
+50
+00:01:46,399 --> 00:01:50,159
+The puzzle addressed by this paper is
+
+51
+00:01:49,280 --> 00:01:52,880
+how to bridge
+
+52
+00:01:50,159 --> 00:01:54,079
+the gap between this non-computational
+
+53
+00:01:52,880 --> 00:01:57,840
+specification
+
+54
+00:01:54,079 --> 00:01:57,840
+and correct computable parsing.
+
+55
+00:01:58,479 --> 00:02:04,479
+Now, here's the plan. First we'll define a
+
+56
+00:02:02,240 --> 00:02:07,280
+normal form for languages.
+
+57
+00:02:04,479 --> 00:02:08,720
+The main idea is to use Brzozowski-style
+
+58
+00:02:07,280 --> 00:02:10,879
+language derivatives
+
+59
+00:02:08,720 --> 00:02:12,959
+at the level of types, which is to say
+
+60
+00:02:10,879 --> 00:02:16,319
+propositions.
+
+61
+00:02:12,959 --> 00:02:18,879
+Next, we'll prove lemmas relating this
+
+62
+00:02:16,319 --> 00:02:22,319
+language normal form to the usual
+
+63
+00:02:18,879 --> 00:02:24,560
+building blocks of languages.
+
+64
+00:02:22,319 --> 00:02:26,239
+So far everything is propositional
+
+65
+00:02:24,560 --> 00:02:28,800
+rather than computable,
+
+66
+00:02:26,239 --> 00:02:29,440
+that is, at the level of types rather
+
+67
+00:02:28,800 --> 00:02:33,360
+than
+
+68
+00:02:29,440 --> 00:02:35,440
+computational inhabitants of those types.
+
+69
+00:02:33,360 --> 00:02:38,800
+The next step relates our language
+
+70
+00:02:35,440 --> 00:02:41,040
+limits to decidable form.
+
+71
+00:02:38,800 --> 00:02:42,239
+Finally we will apply these insights in
+
+72
+00:02:41,040 --> 00:02:46,560
+two ways to yield
+
+73
+00:02:42,239 --> 00:02:46,560
+dual correct parsing implementations.
+
+74
+00:02:47,200 --> 00:02:51,120
+Remembering that a language is a
+
+75
+00:02:48,720 --> 00:02:52,959
+function from lists, let's consider each
+
+76
+00:02:51,120 --> 00:02:56,080
+data constructor for lists,
+
+77
+00:02:52,959 --> 00:02:58,000
+namely nil and cons.
+
+78
+00:02:56,080 --> 00:02:59,680
+Nullability of a language is the
+
+79
+00:02:58,000 --> 00:03:01,200
+proposition that the language contains
+
+80
+00:02:59,680 --> 00:03:03,120
+the empty string.
+
+81
+00:03:01,200 --> 00:03:04,720
+The derivative of a language P with
+
+82
+00:03:03,120 --> 00:03:07,360
+respect to a leading character a
+
+83
+00:03:04,720 --> 00:03:08,080
+is another language, consisting of the
+
+84
+00:03:07,360 --> 00:03:12,239
+tails
+
+85
+00:03:08,080 --> 00:03:15,040
+of those strings in P beginning with a.
+
+86
+00:03:12,239 --> 00:03:15,440
+The proofs that w is in the derivative
+
+87
+00:03:15,040 --> 00:03:18,000
+of P
+
+88
+00:03:15,440 --> 00:03:19,519
+with respect to a are exactly the proofs
+
+89
+00:03:18,000 --> 00:03:23,200
+that a cons w
+
+90
+00:03:19,519 --> 00:03:24,239
+is in P. The importance of these
+
+91
+00:03:23,200 --> 00:03:26,080
+definitions
+
+92
+00:03:24,239 --> 00:03:27,840
+comes from a simple fact with a simple
+
+93
+00:03:26,080 --> 00:03:30,720
+inductive proof.
+
+94
+00:03:27,840 --> 00:03:32,159
+Given a language P and a string we can
+
+95
+00:03:30,720 --> 00:03:34,080
+successively differentiate
+
+96
+00:03:32,159 --> 00:03:36,640
+P with respect to the characters in the
+
+97
+00:03:34,080 --> 00:03:38,239
+string, resulting in a final residual
+
+98
+00:03:36,640 --> 00:03:40,319
+language.
+
+99
+00:03:38,239 --> 00:03:41,360
+The original language P contains the
+
+100
+00:03:40,319 --> 00:03:44,840
+input string
+
+101
+00:03:41,360 --> 00:03:46,400
+if and only if the residual language is
+
+102
+00:03:44,840 --> 00:03:48,879
+nullable.
+
+103
+00:03:46,400 --> 00:03:52,080
+This theorem and its proof are shown in
+
+104
+00:03:48,879 --> 00:03:54,640
+the lower left corner of the slide.
+
+105
+00:03:52,080 --> 00:03:55,519
+Agda is quite liberal with names, and in
+
+106
+00:03:54,640 --> 00:03:57,920
+this case
+
+107
+00:03:55,519 --> 00:03:59,439
+the name of the theorem is
+
+108
+00:03:57,920 --> 00:04:02,879
+"𝜈∘foldl𝛿",
+
+109
+00:03:59,439 --> 00:04:03,599
+with no spaces. Note that everything on
+
+110
+00:04:02,879 --> 00:04:05,920
+this slide
+
+111
+00:04:03,599 --> 00:04:07,680
+applies not just to languages but more
+
+112
+00:04:05,920 --> 00:04:10,319
+generally to functions from lists
+
+113
+00:04:07,680 --> 00:04:10,319
+to anything.
+
+114
+00:04:10,799 --> 00:04:15,680
+The next step in our plan is to identify
+
+115
+00:04:13,920 --> 00:04:18,079
+and prove a collection of lemmas
+
+116
+00:04:15,680 --> 00:04:20,560
+that relate ν and δ to the standard
+
+117
+00:04:18,079 --> 00:04:22,800
+language building blocks.
+
+118
+00:04:20,560 --> 00:04:25,520
+The ν lemmas on the left relate types
+
+119
+00:04:22,800 --> 00:04:27,280
+and are equalities or isomorphisms.
+
+120
+00:04:25,520 --> 00:04:29,040
+The δ lemmas on the right relate
+
+121
+00:04:27,280 --> 00:04:32,160
+languages and are equalities or
+
+122
+00:04:29,040 --> 00:04:34,560
+extensional isomorphisms.
+
+123
+00:04:32,160 --> 00:04:36,320
+Agda proves the equalities automatically
+
+124
+00:04:34,560 --> 00:04:38,800
+simply by normalization.
+
+125
+00:04:36,320 --> 00:04:39,440
+The others take a bit of effort. All
+
+126
+00:04:38,800 --> 00:04:42,960
+proofs
+
+127
+00:04:39,440 --> 00:04:46,240
+are in the paper's source code.
+
+128
+00:04:42,960 --> 00:04:48,880
+The style of these lemmas is significant.
+
+129
+00:04:46,240 --> 00:04:50,639
+Each one reduces ν or δ of a
+
+130
+00:04:48,880 --> 00:04:52,639
+standard language construction
+
+131
+00:04:50,639 --> 00:04:54,560
+to ν and or δ of simpler
+
+132
+00:04:52,639 --> 00:04:56,240
+constructions.
+
+133
+00:04:54,560 --> 00:04:58,240
+The computable implementations that
+
+134
+00:04:56,240 --> 00:05:02,000
+follow and their full correctness
+
+135
+00:04:58,240 --> 00:05:02,000
+are corollaries of these lemmas.
+
+136
+00:05:02,479 --> 00:05:07,520
+Given a language and a candidate string,
+
+137
+00:05:05,600 --> 00:05:09,360
+we can apply the language to the string
+
+138
+00:05:07,520 --> 00:05:12,720
+to yield a type of proofs
+
+139
+00:05:09,360 --> 00:05:15,600
+that the string is in the language.
+
+140
+00:05:12,720 --> 00:05:18,000
+Now we want to *construct* such a proof or
+
+141
+00:05:15,600 --> 00:05:19,919
+show that one cannot exist.
+
+142
+00:05:18,000 --> 00:05:23,039
+We can express this goal as a
+
+143
+00:05:19,919 --> 00:05:23,039
+decision data type.
+
+144
+00:05:23,280 --> 00:05:27,120
+A parser for a language is then a
+
+145
+00:05:25,759 --> 00:05:29,199
+computable function
+
+146
+00:05:27,120 --> 00:05:30,479
+that maps an arbitrary string to a
+
+147
+00:05:29,199 --> 00:05:32,639
+decision
+
+148
+00:05:30,479 --> 00:05:35,360
+about whether the string belongs to the
+
+149
+00:05:32,639 --> 00:05:35,360
+language.
+
+150
+00:05:36,080 --> 00:05:39,840
+Isomorphisms appear in the language
+
+151
+00:05:38,000 --> 00:05:41,600
+lemmas of the previous slide,
+
+152
+00:05:39,840 --> 00:05:43,600
+so we will need to know how they relate
+
+153
+00:05:41,600 --> 00:05:46,479
+to decidability.
+
+154
+00:05:43,600 --> 00:05:48,240
+Fortunately the answers are simple. If
+
+155
+00:05:46,479 --> 00:05:50,240
+two types are isomorphic,
+
+156
+00:05:48,240 --> 00:05:51,600
+then a decision for one suffices to
+
+157
+00:05:50,240 --> 00:05:53,840
+decide the other,
+
+158
+00:05:51,600 --> 00:05:55,759
+since evidence of each can be mapped to
+
+159
+00:05:53,840 --> 00:05:58,000
+evidence of the other.
+
+160
+00:05:55,759 --> 00:06:00,560
+Likewise for extensionally isomorphic
+
+161
+00:05:58,000 --> 00:06:00,560
+predicates.
+
+162
+00:06:01,360 --> 00:06:04,720
+While we cannot possibly decide all
+
+163
+00:06:03,520 --> 00:06:07,440
+predicates,
+
+164
+00:06:04,720 --> 00:06:09,919
+we can decide some of them, and we can do
+
+165
+00:06:07,440 --> 00:06:12,000
+so compositionally.
+
+166
+00:06:09,919 --> 00:06:14,000
+Together with the isomorphism deciders
+
+167
+00:06:12,000 --> 00:06:16,560
+from the previous slide,
+
+168
+00:06:14,000 --> 00:06:18,319
+these compositional deciders cover all
+
+169
+00:06:16,560 --> 00:06:21,120
+of the constructions appearing in the
+
+170
+00:06:18,319 --> 00:06:23,440
+language calculus lemmas.
+
+171
+00:06:21,120 --> 00:06:24,319
+For example consider deciding the
+
+172
+00:06:23,440 --> 00:06:27,840
+conjunction of
+
+173
+00:06:24,319 --> 00:06:30,400
+A and B. If we have proofs of each,
+
+174
+00:06:27,840 --> 00:06:32,400
+we can pair those proofs to form a proof
+
+175
+00:06:30,400 --> 00:06:34,080
+of the conjunction.
+
+176
+00:06:32,400 --> 00:06:36,160
+On the other hand if we have a
+
+177
+00:06:34,080 --> 00:06:40,479
+disproof of ether we can use it to
+
+178
+00:06:36,160 --> 00:06:40,479
+construct a disproof of the conjunction.
+
+179
+00:06:40,880 --> 00:06:46,000
+Let's now pause to reflect on where we
+
+180
+00:06:43,039 --> 00:06:48,080
+are in the story.
+
+181
+00:06:46,000 --> 00:06:50,160
+The language decomposition theorem
+
+182
+00:06:48,080 --> 00:06:51,039
+reduces membership to a succession of
+
+183
+00:06:50,160 --> 00:06:54,240
+derivatives
+
+184
+00:06:51,039 --> 00:06:54,880
+followed by nullability. Our language
+
+185
+00:06:54,240 --> 00:06:56,880
+lemmas
+
+186
+00:06:54,880 --> 00:06:58,560
+tell us how to decompose nullability and
+
+187
+00:06:56,880 --> 00:07:00,840
+derivatives of languages
+
+188
+00:06:58,560 --> 00:07:02,400
+to the same questions on simpler
+
+189
+00:07:00,840 --> 00:07:04,000
+languages.
+
+190
+00:07:02,400 --> 00:07:06,000
+The resulting questions are all
+
+191
+00:07:04,000 --> 00:07:06,880
+expressed in terms of propositions and
+
+192
+00:07:06,000 --> 00:07:08,639
+predicates
+
+193
+00:07:06,880 --> 00:07:11,199
+that happen to be compositionally
+
+194
+00:07:08,639 --> 00:07:13,680
+decidable.
+
+195
+00:07:11,199 --> 00:07:15,280
+It looks like we're done: we just
+
+196
+00:07:13,680 --> 00:07:17,440
+formulate the languages,
+
+197
+00:07:15,280 --> 00:07:20,560
+compute derivatives and nullability, and
+
+198
+00:07:17,440 --> 00:07:22,720
+apply the language lemmas.
+
+199
+00:07:20,560 --> 00:07:24,800
+However, we cannot simply apply the
+
+200
+00:07:22,720 --> 00:07:27,199
+language lemmas by pattern matching,
+
+201
+00:07:24,800 --> 00:07:30,639
+because languages are functions and so
+
+202
+00:07:27,199 --> 00:07:34,720
+cannot be inspected structurally.
+
+203
+00:07:30,639 --> 00:07:37,039
+What can we do? Exactly this
+
+204
+00:07:34,720 --> 00:07:38,400
+same situation holds in differential
+
+205
+00:07:37,039 --> 00:07:40,479
+calculus,
+
+206
+00:07:38,400 --> 00:07:42,720
+since differentiation in that setting is
+
+207
+00:07:40,479 --> 00:07:44,319
+also defined on functions,
+
+208
+00:07:42,720 --> 00:07:46,319
+and we have a collection of lemmas about
+
+209
+00:07:44,319 --> 00:07:47,280
+derivatives for various formulations of
+
+210
+00:07:46,319 --> 00:07:50,319
+functions,
+
+211
+00:07:47,280 --> 00:07:54,000
+such as sums, products, transcendentals,
+
+212
+00:07:50,319 --> 00:07:55,919
+and compositions. When we want to compute
+
+213
+00:07:54,000 --> 00:07:57,280
+correct derivatives, there are two
+
+214
+00:07:55,919 --> 00:07:59,199
+standard solutions,
+
+215
+00:07:57,280 --> 00:08:01,599
+known as "symbolic" and "automatic"
+
+216
+00:07:59,199 --> 00:08:03,520
+differentiation.
+
+217
+00:08:01,599 --> 00:08:05,440
+Symbolic differentiation represents
+
+218
+00:08:03,520 --> 00:08:07,599
+functions structurally
+
+219
+00:08:05,440 --> 00:08:09,759
+and applies the differentiation rules by
+
+220
+00:08:07,599 --> 00:08:12,160
+pattern matching.
+
+221
+00:08:09,759 --> 00:08:13,919
+Automatic differentiation represents
+
+222
+00:08:12,160 --> 00:08:15,520
+differentiable functions as functions
+
+223
+00:08:13,919 --> 00:08:19,360
+that compute their derivatives
+
+224
+00:08:15,520 --> 00:08:21,599
+in addition to their regular values.
+
+225
+00:08:19,360 --> 00:08:24,160
+We can apply these same strategies to
+
+226
+00:08:21,599 --> 00:08:24,160
+languages.
+
+227
+00:08:24,879 --> 00:08:29,440
+Applying the first strategy to languages
+
+228
+00:08:27,520 --> 00:08:32,159
+leads to an inductive data type of
+
+229
+00:08:29,440 --> 00:08:34,240
+regular expressions.
+
+230
+00:08:32,159 --> 00:08:36,479
+To keep a simple and rigorous connection
+
+231
+00:08:34,240 --> 00:08:38,880
+to our original specification,
+
+232
+00:08:36,479 --> 00:08:40,000
+let's index this inductive data type by
+
+233
+00:08:38,880 --> 00:08:43,360
+the type level language
+
+234
+00:08:40,000 --> 00:08:45,120
+that it denotes. Here I have kept the
+
+235
+00:08:43,360 --> 00:08:46,720
+vocabulary the same,
+
+236
+00:08:45,120 --> 00:08:49,440
+distinguishing type level language
+
+237
+00:08:46,720 --> 00:08:52,839
+building blocks by a module prefix
+
+238
+00:08:49,440 --> 00:08:54,240
+that appears here as a small lower
+
+239
+00:08:52,839 --> 00:08:56,800
+diamond.
+
+240
+00:08:54,240 --> 00:08:58,800
+Note that ν and δ here are
+
+241
+00:08:56,800 --> 00:09:00,959
+decidable versions.
+
+242
+00:08:58,800 --> 00:09:02,880
+Correctness of parsing is guaranteed by
+
+243
+00:09:00,959 --> 00:09:05,600
+the types of these two functions,
+
+244
+00:09:02,880 --> 00:09:09,519
+so any definitions that type-check
+
+245
+00:09:05,600 --> 00:09:11,600
+will suffice.
+
+246
+00:09:09,519 --> 00:09:12,959
+Given our inductive representation, we
+
+247
+00:09:11,600 --> 00:09:16,640
+need only define
+
+248
+00:09:12,959 --> 00:09:17,519
+ν and δ. The definitions shown on
+
+249
+00:09:16,640 --> 00:09:19,519
+this slide
+
+250
+00:09:17,519 --> 00:09:21,519
+are systematically derived from the
+
+251
+00:09:19,519 --> 00:09:22,720
+language lemmas shown earlier in the
+
+252
+00:09:21,519 --> 00:09:25,760
+talk
+
+253
+00:09:22,720 --> 00:09:28,399
+using the compositional deciders.
+
+254
+00:09:25,760 --> 00:09:29,680
+The definitions are to be read in column-
+
+255
+00:09:28,399 --> 00:09:32,560
+major order,
+
+256
+00:09:29,680 --> 00:09:36,399
+that is, each column is one definition,
+
+257
+00:09:32,560 --> 00:09:38,160
+given by pattern matching.
+
+258
+00:09:36,399 --> 00:09:39,680
+Applying the second strategy to
+
+259
+00:09:38,160 --> 00:09:43,200
+languages leads
+
+260
+00:09:39,680 --> 00:09:45,600
+instead to a coinductive type of tries,
+
+261
+00:09:43,200 --> 00:09:48,800
+which is an exact dual to the inductive
+
+262
+00:09:45,600 --> 00:09:51,279
+structure of regular expressions.
+
+263
+00:09:48,800 --> 00:09:53,760
+The language operations are now defined
+
+264
+00:09:51,279 --> 00:09:56,640
+functions instead of constructors,
+
+265
+00:09:53,760 --> 00:09:59,360
+while ν and δ are now selectors
+
+266
+00:09:56,640 --> 00:10:01,519
+instead of defined functions.
+
+267
+00:09:59,360 --> 00:10:03,680
+Again, correctness of parsing is
+
+268
+00:10:01,519 --> 00:10:05,839
+guaranteed by the types,
+
+269
+00:10:03,680 --> 00:10:08,320
+so any definitions that type-check will
+
+270
+00:10:05,839 --> 00:10:08,320
+suffice.
+
+271
+00:10:08,959 --> 00:10:13,920
+Given our coinductive representation, we
+
+272
+00:10:12,000 --> 00:10:15,760
+need only define the language building
+
+273
+00:10:13,920 --> 00:10:17,920
+blocks.
+
+274
+00:10:15,760 --> 00:10:19,760
+The definitions shown on this slide are
+
+275
+00:10:17,920 --> 00:10:21,360
+also systematically derived from the
+
+276
+00:10:19,760 --> 00:10:22,240
+language lemmas shown earlier in the
+
+277
+00:10:21,360 --> 00:10:25,440
+talk,
+
+278
+00:10:22,240 --> 00:10:27,519
+using the compositional deciders.
+
+279
+00:10:25,440 --> 00:10:29,279
+This time, the definitions are to be read
+
+280
+00:10:27,519 --> 00:10:31,760
+in row-major order,
+
+281
+00:10:29,279 --> 00:10:34,560
+that is, each row is one definition and
+
+282
+00:10:31,760 --> 00:10:35,760
+is given by co-pattern matching.
+
+283
+00:10:34,560 --> 00:10:38,240
+Remember that this language
+
+284
+00:10:35,760 --> 00:10:39,680
+representation is a pair of a ν and a
+
+285
+00:10:38,240 --> 00:10:43,680
+δ,
+
+286
+00:10:39,680 --> 00:10:46,880
+so a single definition gives both.
+
+287
+00:10:43,680 --> 00:10:48,640
+Now here's the magical thing.
+
+288
+00:10:46,880 --> 00:10:51,200
+Compare this implementation with the
+
+289
+00:10:48,640 --> 00:10:54,240
+previous one.
+
+290
+00:10:51,200 --> 00:10:57,120
+The code is exactly the same,
+
+291
+00:10:54,240 --> 00:10:59,760
+but its interpretation changes, as
+
+292
+00:10:57,120 --> 00:11:02,079
+signified by the syntax coloring,
+
+293
+00:10:59,760 --> 00:11:04,720
+which the agda compiler generates during
+
+294
+00:11:02,079 --> 00:11:04,720
+typesetting.
+
+295
+00:11:06,560 --> 00:11:10,959
+What pleases me most about this work.
+
+296
+00:11:08,640 --> 00:11:13,040
+Well, there are three things.
+
+297
+00:11:10,959 --> 00:11:14,240
+First, there is the simple formal
+
+298
+00:11:13,040 --> 00:11:17,760
+specification,
+
+299
+00:11:14,240 --> 00:11:20,640
+uncomplicated by computability.
+
+300
+00:11:17,760 --> 00:11:22,880
+Second, the clear path of reasoning from
+
+301
+00:11:20,640 --> 00:11:27,279
+propositionally-defined languages
+
+302
+00:11:22,880 --> 00:11:30,000
+to decidable parsing via decision types.
+
+303
+00:11:27,279 --> 00:11:31,600
+Finally, there's the duality of regular
+
+304
+00:11:30,000 --> 00:11:33,519
+expressions and tries,
+
+305
+00:11:31,600 --> 00:11:34,959
+paralleling symbolic and automatic
+
+306
+00:11:33,519 --> 00:11:37,360
+differentiation,
+
+307
+00:11:34,959 --> 00:11:38,399
+using exactly the same code for parsing
+
+308
+00:11:37,360 --> 00:11:42,079
+in both cases,
+
+309
+00:11:38,399 --> 00:11:44,560
+though with dual interpretations.
+
+310
+00:11:42,079 --> 00:11:45,360
+There are more goodies in the paper. I
+
+311
+00:11:44,560 --> 00:11:49,680
+encourage you
+
+312
+00:11:45,360 --> 00:11:49,680
+to give it a read.
+
