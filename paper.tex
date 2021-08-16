@@ -4,19 +4,23 @@
 \acmtrue
 
 \ifacm
-\documentclass[acmsmall,screen,timestamp]{acmart}  % ,anonymous,review
+\documentclass[acmsmall,screen]{acmart}
 \else
 \documentclass[acmsmall,screen,timestamp,nonacm]{acmart}
 \fi
-\authorsaddresses{}
 
 \usepackage{catchfilebetweentags}
 
-\RequirePackage{newunicodechar, stmaryrd, setspace, comment, scalerel}
+\RequirePackage{newunicodechar, stmaryrd, setspace, comment, scalerel, doi}
 
 \input{commands}
 \input{unicode}
 \input{macros}
+
+%% Use oadoi.org instead of doi.org. Doesn't seem to take.
+\makeatletter
+\def\@formatdoi#1{\url{https://oadoi.org/#1}}
+\makeatother
 
 \definecolor{mylinkcolor}{rgb}{0,0.2,0}
 \hypersetup{
@@ -71,7 +75,7 @@
 \acmDOI{10.1145/3473583}
 \acmYear{2021}
 \copyrightyear{2021}
-%\acmSubmissionID{icfp21main-p87-p}
+\acmSubmissionID{icfp21main-p87-p}
 \acmJournal{PACMPL}
 \acmVolume{5}
 \acmNumber{ICFP}
@@ -113,7 +117,6 @@ In particular, despite the inductive and coinductive nature of regular expressio
 <concept_desc>Theory of computation~Type theory</concept_desc>
 <concept_significance>500</concept_significance>
 </concept>
-<concept>
 <concept>
 <concept_id>10003752.10003766.10003776</concept_id>
 <concept_desc>Theory of computation~Regular languages</concept_desc>
@@ -208,9 +211,6 @@ This paper makes the following specific contributions:
   Properties are stated first at the level of predicates, making them easy to understand and prove, thanks to elimination of operational details.
   These properties are then transported to the computable parsing implementations (\secref{Transporting Properties from Specification to Implementations}) with no additional proofs needed.
 \end{itemize}
-Although many proofs are elided below, the source code for this paper is freely available and contains fully verified Agda code with no postulates \citep{Elliott2021-language-derivatives-repo}.
-The type signatures and definitions displayed in the paper are extracted from this source code by the Agda compiler.
-
 \footnotetext{Some explanatory comments:
 \begin{itemize}
 
@@ -233,6 +233,9 @@ The type signatures and definitions displayed in the paper are extracted from th
 \item Equality proofs in these examples are by normalization and hence given by \AIC{refl}.
 \vspace{-2ex}% Avoid bogus blank footnote line spilling to next page
 \end{itemize}}
+Although many proofs are elided below, the source code for this paper is freely available and contains fully verified Agda code with no postulates \citep{Elliott2021-language-derivatives-repo}.
+The type signatures and definitions displayed in the paper are extracted from this source code by the Agda compiler.
+
 
 \sectionl{Decomposing Languages}
 \rnc\source{Calculus}
@@ -622,6 +625,11 @@ As mentioned at the end of \secref{Decidability}, one can simplify the developme
 Doing so restores union idempotence (modulo equivalence), losing proof relevance and thus replacing parsing by recognition.
 One might then also prove that the set of derivatives of a regular language is finite (again, modulo equivalence).
 
+%% The publisher wants URLs in the url field, while I prefer them in the title.
+\ifacm
+\bibliography{acm-bib}
+\else
 \bibliography{bib}
+\fi
 
 \end{document}

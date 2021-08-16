@@ -15,16 +15,16 @@ open import Inverses {ℓ}
 
 private
   variable
-    A B : Set ℓ
+    A B X : Set ℓ
     P Q : A → Set ℓ
 \end{code}
 
 %<*Dec>
 \AgdaTarget{Dec; yes; no}
 \begin{code}
-data Dec (A : Set ℓ) : Set ℓ where
-  yes  :     A → Dec A
-  no   : ¬   A → Dec A
+data Dec (X : Set ℓ) : Set ℓ where
+  yes  :     X → Dec X
+  no   : ¬   X → Dec X
 \end{code}%
 %</Dec>
 
@@ -35,14 +35,14 @@ private
     ¬⇃_ : Set ℓ → Set ℓ
 \end{code}
 \begin{code}[inline]
-    ¬⇃ A = A → ⊥
+    ¬⇃ X = X → ⊥
 \end{code}
 %</¬>
 
 %<*Decidable>
 \AgdaTarget{Decidable}
 \begin{code}[hide]
-Decidable : (A → Set ℓ) → Set ℓ
+Decidable : (X → Set ℓ) → Set ℓ
 \end{code}
 \begin{code}
 Decidable P = ∀ x → Dec (P x)

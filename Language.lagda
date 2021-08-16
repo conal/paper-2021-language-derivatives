@@ -45,6 +45,7 @@ Lang = A ✶ → Set ℓ
 \ifacm\else
 \vspace{-3ex}
 \fi
+\iftalk \pause \fi
 \mathindent0ex
 \hfill
 \begin{minipage}[t]{20ex}

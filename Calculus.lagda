@@ -31,6 +31,17 @@ private
     u v w : A ✶
 \end{code}
 
+%<*νδ>
+\AgdaTarget{ν, δ}
+\begin{code}
+ν⇃ : Lang → Set ℓ      -- “nullable”
+ν⇃ P = P []
+
+δ⇃ : Lang → A → Lang   -- “derivative”
+δ⇃ P a w = P (a ∷ w)
+\end{code}
+%</νδ>
+
 %<*ν𝒟>
 \AgdaTarget{ν, δ}
 \begin{code}
@@ -107,7 +118,7 @@ private
 \AgdaTarget{ν∘foldlδ}
 %% ν∘foldlδ : ∀ w → P w ≡ ν (foldl δ P w)
 \begin{code}
-ν∘foldlδ : ν ∘ foldl δ f ≗ f
+ν∘foldlδ : ν ∘ foldl δ P ≗ P
 ν∘foldlδ []        = refl
 ν∘foldlδ (a ∷ as)  = ν∘foldlδ as
 \end{code}

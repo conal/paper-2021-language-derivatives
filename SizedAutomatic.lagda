@@ -1,4 +1,5 @@
 \begin{code}[hide]
+{-# OPTIONS --guardedness --sized-types #-}
 
 open import Level
 open import Decidability hiding (_◂_)
@@ -68,7 +69,7 @@ open Lang
 _∪_  : Lang i  P  → Lang i Q  → Lang i (P  ◇.∪  Q)
 _∩_  : Lang i  P  → Lang i Q  → Lang i (P  ◇.∩  Q)
 _·_  : Dec     s  → Lang i P  → Lang i (s  ◇.·  P)
-𝟏    : Lang i (◇.𝟏)
+𝟏    : Lang i ◇.𝟏
 _⋆_  : Lang i  P  → Lang i Q  → Lang i (P  ◇.⋆  Q)
 _☆   : Lang i  P  → Lang i (P ◇.☆)
 `    : (a : A) → Lang i (◇.` a)

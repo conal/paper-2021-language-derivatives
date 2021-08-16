@@ -5,6 +5,10 @@
 
 \talktrue
 
+\newif\ifshort
+
+\shorttrue
+
 %% \documentclass[aspectratio=43]{beamer}
 \documentclass[aspectratio=169]{beamer}
 
@@ -43,7 +47,7 @@
 \title{Symbolic and Automatic Differentiation of Languages}
 % \subtitle{...}
 \author{Conal Elliott}
-\date{Version of \DTMnow{} GMT-8}
+\date{ICFP, August 2021}
 %% \titlegraphic{
 %% \vspace*{7cm}
 %% \includegraphics[keepaspectratio=true,height=1.4cm]{uu}
@@ -71,19 +75,34 @@ A language is a predicate on ``strings'' yielding proofs/explanations/parsings.
 
 \agda{Lang-ops}
 
+\pause
 \emph{Puzzle:} how to compute parsings?
+\end{frame}
+
+\begin{frame}{Plan}
+\begin{itemize}\itemsep4ex
+\item
+  Normal form for arbitrary (type-level) languages
+\item
+  Normal form lemmas for standard language building blocks
+\item
+  Decidability
+\item
+  As corollaries, dual verified parsing implementations
+\end{itemize}
 \end{frame}
 
 \rnc\source{Calculus}
 
-\begin{frame}{Decomposing languages (list consumers)}
+\begin{frame}{Decomposing languages}
 \vspace{2ex}
 Consider each list constructor:
 \vspace{1.5ex}
 \agda{νδ}
 
+\pause
 \vspace{2ex}
-\AF{ν} and repeated \AF{δ} capture list consumers fully:
+\AF{ν} and repeated \AF{δ} capture languages fully:
 
 \vspace{-1ex}
 \begin{minipage}[c]{2.8in}
@@ -97,7 +116,8 @@ Consider each list constructor:
 \hfill\;
 \end{frame}
 
-\begin{frame}{Language calculus}
+\begin{frame}{Language calculus lemmas}
+\pause
 \vspace{-1ex}
 \vfill
 \agda{νδ-lemmas}
@@ -106,6 +126,7 @@ Consider each list constructor:
 \rnc\source{Decidability}
 
 \begin{frame}{Decidable types}
+\pause
 \vspace{2ex}
 \begin{minipage}{2in}
 \agda{Dec}
@@ -117,10 +138,12 @@ Consider each list constructor:
 \end{minipage}
 \hfill\;
 
+\pause
 \vspace{1ex}
-For computable parsing,
+For predicates (languages),
 \agda{Decidable}
 
+\pause
 \vspace{2ex}
 Isomorphisms:
 
@@ -128,6 +151,7 @@ Isomorphisms:
 \end{frame}
 
 \begin{frame}{Compositionally decidable types}
+\pause
 \vspace{3ex}
 \agda{compositional-dec}
 %% Wait until I'm ready to talk about algebra
@@ -137,13 +161,18 @@ Isomorphisms:
 \rnc\source{Reflections}
 
 \begin{frame}{Reflections}
+\pause
 \vspace{1.5ex}
-\agda{summary}
+\agda{summary-a}
+\pause
+\agda{summary-b}
 
+\pause
 \setstretch{1.5}
 \AF{ν} and \AF{δ} are \emph{higher-order functions}.
 How to apply these rules?
 
+\pause
 Same challenge in differential calculus.
 
 Solve via \emph{symbolic} or \emph{automatic} differentiation.
@@ -152,14 +181,18 @@ Solve via \emph{symbolic} or \emph{automatic} differentiation.
 
 \rnc\source{Symbolic}
 
-\begin{frame}{Regular expressions \hfill (inductive)}
+%% \nc\zfill{\hfill}
+\nc\zfill{}
+
+\begin{frame}{Regular expressions \zfill (inductive)}
 \hypertarget{regex}{}
 \vspace{0.5ex}
 \setstretch{1.0}
 \agda{api}
 \end{frame}
 
-\begin{frame}{Symbolic differentiation \hfill (column-major / patterns)}
+\begin{frame}{Symbolic differentiation \zfill (column-major / patterns)}
+\pause
 \hypertarget{symbolic-diff}{}
 \mathindent0ex
 \vspace{-2ex}
@@ -168,7 +201,8 @@ Solve via \emph{symbolic} or \emph{automatic} differentiation.
 
 \rnc\source{Automatic}
 
-\begin{frame}{Tries \hfill \hyperlink{regex}{(coinductive)}}
+\begin{frame}{Tries \zfill \hyperlink{regex}{(coinductive)}}
+\pause
 \vspace{-1.5ex}
 \setstretch{1.0}
 \agda{api}
@@ -177,11 +211,41 @@ Solve via \emph{symbolic} or \emph{automatic} differentiation.
 
 \agda{rules}
 
-\begin{frame}{Automatic differentiation \hfill (row-major \hyperlink{symbolic-diff}{/} copatterns)}
+\begin{frame}{Automatic differentiation \zfill (\hyperlink{symbolic-diff}{row-major / copatterns})}
+\pause
 \hypertarget{automatic-diff}{}
 \vspace{-1.75ex}
 \agda{defs}
 \end{frame}
+
+
+\ifshort
+
+\begin{frame}{Summary}
+\begin{itemize}\itemsep4ex
+\item
+  Simple, non-computational formal specification.
+\item
+  Reasoning from propositionally defined languages to decidable parsing via decision types.
+\item
+  Duality of regular expressions and tries (symbolic and automatic differentiation).\\[2ex]
+  Same code with dual interpretations.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Also in the paper}
+
+\begin{itemize}\itemsep4ex
+
+\item Termination checking
+\item Generalizing languages
+\item Algebraic properties of languages
+\item Transporting algebraic properties
+
+\end{itemize}
+\end{frame}
+
+\else
 
 \begin{frame}{Termination checking}
 Agda cannot prove termination for the {\AFi{δ} (\AB{p} \AF{⋆} \AB{q})} clause:
@@ -283,5 +347,7 @@ Domain transformations: \AF{𝟏}, \AF{\_⋆\_}, \AF{\_☆}, \AF{`}
 \AgdaEmptySkip2ex
 \agda{examples}
 \end{frame}
+
+\fi
 
 \end{document}

@@ -42,7 +42,7 @@ data Lang : ◇.Lang → Set (suc ℓ) where
   _∪_  : Lang  P  → Lang Q  → Lang (P  ◇.∪  Q)
   _∩_  : Lang  P  → Lang Q  → Lang (P  ◇.∩  Q)
   _·_  : Dec   s  → Lang P  → Lang (s  ◇.·  P)
-  𝟏    : Lang (◇.𝟏)
+  𝟏    : Lang ◇.𝟏
   _⋆_  : Lang  P  → Lang Q  → Lang (P  ◇.⋆  Q)
   _☆   : Lang  P  → Lang (P ◇.☆)
   `    : (a : A) → Lang (◇.` a)

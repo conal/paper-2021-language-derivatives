@@ -39,22 +39,28 @@ private
   module Stuff where
 \end{code}
 
-%<*summary>
+%<*summary-a>
 \begin{code}
-    ν∘foldlδ⇃ : ν ∘ foldl δ P ≗ P
+    ν⇂ : Lang → Set ℓ
+    δ⇂ : Lang → A → Lang
 
-    ν⇃ : (A ✶ → B) → B
-    δ⇃ : (A ✶ → B) → A → (A ✶ → B)
+    ν∘foldlδ⇂ : ν ∘ foldl δ P ≗ P
+\end{code}
+\begin{code}[hide]
+    ν⇂ = ν⇃
+    δ⇂ = δ⇃
+    ν∘foldlδ⇂ = ν∘foldlδ
+\end{code}
+%</summary-a>
 
-    ν⋆⇃  : ν (P ⋆ Q)    ↔  (ν P × ν Q)
-    δ⋆⇃  : δ (P ⋆ Q) a  ⟷  ν P · δ Q a  ∪  δ P a ⋆ Q
+%<*summary-b>
+\begin{code}
+    ν⋆⇂  : ν (P ⋆ Q)    ↔  (ν P × ν Q)
+    δ⋆⇂  : δ (P ⋆ Q) a  ⟷  ν P · δ Q a  ∪  δ P a ⋆ Q
     -- etc
 \end{code}
 \begin{code}[hide]
-    ν⇃ = ν
-    δ⇃ = δ
-    ν∘foldlδ⇃ = ν∘foldlδ
-    ν⋆⇃ = ν⋆
-    δ⋆⇃ = δ⋆
+    ν⋆⇂ = ν⋆
+    δ⋆⇂ = δ⋆
 \end{code}
-%</summary>
+%</summary-b>

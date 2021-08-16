@@ -1,5 +1,5 @@
 \begin{code}[hide]
-
+{-# OPTIONS --guardedness #-}
 open import Level
 open import Decidability hiding (_◂_)
 open import Relation.Binary.PropositionalEquality using (_≡_) ; open _≡_
@@ -66,7 +66,7 @@ open Lang
 _∪_  : Lang  P  → Lang Q  → Lang (P  ◇.∪  Q)
 _∩_  : Lang  P  → Lang Q  → Lang (P  ◇.∩  Q)
 _·_  : Dec   s  → Lang P  → Lang (s  ◇.·  P)
-𝟏    : Lang (◇.𝟏)
+𝟏    : Lang ◇.𝟏
 _⋆_  : Lang  P  → Lang Q  → Lang (P  ◇.⋆  Q)
 _☆   : Lang  P → Lang (P ◇.☆)
 `    : (a : A) → Lang (◇.` a)

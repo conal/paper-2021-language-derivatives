@@ -1,8 +1,8 @@
 PAPER=paper
 TALK=talk
 
-all: latex/$(PAPER).pdf
-# latex/$(TALK).pdf
+# all: latex/$(PAPER).pdf
+all: latex/$(TALK).pdf
 
 MODULES:= \
   Language \
@@ -25,6 +25,7 @@ AGDA_DEPENDENCIES:=$(patsubst %,latex/%.tex,$(MODULES))
 
 LATEX_DEPENDENCIES:= \
   latex/bib.bib \
+  latex/acm-bib.bib \
   latex/macros.tex \
   latex/unicode.tex \
   latex/commands.tex \
@@ -67,7 +68,9 @@ SOURCES=$(shell find . -name '*.*agda' | grep -v Junk | grep -v _build)
 code.zip: $(SOURCES) ld.agda-lib
 	zip $@ $^
 
-paper.zip: latex/*.tex latex/*.bbl latex/*.sty
+ACMART=/usr/local/texlive/2021/texmf-dist/tex/latex/acmart
+
+paper.zip: latex/*.tex latex/*.bbl latex/*.sty $(ACMART)/acmart.cls
 	zip $@ $^
 
 clean:

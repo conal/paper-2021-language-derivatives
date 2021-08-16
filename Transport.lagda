@@ -1,4 +1,5 @@
 \begin{code}
+{-# OPTIONS --guardedness --sized-types #-}
 
 open import Relation.Binary.PropositionalEquality using (_≡_) ; open _≡_
 open import Decidability
