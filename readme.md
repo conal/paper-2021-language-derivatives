@@ -4,8 +4,6 @@ To appear at ICFP 2021.
 [See latest version of the paper (PDF), video, and slides (PDF) here.](http://conal.net/papers/language-derivatives/)
 Comments appreciated as GitHub issues and pull requests or email (firstname@firstname.net).
 
-There is also [an accompanying talk](http://conal.net/talks/language-derivatives.pdf).
-
 [Reviews](reviews.md) and [my responses](response-to-reviews.md) are included in the repository, along with the [submitted version](icfp21-submitted.pdf) to which the reviews & responses refer.
 
 Run "make" to compile the sources and typeset the paper.
