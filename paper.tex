@@ -365,7 +365,7 @@ Since those isomorphisms relate \AF{ν} and \AF{δ} on the language-building ope
 Now consider the dual strategy of ``automatic differentiation''.
 This time, reflect \AF{ν} and \AF{δ} into a \emph{coinductive} data type of tries\footnote{The classic trie (``prefix tree'') data structure was introduced by \citet{Thue1912Gegenseitige} to represent sets of strings \citep[Section 6.3]{Knuth1998ACP3}, later generalized to arbitrary non-nested algebraic data types \citep{Connelly1995GenTrie}, and then from sets to functions \citep{Hinze2000GGT}.}, while redefining the language-building vocabulary as functions on that data type defined by \emph{copatterns} \citep{AbelEtAl12013, AbelPientka2016}.\footnote{Inductive types (``data'') describe finitely large values and are processed recursively (as least fixed points) by pattern-matching clauses that decompose arguments.
 Dually, coinductive types (``codata'') describe infinitely large values and are processed corecursively (as greatest fixed points) by copattern-matching clauses that compose results.
-Programs on inductive types are often proved by induction, while programs on coinductive types are often proved by coinduction\out{ and specifically bisumulation}.
+Programs on inductive types are often proved by induction, while programs on coinductive types are often proved by coinduction\out{ and specifically bisimulation}.
 (As we will see in \secref{Transporting Properties from Specification to Implementations}, however, the simple relationship to the specification in \secref{Decomposing Languages} allows many trivial correctness proofs, needing neither induction or coinduction.)
 See \citet{Gordon1995:coinduction} for a tutorial on theory and techniques of coinduction.
 

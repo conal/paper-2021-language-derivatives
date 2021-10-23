@@ -17,5 +17,5 @@ The Agda code should work at least with [Agda](https://github.com/agda/agda) 2.6
 > These lemmas are the heart of two dual parsing implementations---using (inductive) regular expressions and (coinductive) tries---each containing the same code but in dual arrangements (with representation and primitive operations trading places).
 > The regular expression version corresponds to symbolic differentiation, while the trie version corresponds to automatic differentiation.
 > 
-> The relatively easy-to-prove properties of type-level languages transfer almost effortlessly to the decidable implementations. In particular, despite the inductive and coinductive nature of regular expressions and tries respectively, we need neither inductive nor coinductive/bisumulation arguments to prove algebraic properties.
+> The relatively easy-to-prove properties of type-level languages transfer almost effortlessly to the decidable implementations. In particular, despite the inductive and coinductive nature of regular expressions and tries respectively, we need neither inductive nor coinductive/bisimulation arguments to prove algebraic properties.
 
