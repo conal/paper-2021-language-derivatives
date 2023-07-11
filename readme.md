@@ -1,5 +1,5 @@
 Paper: *Symbolic and Automatic Differentiation of Languages*.
-To appear at ICFP 2021.
+Appeared at ICFP 2021.
 
 [See latest version of the paper (PDF), video, and slides (PDF) here.](http://conal.net/papers/language-derivatives/)
 Comments appreciated as GitHub issues and pull requests or email (firstname@firstname.net).
